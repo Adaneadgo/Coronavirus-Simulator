@@ -18,14 +18,14 @@ public class Point {
         this.m_y = p.get_Y();
         this.m_x = p.get_X();
     }
-
+    
     public boolean equals(Point p) {
-        return m_x == p.m_x && m_y == p.m_y;
+        return m_x == p.get_X() && m_y == p.get_Y();
     }
 
     @Override
     public String toString() {
-        return "Point(X: " + m_x + " , " + "Y: " + m_y + ')';
+        return "Point(X: " + get_X() + " , " + "Y: " + get_Y() + ')';
     }
 
     public int get_X(){return m_x;}
