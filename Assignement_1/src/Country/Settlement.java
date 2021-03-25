@@ -10,7 +10,7 @@ public class Settlement {
     private String m_name;
     private Location location;
     List<Person> people;
-    Map.RamzorColor ramzorColor;
+    RamzorColor ramzorColor;
 
 
 
