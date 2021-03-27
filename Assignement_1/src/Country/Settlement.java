@@ -1,6 +1,7 @@
 package Country;
 
 import Location.Location;
+import Population.Healthy;
 import Population.Person;
 
 import java.util.*;
@@ -12,30 +13,21 @@ public abstract class Settlement {
     private List<Person> m_people;
     private RamzorColor m_ramzorColor;
 
-    public Settlement(String name, Location location,int people, RamzorColor ramzorColor)
+    public Settlement() {}
+    public Settlement(String name, Location location, int numOfPeople, RamzorColor ramzorColor)
     {
         m_name = name;
         m_location = location;
         m_people = new ArrayList<Person>();
-        Random ran = new Random();
-        for(int i = 0; i < people ; i++)
-        {
-
-        }
-
 
     }
-
+    public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
 
 
     public abstract RamzorColor calculateRamzorGrade();
-
     public double contagiousPercent(){return 0;}
-
     public Location randomLocation(){return null;}
-
     private boolean AddPerson(Person person){return false;}
-
     private boolean transfertPerson(Person person, Settlement settlement){ return false;}
 
 
