@@ -1,7 +1,7 @@
 import Country.Map;
 import Country.RamzorColor;
 
-public class Driver {
+public class Main {
     public static void main(String[] args) {
 
         

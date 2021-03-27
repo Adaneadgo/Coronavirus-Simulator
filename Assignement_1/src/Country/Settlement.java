@@ -5,22 +5,22 @@ import Population.Person;
 
 import java.util.List;
 
-public class Settlement {
+public abstract class Settlement {
 
     private String m_name;
     private Location m_location;
     List<Person> people;
     RamzorColor ramzorColor;
 
-    public RamzorColor calculateRamzorGrade(){}
+    public abstract RamzorColor calculateRamzorGrade();
 
-    public double contagiousPercent(){}
+    public double contagiousPercent(){return 0;}
 
-    public Location randomLocation(){}
+    public Location randomLocation(){return null;}
 
-    private boolean AddPerson(Person person){}
+    private boolean AddPerson(Person person){return false;}
 
-    private boolean transfertPerson(Person person, Settlement settlement){}
+    private boolean transfertPerson(Person person, Settlement settlement){ return false;}
 
 
 
