@@ -5,11 +5,15 @@ public enum RamzorColor {
 
     public final double m_color;
     
-    private RamzorColor(double d)
+    private RamzorColor(final double d)
     {
         this.m_color = d;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "RamzorColor{" + this.name() + "(" + m_color + ")" +
+                '}';
+    }
+
 }

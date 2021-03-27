@@ -3,14 +3,30 @@ package Country;
 import Location.Location;
 import Population.Person;
 
-import java.util.List;
+import java.util.*;
 
 public abstract class Settlement {
 
     private String m_name;
     private Location m_location;
-    List<Person> m_people;
-    RamzorColor m_ramzorColor;
+    private List<Person> m_people;
+    private RamzorColor m_ramzorColor;
+
+    public Settlement(String name, Location location,int people, RamzorColor ramzorColor)
+    {
+        m_name = name;
+        m_location = location;
+        m_people = new ArrayList<Person>();
+        Random ran = new Random();
+        for(int i = 0; i < people ; i++)
+        {
+
+        }
+
+
+    }
+
+
 
     public abstract RamzorColor calculateRamzorGrade();
 
