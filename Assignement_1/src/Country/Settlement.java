@@ -9,8 +9,8 @@ public abstract class Settlement {
 
     private String m_name;
     private Location m_location;
-    List<Person> people;
-    RamzorColor ramzorColor;
+    List<Person> m_people;
+    RamzorColor m_ramzorColor;
 
     public abstract RamzorColor calculateRamzorGrade();
 

@@ -5,5 +5,4 @@ public class Map {
     Settlement[] settlements;
 
 
-
 }

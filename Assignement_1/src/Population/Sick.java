@@ -4,18 +4,15 @@ import Virus.IVirus;
 
 public class Sick extends Person {
     
-    private long contagiousTime;
-    private IVirus virus;
+    private long m_contagiousTime;
+    private IVirus m_virus;
 
-    @Override
-    public double contagionProbability() {
-        return 0;
+    public Sick(Person p, long t, IVirus v){
+        super(p);
+        m_contagiousTime = t;
+        m_virus = v;
     }
 
-    @Override
-    public Person contagion(IVirus Virus) {
-        return null;
-    }
     
     public Person recover() {
         return null;

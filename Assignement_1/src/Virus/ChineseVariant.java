@@ -1,10 +1,24 @@
 package Virus;
+import javax.lang.model.util.ElementScanner6;
+
 import Population.Person;
 
 public class ChineseVariant implements IVirus{
+
+
     @Override
     public double contagionProbability(Person p) {
-        return 0;
+
+        int age = p.get_Age();
+        
+        if (age < 18)
+        return 0.2;
+
+        else if (age >= 18 && age <= 55)
+        return 0.5;
+
+        else
+        return 0.7;
     }
 
     @Override

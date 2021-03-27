@@ -1,7 +1,5 @@
 package Location;
 
-import java.util.Objects;
-
 public class Location {
 
     private Point m_position;
@@ -11,6 +9,9 @@ public class Location {
     {
         m_position = new Point(p);
         m_size = new Size(s);
+    }
+
+    public Location(Location m_location) {
     }
 
     public Point get_Point(){ return m_position;}

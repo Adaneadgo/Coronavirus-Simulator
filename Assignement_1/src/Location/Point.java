@@ -1,7 +1,5 @@
 package Location;
 
-import java.util.Objects;
-
 public class Point {
 
     private int m_x;
