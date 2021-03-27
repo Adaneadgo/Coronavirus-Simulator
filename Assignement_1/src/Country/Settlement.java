@@ -8,7 +8,7 @@ import java.util.List;
 public class Settlement {
 
     private String m_name;
-    private Location location;
+    private Location m_location;
     List<Person> people;
     RamzorColor ramzorColor;
 
