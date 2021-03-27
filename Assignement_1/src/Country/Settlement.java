@@ -12,6 +12,18 @@ public class Settlement {
     List<Person> people;
     RamzorColor ramzorColor;
 
+    public RamzorColor calculateRamzorGrade(){}
+
+    public double contagiousPercent(){}
+
+    public Location randomLocation(){}
+
+    private boolean AddPerson(Person person){}
+
+    private boolean transfertPerson(Person person, Settlement settlement){}
+
+
+
 
 
 
