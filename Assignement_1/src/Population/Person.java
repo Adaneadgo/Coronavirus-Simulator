@@ -1,5 +1,6 @@
 package Population;
 
+import Country.Settlement;
 import Location.Location;
 
 public class Person {
