@@ -1,8 +1,7 @@
 package Country;
 
-import Location.Location;
-import Population.Healthy;
-import Population.Person;
+import Location.*;
+import Population.*;
 
 import java.util.*;
 
@@ -27,8 +26,8 @@ public abstract class Settlement {
     public abstract RamzorColor calculateRamzorGrade();
     public double contagiousPercent(){return 0;}
     public Location randomLocation(){return null;}
-    private boolean AddPerson(Person person){return false;}
-    private boolean transfertPerson(Person person, Settlement settlement){ return false;}
+    //private boolean AddPerson(Person person){return false;}
+    //private boolean transfertPerson(Person person, Settlement settlement){ return false;}
 
 
 

@@ -1,6 +1,5 @@
 package Population;
 
-import Virus.IVirus;
 
 public class Healthy extends Person {
 
