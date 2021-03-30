@@ -1,37 +1,50 @@
 package Virus;
+
+import java.util.Random;
+
 import Population.Person;
+import Population.Sick;
+import Simulation.Clock;
+
 
 public class BritishVariant implements IVirus{
 
-    private static final double m_contProb = 0.7;
-
-    private static final double m_killProbUpTo18 = 0.01;
-    private static final double m_killProbOver18 = 0.1;
+ 
 
     @Override
     public String toString() { return "British Variant"; }
 
 
     @Override
-    public double contagionProbability(Person person) { return m_contProb * person.contagionProbability();}
+    public double contagionProbability(Person person) { return variantContagionProbability(person) * person.contagionProbability();}
     
     @Override
     public boolean tryToContagion(Person person1, Person person2) {
-        // TODO Auto-generated method stub
+       
         return false;
     }
     @Override
-    public boolean tryToKill(Person person) {
+    public boolean tryToKill(Sick sick) {
 
-        int personAge = person.get_Age();
-
-        if(personAge <= 18)
-             
-
-
-        
-        return false;
+        long t = Clock.now() - sick.get_ContagiousTime();
+        double q = variantDeathProbability(sick);
+        double p = Math.max(0, q - 0.01 * q * Math.pow(t, 2));
+        Random rand = new Random();
+        return rand.nextInt(100) < p * 100;
     }
 
+
+    @Override
+    public double variantContagionProbability(Person person) {return 0.7;}
+    @Override
+    public double variantDeathProbability(Sick sick) {
+
+        if(sick.get_Age() < 18)
+            return 0.01;
+        else
+            return 0.1;
+    }
+
+    
 
 }

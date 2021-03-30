@@ -12,9 +12,9 @@ public class ChineseVariant implements IVirus{
     private static final double m_contProb18to55 = 0.5;
     private static final double m_contProbOver55 = 0.7;
 
-    private static final double m_dieProbUpTo18 = 0.01;
-    private static final double m_dieProb18to55 = 0.05;
-    private static final double m_dieProbOver55 = 0.1;
+    private static final double m_killProbUpTo18 = 0.01;
+    private static final double m_killProb18to55 = 0.05;
+    private static final double m_killProbOver55 = 0.1;
 
     @Override
     public double contagionProbability(Person person) {
