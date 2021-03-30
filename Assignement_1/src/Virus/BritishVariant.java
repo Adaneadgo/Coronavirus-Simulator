@@ -5,8 +5,8 @@ public class BritishVariant implements IVirus{
 
     private static final double m_contProb = 0.7;
 
-    private static final double m_dieProbUpTo18 = 0.01;
-    private static final double m_dieProbOver18 = 0.1;
+    private static final double m_killProbUpTo18 = 0.01;
+    private static final double m_killProbOver18 = 0.1;
 
     @Override
     public String toString() { return "British Variant"; }
@@ -22,7 +22,14 @@ public class BritishVariant implements IVirus{
     }
     @Override
     public boolean tryToKill(Person person) {
-        // TODO Auto-generated method stub
+
+        int personAge = person.get_Age();
+
+        if(personAge <= 18)
+             
+
+
+        
         return false;
     }
 

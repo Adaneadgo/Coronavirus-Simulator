@@ -19,9 +19,6 @@ public class Main {
         
         Person p1 = new Healthy(20, l, null);
         System.out.println(p1);
- 
-
-
 
    
     }
