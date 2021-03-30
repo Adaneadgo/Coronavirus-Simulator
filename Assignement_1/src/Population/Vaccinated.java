@@ -4,14 +4,18 @@ public class Vaccinated extends Person {
 
     private long m_vaccinationTime;
 
+    //Ctors
     public Vaccinated(){}
     public Vaccinated(Person person){ super(person); }
     
+    //Getters
     public long get_VaccinationTime() { return m_vaccinationTime; }
 
+    //tostring & equals
     @Override
     public String toString() { return super.toString() + ", vaccinationTime: " + m_vaccinationTime;}
    
+    //Methods
     @Override
     public double contagionProbability() {
         
@@ -22,7 +26,6 @@ public class Vaccinated extends Person {
         else
             return Math.max(0.05, 1.05/(t - 14));
     }
-
     public boolean equals(Vaccinated other) { return super.equals(other) &&  m_vaccinationTime == other.m_vaccinationTime;}
 
 

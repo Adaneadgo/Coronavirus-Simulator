@@ -4,7 +4,7 @@ import Population.Person;
 
 public interface IVirus {
 
-    public double contagionProbability(Person p);
-    public boolean tryToContagion(Person p1, Person p2);
-    public boolean tryToKill(Person p);
+    public double contagionProbability(Person person);
+    public boolean tryToContagion(Person person1, Person person2);
+    public boolean tryToKill(Person person);
 }

@@ -7,7 +7,6 @@ import Population.*;
 import IO.*;
 
 
-
 public class Main {
     public static void main(String[] args) {
         
@@ -16,9 +15,9 @@ public class Main {
         Location l = new Location(p, s);
         System.out.println(l);
 
+    
         
-
-        Person p1 = new Convalescent();
+        Person p1 = new Healthy(20, l, null);
         System.out.println(p1);
  
 
