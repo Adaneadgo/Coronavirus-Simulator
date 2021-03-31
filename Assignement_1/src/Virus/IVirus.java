@@ -1,10 +1,10 @@
 package Virus;
 
-import Location.*;
-import Virus.*;
-import Country.*;
-import Population.*;
-import IO.*;
+
+import Population.Person;
+import Population.Sick;
+
+
 
 
 public interface IVirus {

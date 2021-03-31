@@ -7,10 +7,10 @@ import Simulation.Clock;
 
 public class SouthAfricanVariant implements IVirus{
 
-
     @Override
     public String toString() {return "South African Variant";}
 
+    //methods
     @Override
     public double contagionProbability(Person person) {return variantContagionProbability(person) * person.contagionProbability();}
     @Override
@@ -33,6 +33,7 @@ public class SouthAfricanVariant implements IVirus{
         return rand.nextInt(100) < p * 100;
     }
 
+    //auxiliary
     @Override
     public double variantContagionProbability(Person person) {
 

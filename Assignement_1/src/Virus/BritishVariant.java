@@ -12,6 +12,7 @@ public class BritishVariant implements IVirus{
     @Override
     public String toString() { return "British Variant"; }
 
+    //methods
     @Override
     public double contagionProbability(Person person) { return variantContagionProbability(person) * person.contagionProbability();}
     @Override
@@ -26,7 +27,7 @@ public class BritishVariant implements IVirus{
     @Override
     public boolean tryToKill(Sick sick) {
 
-        long t = Clock.now() - sick.get_ContagiousTime();
+        long t = Clock.now() - sick.getContagiousTime();
         double q = variantDeathProbability(sick);
         double p = Math.max(0, q - 0.01 * q * Math.pow(t, 2));
         Random rand = new Random();
@@ -34,6 +35,7 @@ public class BritishVariant implements IVirus{
         return rand.nextInt(100) < p * 100;
     }
 
+    //auxiliary
     @Override
     public double variantContagionProbability(Person person) {return 0.7;}
     @Override
