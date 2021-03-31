@@ -14,6 +14,6 @@ public interface IVirus {
     public boolean tryToKill(Sick sick);
 
     public double variantContagionProbability(Person person);
-    public double variantDeathProbability(Sick Sick);
+    public double variantDeathProbability(Sick sick);
 
 }

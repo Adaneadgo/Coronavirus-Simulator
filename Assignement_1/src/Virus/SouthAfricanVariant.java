@@ -1,43 +1,56 @@
 package Virus;
+import java.util.Random;
+
 import Population.Person;
+import Population.Sick;
+import Simulation.Clock;
 
 public class SouthAfricanVariant implements IVirus{
 
-    
-    private static final double m_contProbUpTo18 = 0.2;
-    private static final double m_contProbOver18 = 0.7;
-
-    private static final double m_dieProbUpTo18 = 0.01;
-    private static final double m_dieProbOver18 = 0.1;
 
     @Override
     public String toString() {return "South African Variant";}
 
-
     @Override
-    public double contagionProbability(Person person) {
-
-        int personAge = person.get_Age();
-        double personContProb = person.contagionProbability();
-
-        if(personAge <= 18)
-            return m_contProbUpTo18 * personContProb;
-
-        else
-            return m_contProbOver18 * personContProb;
-    }
-
+    public double contagionProbability(Person person) {return variantContagionProbability(person) * person.contagionProbability();}
     @Override
     public boolean tryToContagion(Person person1, Person person2) {
         // TODO Auto-generated method stub
         return false;
     }
-
     @Override
-    public boolean tryToKill(Person person) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean tryToKill(Sick sick) {
+
+        long t = Clock.now() - sick.get_ContagiousTime();
+        double q = variantDeathProbability(sick);
+        double p = Math.max(0, q - 0.01 * q * Math.pow(t, 2));
+        Random rand = new Random();
+        
+        return rand.nextInt(100) < p * 100;
     }
 
+    @Override
+    public double variantContagionProbability(Person person) {
+
+        int age = person.get_Age();
+
+        if(age < 18)
+            return 0.6;
+        else
+            return 0.5;
+    }
+    @Override
+    public double variantDeathProbability(Sick sick) {
+
+        int age = sick.get_Age();
+
+        if(age < 18)
+            return 0.05;
+        else
+            return 0.08;
+    }
+
+
+ 
 
 }
