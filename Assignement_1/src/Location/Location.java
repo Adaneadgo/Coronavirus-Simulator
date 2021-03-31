@@ -11,8 +11,8 @@ public class Location {
     public Location(Location other) { m_position = new Point(other.m_position); m_size = new Size(other.m_size);}
 
     //Geters
-    public Point get_Point(){ return m_position;}
-    public Size get_Size(){return m_size;}
+    public Point getPoint(){ return m_position;}
+    public Size getSize(){return m_size;}
 
     // to string & equals
     @Override

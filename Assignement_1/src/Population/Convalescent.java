@@ -12,7 +12,7 @@ public class Convalescent extends Person{
     public Convalescent(IVirus virus){ m_virus = virus;}
 
     //Getters
-    public IVirus get_Virus() { return m_virus; }
+    public IVirus getVirus() { return m_virus; }
 
     // tostring & equals
     @Override

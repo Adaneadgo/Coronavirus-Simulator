@@ -9,7 +9,7 @@ public class Vaccinated extends Person {
     public Vaccinated(Person person){ super(person); }
     
     //Getters
-    public long get_VaccinationTime() { return m_vaccinationTime; }
+    public long getVaccinationTime() { return m_vaccinationTime; }
 
     //tostring & equals
     @Override

@@ -11,8 +11,8 @@ public class Point {
     public Point(Point other) { this.m_y = other.m_x; this.m_x = other.m_y;}
     
     //Getters
-    public int get_x(){return m_x;}
-    public int get_y(){return m_y;}
+    public int getX(){return m_x;}
+    public int getY(){return m_y;}
     
     // tostring & equals
     @Override

@@ -13,8 +13,8 @@ public class Sick extends Person {
     public Sick(Person person, IVirus virus){ super(person); m_virus = virus; }
 
     //Getters
-    public IVirus get_Virus() { return m_virus; }
-    public long get_ContagiousTime() { return m_contagiousTime; }
+    public IVirus getVirus() { return m_virus; }
+    public long getContagiousTime() { return m_contagiousTime; }
     
     // tostring & equals
     @Override

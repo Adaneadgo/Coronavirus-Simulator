@@ -16,13 +16,17 @@ public class ChineseVariant implements IVirus{
     public double contagionProbability(Person person) {return variantContagionProbability(person) * person.contagionProbability();}
     @Override
     public boolean tryToContagion(Person person1, Person person2) {
-        // TODO Auto-generated method stub
-        return false;
+
+        double d = Math.sqrt(Math.pow(person2.getPoint().getX() - person1.getPoint().getX() , 2) + Math.pow(person2.getPoint().getY() - person1.getPoint().getY(), 2));
+        double p = Math.min(1, 0.14 * Math.exp(2 - 0.25 * d));
+        Random rand = new Random();
+
+        return rand.nextInt(100) < p * 100;
     }
     @Override
     public boolean tryToKill(Sick sick) {
 
-        long t = Clock.now() - sick.get_ContagiousTime();
+        long t = Clock.now() - sick.getContagiousTime();
         double q = variantDeathProbability(sick);
         double p = Math.max(0, q - 0.01 * q * Math.pow(t, 2));
         Random rand = new Random();
@@ -33,7 +37,7 @@ public class ChineseVariant implements IVirus{
     @Override
     public double variantContagionProbability(Person person) {
 
-        int age = person.get_Age();
+        int age = person.getAge();
 
         if(age < 18)
             return 0.2;
@@ -47,7 +51,7 @@ public class ChineseVariant implements IVirus{
     @Override
     public double variantDeathProbability(Sick sick) {
         
-        int age = sick.get_Age();
+        int age = sick.getAge();
 
         if(age < 18)
             return 0.01;

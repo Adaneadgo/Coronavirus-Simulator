@@ -2,6 +2,7 @@ package Population;
 
 import Country.Settlement;
 import Location.Location;
+import Location.Point;
 import Virus.IVirus;
 
 public abstract class Person {
@@ -17,9 +18,9 @@ public abstract class Person {
     public Person(Person other) { m_age = other.m_age; m_location = other.m_location; m_settlement = other.m_settlement;}
 
     //Getters
-    public int get_Age() { return m_age; }
-    public Location get_Location() { return m_location; }
-    public Settlement get_Settlement() { return m_settlement; }
+    public int getAge() { return m_age; }
+    public Location getLocation() { return m_location; }
+    public Settlement getSettlement() { return m_settlement; }
 
     // tostring & equals
     @Override
@@ -29,6 +30,9 @@ public abstract class Person {
     //Methods
     public abstract double contagionProbability();
     public Person contagion(IVirus virus) { return new Sick(this, virus); }
+
+    //auxiliary
+    public Point getPoint(){ return this.m_location.getPoint();}
 
 
 

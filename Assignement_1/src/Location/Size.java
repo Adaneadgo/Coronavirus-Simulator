@@ -16,7 +16,7 @@ public class Size {
     public boolean equals(Size other) { return m_height == other.m_height && m_width == other.m_width; }
 
     //Getters
-    public int get_Height(){return m_height;}
-    public int get_Width(){return m_width;}
+    public int getHeight(){return m_height;}
+    public int getWidth(){return m_width;}
  
 }
