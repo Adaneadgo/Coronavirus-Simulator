@@ -17,7 +17,7 @@ public class Main {
 
         IVirus vi = new ChineseVariant();
 
-        Settlement se = new Moshav("Ashdod", lo, 100, RamzorColor.Red );
+        Settlement se = new Moshav("Tel-Aviv", lo, 100, RamzorColor.Red );
 
         Person pe = new Healthy(25, lo, se);
 
