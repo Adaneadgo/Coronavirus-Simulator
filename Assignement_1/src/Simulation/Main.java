@@ -23,6 +23,7 @@ public class Main {
 
 
         se.AddPerson(pe);
+        System.out.println(pe);
 
     
     }
