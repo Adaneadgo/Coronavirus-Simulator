@@ -9,6 +9,9 @@ public class Kibbutz extends Settlement {
     public Kibbutz(String name, Location location, int numOfPeople, RamzorColor ramzorColor){super(name, location, numOfPeople, ramzorColor);}
 
     @Override
+    public String toString() { return "Kibutz " + super.toString(); }
+
+    @Override
     public RamzorColor calculateRamzorGrade() {
 
         double C = m_ramzorColor.getCoefficient();

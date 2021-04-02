@@ -25,14 +25,16 @@ public class ChineseVariant implements IVirus{
         return rand.nextInt(100) < p * 100;
     }
     @Override
-    public boolean tryToKill(Sick sick) {
+    public boolean tryToKill(Person person) {
+
+        Sick sick = (Sick)person;
 
         long t = Clock.now() - sick.getContagiousTime();
-        double q = variantDeathProbability(sick);
-        double p = Math.max(0, q - 0.01 * q * Math.pow(t, 2));
+        double p = variantDeathProbability(sick);
+        double P = Math.max(0, p - 0.01 * p * Math.pow(t, 2));
         Random rand = new Random();
 
-        return rand.nextInt(100) < p * 100;
+        return rand.nextInt(100) < P * 100;
     }
 
     //auxiliary
@@ -47,7 +49,7 @@ public class ChineseVariant implements IVirus{
         else if (age <= 55)
             return 0.5;
         
-            else 
+        else 
             return 0.7;
     }
     @Override
@@ -61,7 +63,7 @@ public class ChineseVariant implements IVirus{
         else if (age <= 55)
             return 0.05;
         
-            else 
+        else 
             return 0.1;
     }
 

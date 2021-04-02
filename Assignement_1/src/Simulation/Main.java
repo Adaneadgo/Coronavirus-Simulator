@@ -9,14 +9,28 @@ import IO.*;
 
 public class Main {
     public static void main(String[] args) {
-        
+
         Point po = new Point(1,1);
+        Size si = new Size(100,100);
+        Location lo = new Location(po, si);
+
+
+        IVirus vi = new ChineseVariant();
+
+        Settlement se = new Moshav("Ashdod", lo, 100, RamzorColor.Red );
+
+        Person pe = new Healthy(25, lo, se);
+
+
+        se.AddPerson(pe);
 
     
-        
-        Person p1 = new Healthy(20, l, null);
-        System.out.println(p1);
-
-   
     }
+
+ 
+    
+
+
+
+  
 }

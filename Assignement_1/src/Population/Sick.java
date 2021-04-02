@@ -1,5 +1,6 @@
 package Population;
 
+import Simulation.Clock;
 import Virus.IVirus;
 
 public class Sick extends Person {
@@ -10,7 +11,7 @@ public class Sick extends Person {
 
     //Ctors
     public Sick(){}
-    public Sick(Person person, IVirus virus){ super(person); m_virus = virus; }
+    public Sick(Person person, IVirus virus){ super(person); m_virus = virus; m_contagiousTime = Clock.now(); }
 
     //Getters
     public IVirus getVirus() { return m_virus; }
@@ -25,5 +26,5 @@ public class Sick extends Person {
     @Override
     public double contagionProbability() {return m_probability;}
     public Person recover() { return new Vaccinated(this); }
-    public boolean tryToDie(){return false; }
+    public boolean tryToDie(){ return m_virus.tryToKill(this); }
 }

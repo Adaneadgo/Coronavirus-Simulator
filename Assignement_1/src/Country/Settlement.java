@@ -26,6 +26,7 @@ public abstract class Settlement {
         m_name = name;
         m_location = location;
         m_people = new ArrayList<Person>();
+        m_ramzorColor = ramzorColor;
 
     }
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
@@ -43,7 +44,7 @@ public abstract class Settlement {
                 sicksNum ++;
         }
 
-        return sicksNum/m_people.size();
+        return sicksNum / m_people.size();
     }
     public Point randomLocation(){
 
@@ -55,10 +56,12 @@ public abstract class Settlement {
         return new Point(x, y);
     }
     public boolean AddPerson(Person person){
+
         m_people.add(person);
         return true;
     }
     public boolean transfertPerson(Person person, Settlement settlement){
+        
          m_people.remove(person);
          settlement.AddPerson(person);
          return true;

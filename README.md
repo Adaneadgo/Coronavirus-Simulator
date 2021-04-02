@@ -1,2 +1,4 @@
 # Assigment1_OOP_Java
-1st Ex by tamar
+
+להדביק את הבן אדם בפונקציה שמדביקה בין אנשים.
+

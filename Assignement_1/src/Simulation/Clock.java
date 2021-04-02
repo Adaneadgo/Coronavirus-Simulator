@@ -2,7 +2,9 @@ package Simulation;
 
 public class Clock {
 
-    public static long now(){ return 0;}
-    public static void nextTick(){};
+    private static long now = 0;
+
+    public static long now(){ return now;}
+    public static void nextTick(){ now++;};
     
 }

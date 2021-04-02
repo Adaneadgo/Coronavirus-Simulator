@@ -5,7 +5,7 @@ import Virus.IVirus;
 public class Convalescent extends Person{
 
     private IVirus m_virus;
-    private static double m_probability = 0.2;
+    private final static double m_probability = 0.2;
 
     //Ctors
     public Convalescent(){}

@@ -25,7 +25,9 @@ public class BritishVariant implements IVirus{
         return rand.nextInt(100) < p * 100;
     }
     @Override
-    public boolean tryToKill(Sick sick) {
+    public boolean tryToKill(Person person) {
+
+        Sick sick = (Sick)person;
 
         long t = Clock.now() - sick.getContagiousTime();
         double q = variantDeathProbability(sick);

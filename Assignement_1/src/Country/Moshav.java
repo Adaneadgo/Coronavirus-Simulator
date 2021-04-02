@@ -6,7 +6,11 @@ public class Moshav extends Settlement {
 
     public Moshav(){}
     public Moshav(String name, Location location, int numOfPeople, RamzorColor ramzorColor){super(name, location, numOfPeople, ramzorColor);}
+      
 
+    @Override
+    public String toString() { return "Moshav " + super.toString(); }
+    
     @Override
     public RamzorColor calculateRamzorGrade() {
 
