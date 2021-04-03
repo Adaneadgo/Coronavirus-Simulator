@@ -14,9 +14,9 @@ public class Location {
     public Point getPoint(){ return m_position;}
     public Size getSize(){return m_size;}
 
-    // to string & equals
+    // toString & equals
     @Override
-    public String toString() { return "[" + m_position + ", " + m_size +"]"; }
+    public String toString() { return "{ " + m_position + ", " + m_size +" }"; }
     public boolean equals(Location other) {return this.m_position.equals(other.m_position) && this.m_size.equals(other.m_size);}
     
 

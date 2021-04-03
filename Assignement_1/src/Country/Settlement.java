@@ -13,13 +13,6 @@ public abstract class Settlement {
     private List<Person> m_people;
     protected RamzorColor m_ramzorColor;
 
-
-
-    // tostring
-    @Override
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nPopulation:\n" + PeopletoString(); }
-
-
     //ctors
     public Settlement() {}
     public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
@@ -38,15 +31,13 @@ public abstract class Settlement {
 
             m_people.add( new Healthy( 5*x + y, new Location(randomLocation(), new Size()), this));
         }
-
-
         m_ramzorColor = ramzorColor;
-
     }
-    
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
 
-
+    //toString
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nPopulation:" + PeopletoString(); }
+    
     //method
     public abstract RamzorColor calculateRamzorGrade();
     public double contagiousPercent(){
@@ -84,7 +75,7 @@ public abstract class Settlement {
 
     //auxiliary
     private String PeopletoString(){
-        StringBuilder str = new StringBuilder();
+        StringBuilder str = new StringBuilder("\n");
         for(Person person: m_people)
             str.append(person).append("\n");
         return str.toString();
