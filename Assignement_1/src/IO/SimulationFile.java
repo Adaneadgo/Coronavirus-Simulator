@@ -22,6 +22,16 @@ public class SimulationFile {
         m_map = Map.getInstance(loadFile());
     }
 
+    //ToString
+
+
+    @Override
+    public String toString() {
+        return "SimulationFile{" +
+                "m_fileName='" + m_fileName + '\'' +
+                ", m_map:" + m_map.toString() +
+                '}';
+    }
 
     private Settlement [] loadFile() throws Exception{
 
@@ -43,15 +53,15 @@ public class SimulationFile {
             switch (args[0]){
 
                 case "Moshav":
-                    settlementsList.add(new Moshav(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6])));
+                    settlementsList.add(new Moshav(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6]), RamzorColor.Green));
                     break;
 
                 case "Kibbutz":
-                    settlementsList.add(new Kibbutz(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6])));
+                    settlementsList.add(new Kibbutz(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6]), RamzorColor.Green));
                     break;
 
                 case "City":
-                    settlementsList.add(new City(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6])));
+                    settlementsList.add(new City(args[1], new Location(new Point(Integer.parseInt(args[2]), Integer.parseInt(args[3])), new Size(Integer.parseInt(args[4]), Integer.parseInt(args[5]))), Integer.parseInt(args[6]), RamzorColor.Green));
                     break;
 
             }

@@ -16,12 +16,12 @@ public abstract class Settlement {
 
     // tostring
     @Override
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor; }
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "People: " + m_people; }
 
 
     //ctors
     public Settlement() {}
-    public Settlement(String name, Location location, int peopleNum)
+    public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
     {
 
         Random xrand = new Random(); Random yrand = new Random();
@@ -29,16 +29,17 @@ public abstract class Settlement {
 
         m_name = name;
         m_location = new Location(location);
-
+        m_people = new ArrayList<Person>();
         for(int i = 0; i < peopleNum; i++){
 
-            x = (int)xrand.nextGaussian();
+            x = (int)(xrand.nextGaussian()* 6 + 9);
             y = yrand.nextInt(5);
 
             m_people.add( new Healthy( 5*x + y, new Location(randomLocation(), new Size()), this));
         }
 
-        m_ramzorColor = calculateRamzorGrade();
+
+        m_ramzorColor = ramzorColor;
 
     }
     

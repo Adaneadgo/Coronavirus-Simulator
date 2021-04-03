@@ -8,11 +8,11 @@ import java.util.List;
 public class Moshav extends Settlement {
 
     public Moshav(){}
-    public Moshav(String name, Location location, int peopleNum){super(name, location, peopleNum);}
+    public Moshav(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
       
 
     @Override
-    public String toString() { return "Moshav " + super.toString(); }
+    public String toString() { return "Moshav "; }
     
     @Override
     public RamzorColor calculateRamzorGrade() {

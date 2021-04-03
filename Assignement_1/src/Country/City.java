@@ -6,10 +6,10 @@ public class City extends Settlement {
 
 
     public City(){}
-    public City(String name, Location location, int peopleNum){super(name, location, peopleNum);}
+    public City(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
 
     @Override
-    public String toString() { return "City " + super.toString(); }
+    public String toString() { return "City "; }
 
     @Override
     public RamzorColor calculateRamzorGrade() {
