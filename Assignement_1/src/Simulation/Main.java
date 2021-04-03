@@ -15,15 +15,12 @@ public class Main {
         Location lo = new Location(po, si);
 
 
-        IVirus vi = new ChineseVariant();
-
-        Settlement se = new Moshav("Tel-Aviv", lo, 100, RamzorColor.Red );
-
-        Person pe = new Healthy(25, lo, se);
 
 
-        se.AddPerson(pe);
-        System.out.println(pe);
+
+
+
+
 
     
     }

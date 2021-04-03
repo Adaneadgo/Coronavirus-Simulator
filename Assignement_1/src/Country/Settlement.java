@@ -21,12 +21,12 @@ public abstract class Settlement {
 
     //ctors
     public Settlement() {}
-    public Settlement(String name, Location location, int numOfPeople, RamzorColor ramzorColor)
+    public Settlement(String name, Location location, int peopleNum)
     {
         m_name = name;
-        m_location = location;
-        m_people = new ArrayList<Person>();
-        m_ramzorColor = ramzorColor;
+        m_location = new Location(location);
+        for(int i = 0; i < peopleNum; i++)
+            m_people.add(new  )
 
     }
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }

@@ -1,11 +1,14 @@
 package Country;
 
 import Location.Location;
+import Population.Person;
+
+import java.util.List;
 
 public class Moshav extends Settlement {
 
     public Moshav(){}
-    public Moshav(String name, Location location, int numOfPeople, RamzorColor ramzorColor){super(name, location, numOfPeople, ramzorColor);}
+    public Moshav(String name, Location location, List<Person> persons){super(name, location, persons);}
       
 
     @Override
