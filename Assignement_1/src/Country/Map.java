@@ -10,18 +10,18 @@ public class Map {
     //Ctors
     protected Map(Settlement[] settlements) { m_settlements = settlements;}
 
-    @Override
-    public String toString() {
-        return "Map:" + "\n" +
-                "m_settlements=" + Arrays.toString(m_settlements) + "\n";
-    }
-
     //Methods
     public static Map getInstance(Settlement[] settlements) {
         if(instance == null) {
             instance = new Map(settlements);
         }
         return instance;
+    }
+
+    @Override
+    public String toString() {
+        return "Map:" + "\n" +
+                "m_settlements=" + Arrays.toString(m_settlements) + "\n";
     }
 
 

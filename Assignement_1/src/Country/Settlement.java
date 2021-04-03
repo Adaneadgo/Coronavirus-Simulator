@@ -23,12 +23,25 @@ public abstract class Settlement {
     public Settlement() {}
     public Settlement(String name, Location location, int peopleNum)
     {
+
+        Random xrand = new Random(); Random yrand = new Random();
+        int y; int x;
+
         m_name = name;
         m_location = new Location(location);
-        for(int i = 0; i < peopleNum; i++)
-            m_people.add(new  )
+
+        for(int i = 0; i < peopleNum; i++){
+
+            x = (int)xrand.nextGaussian();
+            y = yrand.nextInt(5);
+
+            m_people.add( new Healthy( 5*x + y, new Location(randomLocation(), new Size()), this));
+        }
+
+        m_ramzorColor = calculateRamzorGrade();
 
     }
+    
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
 
 

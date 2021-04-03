@@ -1,6 +1,12 @@
 package Country;
 
+import Location.Location;
+
 public class City extends Settlement {
+
+
+    public City(){}
+    public City(String name, Location location, int peopleNum){super(name, location, peopleNum);}
 
     @Override
     public String toString() { return "City " + super.toString(); }

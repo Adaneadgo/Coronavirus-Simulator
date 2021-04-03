@@ -8,7 +8,7 @@ import java.util.List;
 public class Moshav extends Settlement {
 
     public Moshav(){}
-    public Moshav(String name, Location location, List<Person> persons){super(name, location, persons);}
+    public Moshav(String name, Location location, int peopleNum){super(name, location, peopleNum);}
       
 
     @Override
