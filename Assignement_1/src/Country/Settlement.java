@@ -2,6 +2,7 @@ package Country;
 
 import Location.*;
 import Population.*;
+import Virus.*;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public abstract class Settlement {
 
     // tostring
     @Override
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "People: " + m_people; }
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nPopulation:\n" + PeopletoString(); }
 
 
     //ctors
@@ -81,9 +82,22 @@ public abstract class Settlement {
          return true;
     }
 
+    //auxiliary
+    private String PeopletoString(){
+        StringBuilder str = new StringBuilder();
+        for(Person person: m_people)
+            str.append(person).append("\n");
+        return str.toString();
 
+    }
+    public void setSicks(){
 
+        IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
+        for(int i = 0; i < (int)(m_people.size() / 100); i++)
+            m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
+
+    }
 
 
 }

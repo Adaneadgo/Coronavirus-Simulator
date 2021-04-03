@@ -10,6 +10,16 @@ public class Map {
     //Ctors
     protected Map(Settlement[] settlements) { m_settlements = settlements;}
 
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("\nMap Settlements: " + "\n" +"\n");
+        for(Settlement settlement: m_settlements)
+            str.append(settlement).append("\n");
+        return str.toString();
+
+
+    }
+
     //Methods
     public static Map getInstance(Settlement[] settlements) {
         if(instance == null) {
@@ -18,11 +28,11 @@ public class Map {
         return instance;
     }
 
-    @Override
-    public String toString() {
-        return "Map:" + "\n" +
-                "m_settlements=" + Arrays.toString(m_settlements) + "\n";
+    public void setSicks(){
+        for(Settlement settlement: m_settlements)
+            settlement.setSicks();
     }
+
 
 
 }

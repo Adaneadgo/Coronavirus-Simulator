@@ -12,7 +12,7 @@ public class Moshav extends Settlement {
       
 
     @Override
-    public String toString() { return "Moshav "; }
+    public String toString() { return "Moshav " + super.toString(); }
     
     @Override
     public RamzorColor calculateRamzorGrade() {

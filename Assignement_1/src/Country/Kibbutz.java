@@ -7,7 +7,7 @@ public class Kibbutz extends Settlement {
 
     public Kibbutz(){}
     public Kibbutz(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
-    public String toString() { return "Kibutz "; }
+    public String toString() { return "Kibutz " + super.toString(); }
 
     @Override
     public RamzorColor calculateRamzorGrade() {

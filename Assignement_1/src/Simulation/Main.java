@@ -13,10 +13,20 @@ import IO.*;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        SimulationFile sf = new SimulationFile("C:\\Users\\elieb\\IdeaProjects\\Assigment1_OOP_Java\\Assignement_1\\src\\Simulation\\Test.txt");
+        SimulationFile SF = new SimulationFile("C:\\Users\\adane\\Desktop\\myCodesGit\\Collage\\AdvancedOOP\\Assigment1_OOP_Java\\Assignement_1\\src\\Simulation\\Test.txt");
+
+        // Step 1
+        SF.loadSimulation();
+        //Step 2
+        SF.initialSimulation();
+        //
+
+        System.out.println(SF);
 
 
-        System.out.println(sf);
+
+
+
     }
 
 

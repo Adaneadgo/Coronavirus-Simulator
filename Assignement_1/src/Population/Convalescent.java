@@ -16,7 +16,7 @@ public class Convalescent extends Person{
 
     // tostring & equals
     @Override
-    public String toString() { return super.toString() + ", Virus: " + m_virus;}
+    public String toString() { return "Convalescent, " + super.toString() + ", Virus: " + m_virus;}
     public boolean equals(Convalescent other) { return super.equals(other) && m_virus == other.m_virus; }
 
     //Methods

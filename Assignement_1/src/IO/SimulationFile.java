@@ -14,26 +14,27 @@ public class SimulationFile {
 
     private final static int m_argsNum = 7;
     private final String m_fileName;
-    private Map m_map;
+    private  Map m_map;
 
     //Ctor
-    public SimulationFile(String fileName) throws Exception {
-        m_fileName = fileName;
-        m_map = Map.getInstance(loadFile());
-    }
+    public SimulationFile(String fileName) throws Exception { m_fileName = fileName; }
 
     //ToString
-
-
     @Override
-    public String toString() {
-        return "SimulationFile{" +
-                "m_fileName='" + m_fileName + '\'' +
-                ", m_map:" + m_map.toString() +
-                '}';
+    public String toString() { return "\nSimulationFile: " + m_fileName + '\n' + m_map; }
+
+    //Methods
+    public void loadSimulation() throws Exception {
+        m_map = Map.getInstance(readFile());
     }
 
-    private Settlement [] loadFile() throws Exception{
+    public void initialSimulation(){
+        m_map.setSicks();
+    }
+
+
+    //auxiliary
+    private Settlement [] readFile() throws Exception{
 
         File file = new File(m_fileName);
         Scanner sc = new Scanner(file);

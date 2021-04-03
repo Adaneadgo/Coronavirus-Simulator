@@ -13,7 +13,7 @@ public class Healthy extends Person {
      
     // toString & equals
     @Override
-    public String toString() { return super.toString();}
+    public String toString() { return "Healthy, " + super.toString();}
     public boolean equals(Sick other) { return super.equals(other); }
 
     // Methods

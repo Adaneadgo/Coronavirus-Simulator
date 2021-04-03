@@ -9,7 +9,7 @@ public class City extends Settlement {
     public City(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
 
     @Override
-    public String toString() { return "City "; }
+    public String toString() { return "City " + super.toString(); }
 
     @Override
     public RamzorColor calculateRamzorGrade() {
