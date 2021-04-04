@@ -81,7 +81,9 @@ public abstract class Settlement {
         return str.toString();
 
     }
-    public void setSicks(){
+
+    // Simulation Methods
+    public void setSickPeopleSimulation(){
 
         IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
@@ -89,6 +91,23 @@ public abstract class Settlement {
             m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
 
     }
+    
+    public void contagionSimulation(){
 
+        Sick sick = (Sick)m_people.get(0);
+        IVirus virus = sick.getVirus();
+        int size = m_people.size();
+        Random rand = new Random();
+
+        for(int i = 0; i < 6; i++){
+
+           int index = rand.nextInt(size);
+           Person person = m_people.get(index);
+
+           if(virus.tryToContagion(sick, person))
+               m_people.set(index, person.contagion(virus));
+  
+        }
+    }
 
 }

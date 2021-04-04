@@ -20,14 +20,10 @@ public class SimulationFile {
     public String toString() { return "\nSimulation File Name: " + m_fileName + '\n' + "Map:\n" + m_map; }
 
     //Methods
-    public void loadSimulation() throws Exception {
-        String[][] args = readArgsFromFile();
-        m_map = new Map(args);
-    }
+    public void loadSimulation() throws Exception { m_map = new Map(readArgsFromFile());}
+    public void initialSimulation(){ m_map.setSickPeopleSimulation();}
+    public void simulateSimulation(){m_map.contagionSimulation();}
 
-    public void initialSimulation(){
-        m_map.setSicks();
-    }
 
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{

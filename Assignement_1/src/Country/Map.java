@@ -33,6 +33,7 @@ public class Map {
         }
     }
 
+    //toString
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("\n");
@@ -41,10 +42,15 @@ public class Map {
         return str.toString();
     }
 
-    //methos
-    public void setSicks(){
+    // Simulation Methods
+    public void setSickPeopleSimulation(){
         for(Settlement settlement: m_settlements)
-            settlement.setSicks();
+            settlement.setSickPeopleSimulation();
+    }
+
+    public void contagionSimulation(){
+        for(Settlement settlement: m_settlements)
+             settlement.contagionSimulation();
     }
 
 }
