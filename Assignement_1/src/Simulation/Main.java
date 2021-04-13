@@ -3,7 +3,6 @@ package Simulation;
 import IO.SimulationFile;
 
 
-
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -12,7 +11,8 @@ public class Main {
         mySimulation.initialSimulation(); // Step 2
         mySimulation.simulateSimulation(); // Step 3
         System.out.println(mySimulation); 
-
+        System.out.println(Clock.now());
+        
     
 
     }

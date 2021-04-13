@@ -2,6 +2,7 @@ package Country;
 
 import Location.*;
 import Population.*;
+import Simulation.Clock;
 import Virus.*;
 
 import java.util.*;
@@ -52,15 +53,7 @@ public abstract class Settlement {
 
         return sicksNum / m_people.size();
     }
-    public Point randomLocation(){
-
-        Random rand = new Random();
-
-        int x = rand.nextInt(m_location.getSize().getWidth()) + m_location.getPoint().getX();
-        int y = rand.nextInt(m_location.getSize().getHeight()) + m_location.getPoint().getY();
-    
-        return new Point(x, y);
-    }
+    public Point randomLocation(){ return m_location.getRandomPosition();}
     public boolean AddPerson(Person person){
 
         m_people.add(person);
@@ -87,8 +80,10 @@ public abstract class Settlement {
 
         IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
-        for(int i = 0; i < (int)(m_people.size() / 100); i++)
+        for(int i = 0; i < (int)(m_people.size() / 100); i++){
             m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
+            Clock.nextTick();
+        }
 
     }
     
@@ -106,6 +101,8 @@ public abstract class Settlement {
 
            if(virus.tryToContagion(sick, person))
                m_people.set(index, person.contagion(virus));
+
+            Clock.nextTick();
   
         }
     }

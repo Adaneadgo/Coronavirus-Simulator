@@ -11,8 +11,6 @@ public enum RamzorColor {
 
     @Override
     public String toString() { return this.name();}
-
-
     public double getCoefficient() { return m_coefficient; }
 
 }

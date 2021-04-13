@@ -53,4 +53,6 @@ public class Map {
              settlement.contagionSimulation();
     }
 
+    
+
 }
