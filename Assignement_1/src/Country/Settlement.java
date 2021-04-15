@@ -9,39 +9,42 @@ import java.util.*;
 
 public abstract class Settlement {
 
-    //attributes
     private String m_name;
     private Location m_location;
     private List<Person> m_people;
     protected RamzorColor m_ramzorColor;
+    protected double m_coefficient;
 
     //ctors
     public Settlement() {}
     public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
     {
 
-        //we use the Random class for age
         Random xrand = new Random(); Random yrand = new Random();
         int y; int x;
 
         m_name = name;
         m_location = new Location(location);
         m_people = new ArrayList<Person>();
-
-        //age validation
+        int age;
         for(int i = 0; i < peopleNum; i++){
+            
+           //age validtion
+            do{ 
+                x = (int)(xrand.nextGaussian()* 6 + 9);
+                y = yrand.nextInt(5);
+                age = 5*x + y;
+            } while(age < 0 || age > 99);
 
-            x = (int)(xrand.nextGaussian()* 6 + 9);
-            y = yrand.nextInt(5);
-
-            m_people.add( new Healthy( 5*x + y, new Location(randomLocation(), new Size()), this));
+            m_people.add( new Healthy( age, new Location(randomLocation(), new Size()), this));
         }
+
         m_ramzorColor = ramzorColor;
     }
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
 
     //toString
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nPopulation:" + PeopletoString(); }
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nnum of Pepole: "+m_people.size()+", contagious Percent: " + contagiousPercent()*100+"%.\n"; }
     
     //method
     public abstract RamzorColor calculateRamzorGrade();
@@ -50,12 +53,12 @@ public abstract class Settlement {
         /*
         Calculates the percentage of sick people in the locality
          */
-        int sicksNum = 0;
+        double sicksNum = 0;
 
         for(Person p : m_people){
 
             if(p instanceof Sick)
-                sicksNum ++; //
+                sicksNum ++;
         }
 
         return sicksNum / m_people.size();
@@ -81,6 +84,8 @@ public abstract class Settlement {
         return str.toString();
 
     }
+  
+
 
     // Simulation Methods
     public void setSickPeopleSimulation(){
@@ -91,6 +96,9 @@ public abstract class Settlement {
             m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
             Clock.nextTick();
         }
+
+        // re-calculate Ramzor Grade
+        calculateRamzorGrade();
 
     }
     
@@ -111,8 +119,10 @@ public abstract class Settlement {
                m_people.set(index, person.contagion(virus));
 
             Clock.nextTick();
-  
         }
+
+         // re-calculate Ramzor Grade
+        this.m_ramzorColor = calculateRamzorGrade();
     }
 
 }

@@ -9,17 +9,17 @@ import java.util.Scanner;
 
 public class SimulationFile {
 
-    private final File m_fileName;
+    private final File m_file;
     private  Map m_map;
 
     //Ctor
-    public SimulationFile(File fileName) {
-        m_fileName = fileName;
+    public SimulationFile(File file) {
+        m_file = file;
     }
 
     //ToString
     @Override
-    public String toString() { return "\nSimulation File Name: " + m_fileName + '\n' + "Map:\n" + m_map; }
+    public String toString() { return "\nSimulation File path: " + m_file + m_map; }
 
     //Methods
     public void loadSimulation() throws Exception { m_map = new Map(readArgsFromFile());}
@@ -30,13 +30,14 @@ public class SimulationFile {
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{
 
-        Scanner sc = new Scanner(m_fileName);
+        Scanner sc = new Scanner(m_file);
 
         String data;
         List<String[]> args = new ArrayList<String[]>();
 
         while(sc.hasNextLine()){
             data = sc.nextLine();
+            data = data.replaceAll(" ", "");
             args.add(data.split(";", 0));
         }
         sc.close();

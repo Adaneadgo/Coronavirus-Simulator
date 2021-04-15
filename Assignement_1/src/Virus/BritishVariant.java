@@ -1,10 +1,9 @@
  package Virus;
 
-import java.util.Random;
 
 import Population.Person;
 import Population.Sick;
-import Simulation.Clock;
+
 
 
 public class BritishVariant implements IVirus{
@@ -27,5 +26,4 @@ public class BritishVariant implements IVirus{
     }
 
     
-
 }

@@ -2,10 +2,9 @@ package Country;
 
 public enum RamzorColor {
 
+    Red(1), Green(0.4), Yellow(0.6), Orange(0.8);
 
-    //All values refer to a particular color
-    Red(0.1), Green(0.4), Yellow(0.6), Orange(0.8);
-
+    // save the actual coefficient
     public final double m_coefficient;
     
     //Ctor

@@ -19,21 +19,19 @@ public class Moshav extends Settlement {
         Return the color that define how much the city is contagious
          */
 
-        //Calculate the constant for the equation
-        double C = m_ramzorColor.getCoefficient();
         double P = this.contagiousPercent();
+        m_coefficient = 0.3 + 3*Math.pow(Math.pow(1.2, m_coefficient)*(P-0.35),5);
+        if(m_coefficient < 0.4)
+        return RamzorColor.Green;
 
-        double c = 0.3 + 3*Math.pow(Math.pow(1.2, C)*(P-0.35),5);
-
-        //the constant values
-        if(c < 0.1)
-            return RamzorColor.Red;
-        else if(c < 0.4)
-            return RamzorColor.Green;
-        else if (c < 0.6)
+        else if (m_coefficient < 0.6)
             return RamzorColor.Yellow;
+
+        else if(m_coefficient < 0.8)
+            return RamzorColor.Orange; 
+        
         else          
-            return RamzorColor.Orange;
+            return RamzorColor.Red;
     }
     
 }
