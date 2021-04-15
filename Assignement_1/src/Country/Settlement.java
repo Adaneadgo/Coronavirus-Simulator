@@ -9,6 +9,7 @@ import java.util.*;
 
 public abstract class Settlement {
 
+    //attributes
     private String m_name;
     private Location m_location;
     private List<Person> m_people;
@@ -19,12 +20,15 @@ public abstract class Settlement {
     public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
     {
 
+        //we use the Random class for age
         Random xrand = new Random(); Random yrand = new Random();
         int y; int x;
 
         m_name = name;
         m_location = new Location(location);
         m_people = new ArrayList<Person>();
+
+        //age validation
         for(int i = 0; i < peopleNum; i++){
 
             x = (int)(xrand.nextGaussian()* 6 + 9);
@@ -51,7 +55,7 @@ public abstract class Settlement {
         for(Person p : m_people){
 
             if(p instanceof Sick)
-                sicksNum ++;
+                sicksNum ++; //
         }
 
         return sicksNum / m_people.size();
