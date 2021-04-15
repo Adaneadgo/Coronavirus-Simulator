@@ -8,7 +8,7 @@ public class Point {
     //Ctors
     public Point() {}
     public Point(int x, int y) { this.m_x = x; this.m_y = y; }
-    public Point(Point other) { this.m_y = other.m_x; this.m_x = other.m_y;}
+    public Point(Point other) { this.m_y = other.m_y; this.m_x = other.m_x;}
     
     //Getters
     public int getX(){return m_x;}

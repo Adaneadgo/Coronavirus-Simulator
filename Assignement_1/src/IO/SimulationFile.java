@@ -9,11 +9,13 @@ import java.util.Scanner;
 
 public class SimulationFile {
 
-    private final String m_fileName;
+    private final File m_fileName;
     private  Map m_map;
 
     //Ctor
-    public SimulationFile(String fileName) { m_fileName = fileName; }
+    public SimulationFile(File fileName) {
+        m_fileName = fileName;
+    }
 
     //ToString
     @Override
@@ -28,8 +30,7 @@ public class SimulationFile {
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{
 
-        File file = new File(m_fileName);
-        Scanner sc = new Scanner(file);
+        Scanner sc = new Scanner(m_fileName);
 
         String data;
         List<String[]> args = new ArrayList<String[]>();
