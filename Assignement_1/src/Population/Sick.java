@@ -27,4 +27,7 @@ public class Sick extends Person {
     public double contagionProbability() {return m_probability;}
     public Person recover() { return new Vaccinated(this); }
     public boolean tryToDie(){ return m_virus.tryToKill(this); }
+
+    //Execption 
+    public Person contagion(IVirus virus){ throw new RuntimeException("try contagion sick person!"); } 
 }
