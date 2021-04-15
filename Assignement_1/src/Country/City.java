@@ -19,9 +19,13 @@ public class City extends Settlement {
         Return the color that define how much the city is contagious
          */
 
+
+        //Calculate the constant for the equation
         double P = this.contagiousPercent();
         m_coefficient = 0.2 * Math.pow(4, 1.25*P);
-       
+
+
+        //Constant for equation
         if(m_coefficient < 0.4)
         return RamzorColor.Green;
 

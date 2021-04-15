@@ -20,6 +20,7 @@ public abstract class Settlement {
     public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
     {
 
+        // we use class Random for age
         Random xrand = new Random(); Random yrand = new Random();
         int y; int x;
 
@@ -29,7 +30,7 @@ public abstract class Settlement {
         int age;
         for(int i = 0; i < peopleNum; i++){
             
-           //age validtion
+           //age validation
             do{ 
                 x = (int)(xrand.nextGaussian()* 6 + 9);
                 y = yrand.nextInt(5);
@@ -57,7 +58,7 @@ public abstract class Settlement {
 
         for(Person p : m_people){
 
-            if(p instanceof Sick)
+            if(p instanceof Sick) // if p if Sick (downcasting)
                 sicksNum ++;
         }
 
@@ -78,6 +79,7 @@ public abstract class Settlement {
 
     //auxiliary
     private String PeopletoString(){
+        //In order to do Append
         StringBuilder str = new StringBuilder("\n");
         for(Person person: m_people)
             str.append(person).append("\n");
@@ -90,8 +92,10 @@ public abstract class Settlement {
     // Simulation Methods
     public void setSickPeopleSimulation(){
 
+        // Array that handle all type of Virus
         IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
+        //contagious and tik of Clock
         for(int i = 0; i < (int)(m_people.size() / 100); i++){
             m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
             Clock.nextTick();
@@ -105,11 +109,13 @@ public abstract class Settlement {
     public void contagionSimulation(){
 
 
+        // all variable needed for method
         Sick sick = (Sick)m_people.get(0);
         IVirus virus = sick.getVirus();
         int size = m_people.size();
         Random rand = new Random();
 
+        //make the actual contagious
         for(int i = 0; i < 6; i++){
 
            int index = rand.nextInt(size);
@@ -118,7 +124,7 @@ public abstract class Settlement {
            if(virus.tryToContagion(sick, person))
                m_people.set(index, person.contagion(virus));
 
-            Clock.nextTick();
+            Clock.nextTick(); // tik
         }
 
          // re-calculate Ramzor Grade

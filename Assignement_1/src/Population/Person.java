@@ -7,6 +7,9 @@ import Virus.IVirus;
 
 public abstract class Person {
 
+    /*
+    This class is abstract because we handle only Healthy, Sick, Convalescent, Vaccinated people
+     */
     private int m_age;
     private Location m_location;
     private Settlement m_settlement;

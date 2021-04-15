@@ -20,10 +20,13 @@ public class Kibbutz extends Settlement {
         Return the color that define how much the city is contagious
          */
 
+
+        //Calculate the constant for the equation
         double P = this.contagiousPercent();
         m_coefficient = 0.45 + Math.pow(Math.pow(1.5, m_coefficient)*(P-0.4),3);
 
 
+        //Constant for equation
          if(m_coefficient < 0.4)
             return RamzorColor.Green;
 

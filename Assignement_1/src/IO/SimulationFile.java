@@ -29,12 +29,13 @@ public class SimulationFile {
 
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{
-
+        // Create a scanner file in order to read our File
         Scanner sc = new Scanner(m_file);
 
         String data;
         List<String[]> args = new ArrayList<String[]>();
 
+        //handle the reading part from the file
         while(sc.hasNextLine()){
             data = sc.nextLine();
             data = data.replaceAll(" ", "");
@@ -42,7 +43,7 @@ public class SimulationFile {
         }
         sc.close();
 
-        return args.toArray(new String[0][0]);
+        return args.toArray(new String[0][0]); // return Array type
 
     }
 
