@@ -6,5 +6,6 @@ public class Clock {
 
     public static long now(){ return now;}
     public static void nextTick(){ now++;};
+
     
 }
