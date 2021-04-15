@@ -4,13 +4,15 @@ import Location.Location;
 
 public class City extends Settlement {
 
-
+    //ctors
     public City(){}
     public City(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
 
+    //toString
     @Override
-    public String toString() { return "City "; }
+    public String toString() { return "City " + super.toString(); }
 
+    //methos
     @Override
     public RamzorColor calculateRamzorGrade() {
 

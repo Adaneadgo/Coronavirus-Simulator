@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 City;Ashdod;0;0;90;50;5
 City;Beer-Sheva;30;0;80;80;10
 Moshav;Gevim;15;15;10;20;7
+=======
+City;Ashdod;0;0;90;50;300
+City;Beer-Sheva;30;0;80;80;300
+Moshav;Gevim;15;15;10;20;300
+>>>>>>> 5cc22881e548013e951d5ef6e6dc167979bf5e5b

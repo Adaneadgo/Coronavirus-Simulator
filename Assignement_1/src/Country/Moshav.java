@@ -1,19 +1,18 @@
 package Country;
 
 import Location.Location;
-import Population.Person;
-
-import java.util.List;
 
 public class Moshav extends Settlement {
 
+    //ctors
     public Moshav(){}
     public Moshav(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
       
-
+    //tosting
     @Override
-    public String toString() { return "Moshav "; }
+    public String toString() { return "Moshav " + super.toString(); }
     
+    //method
     @Override
     public RamzorColor calculateRamzorGrade() {
 

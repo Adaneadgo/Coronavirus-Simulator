@@ -19,7 +19,7 @@ public class Sick extends Person {
     
     // tostring & equals
     @Override
-    public String toString() { return super.toString() + ", contagiousTime: " + m_contagiousTime + ", virus: " + m_virus ;}
+    public String toString() { return "Condition: Sick, " + super.toString() + ", contagiousTime: " + m_contagiousTime + ", virus: " + m_virus ;}
     public boolean equals(Sick other) { return super.equals(other) && m_virus == other.m_virus && m_contagiousTime == other.m_contagiousTime;}
 
     //Methods

@@ -10,9 +10,7 @@ public enum RamzorColor {
     private RamzorColor(final double num){ this.m_coefficient = num;}
 
     @Override
-    public String toString() { return "RamzorColor: " + this.name();}
-
-
+    public String toString() { return this.name();}
     public double getCoefficient() { return m_coefficient; }
 
 }

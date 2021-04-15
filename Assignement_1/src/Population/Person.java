@@ -24,7 +24,7 @@ public abstract class Person {
 
     // tostring & equals
     @Override
-    public String toString() {return "Age: " + m_age + ", Location: " + m_location + ", Settlement: " + m_settlement;}
+    public String toString() {return "Age: " + m_age + ", Location: " + m_location;}
     public boolean equals(Person other) { return m_age == other.m_age && m_location.equals(other.m_location); }
 
     //Methods

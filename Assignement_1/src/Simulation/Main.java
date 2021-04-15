@@ -1,22 +1,20 @@
 package Simulation;
 
-import Location.*;
-import Virus.*;
-
-import java.util.Random;
-
-import Country.*;
-import Population.*;
-import IO.*;
+import IO.SimulationFile;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        SimulationFile sf = new SimulationFile("C:\\Users\\elieb\\IdeaProjects\\Assigment1_OOP_Java\\Assignement_1\\src\\Simulation\\Test.txt");
+        SimulationFile mySimulation = new SimulationFile("inputFile.txt");
+        mySimulation.loadSimulation(); // Step 1
+        mySimulation.initialSimulation(); // Step 2
+        mySimulation.simulateSimulation(); // Step 3
+        System.out.println(mySimulation); 
+        System.out.println(Clock.now());
+        
+    
 
-
-        System.out.println(sf);
     }
 
 

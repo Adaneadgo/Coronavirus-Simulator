@@ -2,6 +2,8 @@ package Country;
 
 import Location.*;
 import Population.*;
+import Simulation.Clock;
+import Virus.*;
 
 import java.util.*;
 
@@ -11,13 +13,6 @@ public abstract class Settlement {
     private Location m_location;
     private List<Person> m_people;
     protected RamzorColor m_ramzorColor;
-
-
-
-    // tostring
-    @Override
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "People: " + m_people; }
-
 
     //ctors
     public Settlement() {}
@@ -37,15 +32,13 @@ public abstract class Settlement {
 
             m_people.add( new Healthy( 5*x + y, new Location(randomLocation(), new Size()), this));
         }
-
-
         m_ramzorColor = ramzorColor;
-
     }
-    
     public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); m_people = other.m_people; m_ramzorColor = other.m_ramzorColor; }
 
-
+    //toString
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nPopulation:" + PeopletoString(); }
+    
     //method
     public abstract RamzorColor calculateRamzorGrade();
     public double contagiousPercent(){
@@ -60,15 +53,7 @@ public abstract class Settlement {
 
         return sicksNum / m_people.size();
     }
-    public Point randomLocation(){
-
-        Random rand = new Random();
-
-        int x = rand.nextInt(m_location.getSize().getWidth()) + m_location.getPoint().getX();
-        int y = rand.nextInt(m_location.getSize().getHeight()) + m_location.getPoint().getY();
-    
-        return new Point(x, y);
-    }
+    public Point randomLocation(){ return m_location.getRandomPosition();}
     public boolean AddPerson(Person person){
 
         m_people.add(person);
@@ -81,9 +66,45 @@ public abstract class Settlement {
          return true;
     }
 
+    //auxiliary
+    private String PeopletoString(){
+        StringBuilder str = new StringBuilder("\n");
+        for(Person person: m_people)
+            str.append(person).append("\n");
+        return str.toString();
 
+    }
 
+    // Simulation Methods
+    public void setSickPeopleSimulation(){
 
+        IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
+        for(int i = 0; i < (int)(m_people.size() / 100); i++){
+            m_people.set(i, m_people.get(i).contagion(viruses[i % 3]));
+            Clock.nextTick();
+        }
+
+    }
+    
+    public void contagionSimulation(){
+
+        Sick sick = (Sick)m_people.get(0);
+        IVirus virus = sick.getVirus();
+        int size = m_people.size();
+        Random rand = new Random();
+
+        for(int i = 0; i < 6; i++){
+
+           int index = rand.nextInt(size);
+           Person person = m_people.get(index);
+
+           if(virus.tryToContagion(sick, person))
+               m_people.set(index, person.contagion(virus));
+
+            Clock.nextTick();
+  
+        }
+    }
 
 }

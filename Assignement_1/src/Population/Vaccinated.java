@@ -15,7 +15,7 @@ public class Vaccinated extends Person {
 
     //tostring & equals
     @Override
-    public String toString() { return super.toString() + ", vaccinationTime: " + m_vaccinationTime;}
+    public String toString() { return "Condition: Vaccinated, " + super.toString() + ", vaccinationTime: " + m_vaccinationTime;}
     public boolean equals(Vaccinated other) { return super.equals(other) &&  m_vaccinationTime == other.m_vaccinationTime;}
 
 

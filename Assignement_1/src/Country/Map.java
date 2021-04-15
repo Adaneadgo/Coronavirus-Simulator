@@ -1,28 +1,58 @@
 package Country;
 
-import java.util.Arrays;
+import Location.*;
 
 public class Map {
 
     private Settlement[] m_settlements;
-    private static Map instance = null;
 
     //Ctors
-    protected Map(Settlement[] settlements) { m_settlements = settlements;}
+    public Map(String[][] args){
+        m_settlements = new Settlement[args.length];
+        String[] arg;
 
-    //Methods
-    public static Map getInstance(Settlement[] settlements) {
-        if(instance == null) {
-            instance = new Map(settlements);
+        for(int i = 0 ; i<args.length; i++){
+
+            arg = args[i];
+
+            switch (arg[0]){
+
+                case "Moshav":
+                    m_settlements[i] = new Moshav(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    break;
+    
+                case "Kibbutz":
+                    m_settlements[i] = new Kibbutz(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    break;
+    
+                case "City":
+                    m_settlements[i] =new City(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    break;
+    
+            }
         }
-        return instance;
     }
 
+    //toString
     @Override
     public String toString() {
-        return "Map:" + "\n" +
-                "m_settlements=" + Arrays.toString(m_settlements) + "\n";
+        StringBuilder str = new StringBuilder("\n");
+        for(Settlement settlement: m_settlements)
+            str.append(settlement).append("\n");
+        return str.toString();
     }
 
+    // Simulation Methods
+    public void setSickPeopleSimulation(){
+        for(Settlement settlement: m_settlements)
+            settlement.setSickPeopleSimulation();
+    }
+
+    public void contagionSimulation(){
+        for(Settlement settlement: m_settlements)
+             settlement.contagionSimulation();
+    }
+
+    
 
 }
