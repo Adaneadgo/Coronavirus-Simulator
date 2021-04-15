@@ -5,7 +5,7 @@ import Location.Location;
 public class City extends Settlement {
 
     //ctors
-    public City(){}
+    public City(){} // default Constructor
     public City(String name, Location location, int peopleNum, RamzorColor ramzorColor){super(name, location, peopleNum, ramzorColor);}
 
     //toString
@@ -15,6 +15,9 @@ public class City extends Settlement {
     //methos
     @Override
     public RamzorColor calculateRamzorGrade() {
+        /*
+        Return the color that define how much the city is contagious
+         */
 
         double P = this.contagiousPercent();
         double c = 0.2 * Math.pow(4, 1.25*P);

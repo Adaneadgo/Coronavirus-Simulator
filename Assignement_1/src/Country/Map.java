@@ -13,9 +13,10 @@ public class Map {
 
         for(int i = 0 ; i<args.length; i++){
 
-            arg = args[i];
+            arg = args[i]; //handle the object in index i himself
 
-            switch (arg[0]){
+            switch (arg[0])  //('Moshav', 'Kibbutz' or 'City)
+            {
 
                 case "Moshav":
                     m_settlements[i] = new Moshav(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);

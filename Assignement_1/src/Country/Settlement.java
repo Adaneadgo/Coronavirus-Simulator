@@ -43,6 +43,9 @@ public abstract class Settlement {
     public abstract RamzorColor calculateRamzorGrade();
     public double contagiousPercent(){
 
+        /*
+        Calculates the percentage of sick people in the locality
+         */
         int sicksNum = 0;
 
         for(Person p : m_people){
@@ -88,6 +91,7 @@ public abstract class Settlement {
     }
     
     public void contagionSimulation(){
+
 
         Sick sick = (Sick)m_people.get(0);
         IVirus virus = sick.getVirus();

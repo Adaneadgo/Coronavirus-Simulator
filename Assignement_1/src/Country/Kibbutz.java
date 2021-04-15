@@ -16,6 +16,9 @@ public class Kibbutz extends Settlement {
     //methods
     @Override
     public RamzorColor calculateRamzorGrade() {
+        /*
+        Return the color that define how much the city is contagious
+         */
 
         double C = m_ramzorColor.getCoefficient();
         double P = this.contagiousPercent();
