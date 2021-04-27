@@ -4,6 +4,8 @@
 package Simulation;
 
 import IO.SimulationFile;
+import UI.*;
+import UI.Menu;
 
 import java.awt.*;
 import java.io.File;
@@ -12,15 +14,8 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        File file = loadFileFunc();
-        SimulationFile mySimulation = new SimulationFile(file);
+        Menu m = new Menu();
 
-        mySimulation.loadSimulation();    // Step 1
-        mySimulation.initialSimulation(); // Step 2
-        for(int i = 0; i< 5 ;i++)      // step 3
-            mySimulation.simulateSimulation();
-
-        System.out.println(mySimulation); 
 
     }
 

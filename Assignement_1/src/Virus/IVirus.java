@@ -27,7 +27,7 @@ public interface IVirus {
         /*
         person1 is Sick and the method checks their health condition, and if the other is healthy then he is infected.
          */
-        if (person1 instanceof Sick) {
+        if (!(person2 instanceof Sick)) {
             double d = Math.sqrt(Math.pow(person2.getPoint().getX() - person1.getPoint().getX() , 2) + Math.pow(person2.getPoint().getY() - person1.getPoint().getY(), 2));
             double p = Math.min(1, 0.14 * Math.exp(2 - 0.25 * d));
             Random rand = new Random();
