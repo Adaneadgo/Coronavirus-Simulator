@@ -4,6 +4,7 @@
 package Simulation;
 
 import IO.SimulationFile;
+import org.w3c.dom.ls.LSOutput;
 
 import java.awt.*;
 import java.io.File;
@@ -17,7 +18,7 @@ public class Main {
 
         mySimulation.loadSimulation();    // Step 1
         mySimulation.initialSimulation(); // Step 2
-        for(int i = 0; i< 5 ;i++)      // step 3
+        for(int i = 0; i<10 ;i++)      // step 3
             mySimulation.simulateSimulation();
 
         System.out.println(mySimulation); 
@@ -33,8 +34,8 @@ public class Main {
         File f = new File(fd.getDirectory(), fd.getFile());
         System.out.println(f.getPath());
         return f;
-    }
 
+    }
 
 
 }
