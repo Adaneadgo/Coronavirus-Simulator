@@ -18,11 +18,6 @@ public class Menu {
 
     public void Main_Window() {
 
-        this.Frame_Creation();
-
-    }
-
-    private void Frame_Creation(){
         JFrame frame = new JFrame("Main Window"); // create a frame GUI
         BorderLayout myBorderLayout = new BorderLayout(); // create out object for the size of our frame
         myBorderLayout.setHgap(100); // set Horizontal size
@@ -37,6 +32,7 @@ public class Menu {
 
 
     }
+
 
     private JMenuBar Menu_Bar(){
         JMenuBar menuBar = new JMenuBar(); // create an Object menubar
