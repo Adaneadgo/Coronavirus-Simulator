@@ -5,6 +5,7 @@ package Simulation;
 
 import IO.SimulationFile;
 
+import UI.Menu;
 import java.awt.*;
 import java.io.File;
 
@@ -23,20 +24,11 @@ public class Main {
 //        System.out.println(mySimulation);
 
         Menu m = new Menu();
+        System.out.println("elie");
 
 
     }
 
-    private static File loadFileFunc() {
-        FileDialog fd = new FileDialog((Frame) null, "Please choose a file:", FileDialog.LOAD);
-        fd.setVisible(true);
-
-        if (fd.getFile() == null)
-            return null;
-        File f = new File(fd.getDirectory(), fd.getFile());
-        System.out.println(f.getPath());
-        return f;
-    }
 
 
 
