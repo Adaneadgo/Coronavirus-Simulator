@@ -19,17 +19,21 @@ public class Menu {
     public void Main_Window() {
 
         JFrame frame = new JFrame("Main Window"); // create a frame GUI
-        BorderLayout myBorderLayout = new BorderLayout(); // create out object for the size of our frame
-        myBorderLayout.setHgap(100); // set Horizontal size
-        myBorderLayout.setVgap(200);  // set Vertical size
-        frame.setLayout(myBorderLayout); // add our object border into the Frame
+        frame.setLayout(new GridBagLayout()); // add our object border into the Frame
 
 
         frame.setJMenuBar(Menu_Bar());
+        frame.add(Simulation_Speed_Slider());
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+
+    }
+
+    private JSlider Simulation_Speed_Slider(){
+        JSlider jslider = new JSlider();
+        return jslider;
 
     }
 
@@ -76,6 +80,47 @@ public class Menu {
     }
     private JMenuItem Statistics_Item(){
         JMenuItem statistics = new JMenuItem("Statistics");
+        statistics.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame statistics_frame = new JFrame("Statistics Window");
+                JPanel statistics_panel = new JPanel();
+                statistics_panel.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+
+                JComboBox comboBox = new JComboBox(new String[]{"Name", "Type", "Size", "Number of people", "Color", "Number of Sick people", "Percent of sick people"});
+
+
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.gridwidth = 2;
+                gbc.gridheight = 2;
+                statistics_panel.add(comboBox, gbc);
+                statistics_panel.setBackground(Color.blue);
+
+
+
+                gbc.gridx = 0;
+                gbc.gridy = 3;
+                gbc.gridwidth = 2;
+                gbc.gridheight = 2;
+                JButton bt1 = new JButton("button");
+
+                statistics_panel.add(bt1, gbc);
+
+                statistics_frame.add(statistics_panel);
+
+
+
+
+
+
+
+                statistics_frame.pack();
+                statistics_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                statistics_frame.setVisible(true);
+            }
+        });
         return statistics;
     }
     private JMenuItem Edit_Mutation_Item(){
