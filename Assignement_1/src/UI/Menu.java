@@ -25,6 +25,10 @@ public class Menu {
         frame.setLayout(myBorderLayout); // add our object border into the Frame
 
 
+
+
+
+
         frame.setJMenuBar(Menu_Bar());
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
