@@ -7,7 +7,7 @@ public class Menu {
 
     public Menu(){
         
-        JFrame frame = new JFrame("main window");
+        JFrame frame = new JFrame("Main Window");
         BorderLayout myBorderLayout = new BorderLayout();
         myBorderLayout.setHgap(20);
         myBorderLayout.setVgap(20);

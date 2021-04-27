@@ -12,15 +12,18 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        File file = loadFileFunc();
-        SimulationFile mySimulation = new SimulationFile(file);
+//        File file = loadFileFunc();
+//        SimulationFile mySimulation = new SimulationFile(file);
+//
+//        mySimulation.loadSimulation();    // Step 1
+//        mySimulation.initialSimulation(); // Step 2
+//        for(int i = 0; i< 5 ;i++)      // step 3
+//            mySimulation.simulateSimulation();
+//
+//        System.out.println(mySimulation);
 
-        mySimulation.loadSimulation();    // Step 1
-        mySimulation.initialSimulation(); // Step 2
-        for(int i = 0; i< 5 ;i++)      // step 3
-            mySimulation.simulateSimulation();
+        Menu m = new Menu();
 
-        System.out.println(mySimulation); 
 
     }
 
