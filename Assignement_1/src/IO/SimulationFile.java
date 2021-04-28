@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class SimulationFile {
+public final class SimulationFile {
 
     private final File m_file;
     private  Map m_map;
@@ -20,6 +20,10 @@ public class SimulationFile {
     //ToString
     @Override
     public String toString() { return "\nSimulation File path: " + m_file + m_map; }
+
+    public Map getM_map() {
+        return m_map;
+    }
 
     //Methods
     public void loadSimulation() throws Exception { m_map = new Map(readArgsFromFile());}

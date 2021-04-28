@@ -8,42 +8,29 @@ import java.io.File;
 
 import IO.SimulationFile;
 
-public class Menu {
+public class MainWin {
 
-    SimulationFile mySimulation;
+    private SimulationFile simulationFile;
+    private JFrame frame;
 
-    public Menu() {
-        this.Main_Window();
-    }
+    public MainWin() {
 
-    public void Main_Window() {
-
-        JFrame frame = new JFrame("Main Window"); // create a frame GUI
-        frame.setLayout(new GridBagLayout()); // add our object border into the Frame
-
-
-
-
-
+        frame = new JFrame("Main Window");
+        frame.setLayout(new BorderLayout());
 
         frame.setJMenuBar(Menu_Bar());
-        frame.add(Simulation_Speed_Slider());
+        frame.add(Simulation_Speed_Slider(), BorderLayout.SOUTH);
+
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-
     }
 
-    private JSlider Simulation_Speed_Slider(){
-        JSlider jslider = new JSlider();
-        return jslider;
-
-    }
 
 
     private JMenuBar Menu_Bar(){
-        JMenuBar menuBar = new JMenuBar(); // create an Object menubar
+        JMenuBar menuBar = new JMenuBar();
         menuBar.add(File_Menu());
         menuBar.add(Simulation_Menu());
         menuBar.add(Help_Menu());
@@ -77,62 +64,38 @@ public class Menu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 File file = loadFileFunc();
-                mySimulation = new SimulationFile(file);
+                simulationFile = new SimulationFile(file);
+                frame.add(new MapWin(simulationFile.getM_map()), BorderLayout.CENTER);
             }
         });
+
         return load;
     }
     private JMenuItem Statistics_Item(){
         JMenuItem statistics = new JMenuItem("Statistics");
         statistics.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame statistics_frame = new JFrame("Statistics Window");
-                JPanel statistics_panel = new JPanel();
-                statistics_panel.setLayout(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-
-                JComboBox comboBox = new JComboBox(new String[]{"Name", "Type", "Size", "Number of people", "Color", "Number of Sick people", "Percent of sick people"});
-
-
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                gbc.gridwidth = 2;
-                gbc.gridheight = 2;
-                statistics_panel.add(comboBox, gbc);
-                statistics_panel.setBackground(Color.blue);
-
-
-
-                gbc.gridx = 0;
-                gbc.gridy = 3;
-                gbc.gridwidth = 2;
-                gbc.gridheight = 2;
-                JButton bt1 = new JButton("button");
-
-                statistics_panel.add(bt1, gbc);
-
-                statistics_frame.add(statistics_panel);
-
-
-
-
-
-
-
-                statistics_frame.pack();
-                statistics_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                statistics_frame.setVisible(true);
-            }
+            public void actionPerformed(ActionEvent e) { new StatisticsWindow();}
         });
         return statistics;
     }
+
     private JMenuItem Edit_Mutation_Item(){
         JMenuItem edit_mutation = new JMenuItem("Edit Mutation");
+        edit_mutation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { new EditMutationsWin();}
+        });
         return edit_mutation;
     }
     private JMenuItem Exit_Item(){
         JMenuItem exit = new JMenuItem("Exit");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         return exit;
     }
 
@@ -178,7 +141,11 @@ public class Menu {
         return about;
     }
 
+    private JSlider Simulation_Speed_Slider(){
+        JSlider jslider = new JSlider();
+        return jslider;
 
+    }
 
 
 }

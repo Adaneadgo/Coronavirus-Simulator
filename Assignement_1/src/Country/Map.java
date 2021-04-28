@@ -4,9 +4,9 @@ import Location.*;
 
 public class Map {
 
-    private Settlement[] m_settlements;
+    private final Settlement[] m_settlements;
 
-    //Ctors
+    //C tors
     public Map(String[][] args){
         m_settlements = new Settlement[args.length];
         String[] arg;
@@ -34,6 +34,10 @@ public class Map {
         }
     }
 
+    public Settlement[] getM_settlements() {
+        return m_settlements;
+    }
+
     //toString
     @Override
     public String toString() {
@@ -53,7 +57,5 @@ public class Map {
         for(Settlement settlement: m_settlements)
              settlement.contagionSimulation();
     }
-
-    
 
 }
