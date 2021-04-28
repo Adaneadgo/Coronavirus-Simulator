@@ -21,10 +21,9 @@ public abstract class Settlement {
     private List<Person> SicksArray = new ArrayList<Person>();
     private List<Person> notSicksArray = new ArrayList<Person>();
 
-    //ctors
+    //C tors
     public Settlement() {}
-    public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor)
-    {
+    public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor) {
 
         // we use class Random for age
         Random xrand = new Random(); Random yrand = new Random();
@@ -51,11 +50,15 @@ public abstract class Settlement {
         m_ramzorColor = ramzorColor;
         limitNumOfPeople = (int)(1.3 * peopleNum);
     }
-    public Settlement(Settlement other) { m_name = other.m_name; m_location = new Location(other.m_location); people = other.people; m_ramzorColor = other.m_ramzorColor; }
 
     //toString
     public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nnum of Pepole: "+ people.size()+", contagious Percent: " + contagiousPercent()*100+"%.\n"; }
-    
+
+    //Statistics
+    public String getStatisticsCSV(){
+        return m_name + "," + people.size() + "," + m_ramzorColor;
+    }
+
     //method
     public abstract RamzorColor calculateRamzorGrade();
     public double contagiousPercent(){
@@ -129,7 +132,6 @@ public abstract class Settlement {
         this.m_ramzorColor = calculateRamzorGrade();
 
     }
-    
     public void contagionSimulation(){
         // all variable needed for method
         Sick sick = (Sick) people.get(0);

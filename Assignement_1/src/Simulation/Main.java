@@ -5,6 +5,7 @@ package Simulation;
 
 import Country.RamzorColor;
 import IO.SimulationFile;
+import IO.StatisticsFile;
 import UI.MainWin;
 
 import java.awt.*;
@@ -23,6 +24,9 @@ public class Main {
             mySimulation.simulateSimulation();
 
         System.out.println(mySimulation);
+
+        StatisticsFile s = new StatisticsFile(mySimulation);
+        s.updateCSV();
 
     }
 
