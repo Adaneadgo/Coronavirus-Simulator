@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class StatisticsFile {
 
-    private SimulationFile simulationFile;
+    private final SimulationFile simulationFile;
     PrintWriter pw;
 
     public StatisticsFile(SimulationFile simulationFile){

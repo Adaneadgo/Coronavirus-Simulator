@@ -3,8 +3,12 @@ package Virus;
 import Population.Person;
 import Population.Sick;
 
+import java.util.List;
+
 
 public class SouthAfricanVariant implements IVirus{
+
+    List<IVirus> mutations;
 
     @Override
     public String toString() {return "South African Variant";}
