@@ -67,7 +67,7 @@ public abstract class Settlement {
         Calculates the percentage of sick people in the locality
          */
         int numSicks = SicksArray.size();
-        int numPeople = notSicksArray.size();
+        int numPeople = people.size();
 
         if(numSicks != 0 && numPeople != 0)
             return (float)numSicks / (float)numPeople;
@@ -82,7 +82,7 @@ public abstract class Settlement {
             return false;
 
         else {
-
+            person.setM_settlement(this);
             people.add(person);
             if(person instanceof Sick)
                 SicksArray.add(person);

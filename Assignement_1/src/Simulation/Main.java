@@ -18,6 +18,7 @@ public class Main {
         File file = loadFileFunc();
         SimulationFile mySimulation = new SimulationFile(file);
 
+
         mySimulation.loadSimulation();    // Step 1
         mySimulation.initialSimulation(); // Step 2
         for(int i = 0; i< 1000 ;i++)      // step 3

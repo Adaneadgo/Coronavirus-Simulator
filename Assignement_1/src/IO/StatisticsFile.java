@@ -17,10 +17,10 @@ public class StatisticsFile {
     public void updateCSV() throws FileNotFoundException {
 
         Settlement [] settlements = simulationFile.getM_map().getM_settlements();
-        pw = new PrintWriter("CSV.csv");
+        pw = new PrintWriter("statistics.csv");
         StringBuilder data = new StringBuilder();
 
-        data.append("Name,Number of People,Color\n");
+        data.append("Name,Number of People,Color");
         for(Settlement settlement: settlements)
             data.append(settlement.getStatisticsCSV()+ "\n");
 

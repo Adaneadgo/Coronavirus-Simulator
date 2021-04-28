@@ -25,6 +25,13 @@ public abstract class Person {
     public Location getLocation() { return m_location; }
     public Settlement getSettlement() { return m_settlement; }
 
+    //setters
+
+
+    public void setM_settlement(Settlement m_settlement) {
+        this.m_settlement = m_settlement;
+    }
+
     // tostring & equals
     @Override
     public String toString() {return "Age: " + m_age + ", Location: " + m_location;}
@@ -32,7 +39,7 @@ public abstract class Person {
 
     //Methods
     public abstract double contagionProbability();
-    public Person contagion(IVirus virus) { return new Sick(this, virus); }
+    public Person contagion(IVirus virus) { return new Sick(this, virus.mutant()); }
 
     //auxiliary
     public Point getPoint(){ return this.m_location.getPoint();}

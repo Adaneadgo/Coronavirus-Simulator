@@ -38,18 +38,30 @@ public final class SimulationFile {
 
         String data;
         List<String[]> args = new ArrayList<String[]>();
+        List<String> neighbours = new ArrayList<String>();
 
         //handle the reading part from the file
         while(sc.hasNextLine()){
             data = sc.nextLine();
-            data = data.replaceAll(" ", "");
-            args.add(data.split(";", 0));
+
+            if(data.charAt(0) == '#')
+                neighbours.add(data);
+
+            else{
+                data = data.replaceAll(" ", "");
+                args.add(data.split(";", 0));
+            }
+
         }
         sc.close();
 
+        args.add(neighbours.toArray(new String[0]));
         return args.toArray(new String[0][0]); // return Array type
 
     }
+
+
+
 
 
     

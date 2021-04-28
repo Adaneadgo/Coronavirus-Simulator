@@ -1,6 +1,7 @@
 package Virus;
 
 
+import java.util.List;
 import java.util.Random;
 
 import Population.Person;
@@ -13,8 +14,6 @@ import Simulation.Clock;
 public interface IVirus {
 
 
-
- 
     default public double contagionProbability(Person person)
     {
         /*
@@ -61,8 +60,12 @@ public interface IVirus {
         return rand.nextInt(100) < P * 100;
     }
 
-
+    // auxiliary
     public double variantContagionProbability(Person person);
     public double variantDeathProbability(Sick sick);
+
+    public IVirus mutant();
+
+
 
 }
