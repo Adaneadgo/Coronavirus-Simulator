@@ -3,11 +3,11 @@ package UI;
 import javax.swing.*;
 import java.awt.*;
 
-public class StatisticsWindow {
+public class StatisticsWin {
 
     private String[] columns = new String[]{"A","B","C","D","E"};
 
-    StatisticsWindow(){
+    StatisticsWin(){
         JFrame frame = new JFrame("Statistics");
         frame.setLayout(new BorderLayout(0,100));
 

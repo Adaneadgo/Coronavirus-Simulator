@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Map {
 
-    private  Settlement[] m_settlements;
+    private  final Settlement[] m_settlements;
 
     //C tors
     public Map(String[][] args){
@@ -81,19 +81,43 @@ public class Map {
     public void setNeighbours(String[] args){
 
         String[] tag = new String[2];
+
         for(Settlement settlement: m_settlements){
 
+            List<Settlement> neighbours = new ArrayList<>();
+
+
             for(String arg: args){
-                tag = arg.split()
+                tag = arg.substring(2).split(";",0);
+                Settlement neighbour = null;
+
+                if(tag[0].equals(settlement.getM_name()))
+                    neighbour = getSettlmentByName(tag[1]);
 
 
+                else if(tag[1].equals(settlement.getM_name()))
+                    neighbour = getSettlmentByName(tag[0]);
 
+                if(neighbour != null)
+                    neighbours.add(neighbour);
             }
+
+            if(neighbours.size() > 0)
+                settlement.setNeighbors(neighbours.toArray(new Settlement[0]));
 
         }
 
+    }
 
+    private Settlement getSettlmentByName(String name){
 
+        for(Settlement settlement: m_settlements){
+
+            if(settlement.getM_name().equals(name))
+                return settlement;
+        }
+
+        return null;
     }
 
 

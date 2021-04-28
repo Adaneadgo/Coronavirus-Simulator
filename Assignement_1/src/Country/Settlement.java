@@ -1,25 +1,28 @@
 package Country;
 
 import Location.*;
+import Location.Point;
 import Population.*;
 import Simulation.Clock;
 import Virus.*;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public abstract class Settlement {
 
     private String m_name;
     private Location m_location;
-    private List<Person> people = new ArrayList<Person>();
+    private final List<Person> people = new ArrayList<Person>();
     protected RamzorColor m_ramzorColor;
     protected double m_coefficient;
 
     private int limitNumOfPeople;
     private int amountOfVaccines = 0;
     private Settlement [] neighbors;
-    private List<Person> SicksArray = new ArrayList<Person>();
-    private List<Person> notSicksArray = new ArrayList<Person>();
+    private final List<Person> SicksArray = new ArrayList<Person>();
+    private final List<Person> notSicksArray = new ArrayList<Person>();
 
     //C tors
     public Settlement() {}
@@ -52,7 +55,35 @@ public abstract class Settlement {
     }
 
     //toString
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: " + m_ramzorColor + "\nnum of Pepole: "+ people.size()+", contagious Percent: " + contagiousPercent()*100+"%.\n"; }
+    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: "
+            + m_ramzorColor + "\nnum of Pepole: "+ people.size()+", contagious Percent: "
+            + contagiousPercent()*100+"%.\n" +"Neighbors: " + neighborsToString() +"\n";
+    }
+
+    private String neighborsToString(){
+
+        if(neighbors == null)
+            return "No neighbors";
+
+        StringBuilder str = new StringBuilder("");
+        for(Settlement neighbor: neighbors)
+            str.append(neighbor.getM_name() +", ");
+
+        return str.toString();
+    }
+
+    //getters
+    public String getM_name() {
+        return m_name;
+    }
+    public Settlement[] getNeighbors() { return neighbors; }
+    public Location getM_location() { return m_location; }
+    public Color getColor(){ return m_ramzorColor.getColor();}
+
+    //setters
+    public void setNeighbors(Settlement[] neighbors) {
+        this.neighbors = neighbors;
+    }
 
     //Statistics
     public String getStatisticsCSV(){

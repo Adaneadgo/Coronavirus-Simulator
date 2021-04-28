@@ -11,7 +11,7 @@ import IO.SimulationFile;
 public class MainWin {
 
     private SimulationFile simulationFile;
-    private JFrame frame;
+    private final JFrame frame;
 
     public MainWin() {
 
@@ -65,6 +65,9 @@ public class MainWin {
             public void actionPerformed(ActionEvent e) {
                 File file = loadFileFunc();
                 simulationFile = new SimulationFile(file);
+                try {
+                    simulationFile.loadSimulation();
+                } catch (Exception exception) { exception.printStackTrace(); }
                 frame.add(new MapWin(simulationFile.getM_map()), BorderLayout.CENTER);
             }
         });
@@ -75,7 +78,7 @@ public class MainWin {
         JMenuItem statistics = new JMenuItem("Statistics");
         statistics.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { new StatisticsWindow();}
+            public void actionPerformed(ActionEvent e) { new StatisticsWin();}
         });
         return statistics;
     }

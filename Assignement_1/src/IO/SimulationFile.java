@@ -21,9 +21,7 @@ public final class SimulationFile {
     @Override
     public String toString() { return "\nSimulation File path: " + m_file + m_map; }
 
-    public Map getM_map() {
-        return m_map;
-    }
+    public Map getM_map() { return m_map; }
 
     //Methods
     public void loadSimulation() throws Exception { m_map = new Map(readArgsFromFile());}
