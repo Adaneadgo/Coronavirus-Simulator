@@ -23,7 +23,7 @@ public class Vaccinated extends Person {
     @Override
     public double contagionProbability() {
         
-        long t = Clock.now() - m_vaccinationTime;
+        long t = Clock.daysPass(m_vaccinationTime);
 
         if( t < 21)
             return Math.min(1, 0.56 + 0.15* Math.sqrt(21 - t));

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import IO.SimulationFile;
+import IO.StatisticsFile;
 
 public class MainWin {
 
