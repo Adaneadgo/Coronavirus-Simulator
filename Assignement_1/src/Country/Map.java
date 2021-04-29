@@ -109,7 +109,7 @@ public class Map {
 
     }
 
-    private Settlement getSettlmentByName(String name){
+    public Settlement getSettlmentByName(String name){
 
         for(Settlement settlement: m_settlements){
 

@@ -95,15 +95,15 @@ public abstract class Settlement {
 
         String type = this.getClass().getSimpleName();
         String areaStr = String.valueOf(area);
-        String humansPerSquare = String.valueOf((float)total/area);
-        String density = String.valueOf((float)area/total);
+        String density = String.valueOf((float)total/area);
+        String areaPerHuman = String.valueOf((float)area/total);
         String coff = String.valueOf(m_coefficient);
         String tot = String.valueOf(total);
-        String sickPrec = String.valueOf(sicks/total);
+        String sickPrec = String.valueOf((float)sicks/total);
         String deaths = String.valueOf(numberOfDeaths);
 
         return new String[]{m_name,type, m_ramzorColor.toString(),areaStr,
-                humansPerSquare,density,coff,tot,sickPrec,deaths};
+                areaPerHuman,density,coff,tot,sickPrec,deaths};
     }
 
 

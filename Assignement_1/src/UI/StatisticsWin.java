@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +25,11 @@ import java.util.Scanner;
 public class StatisticsWin {
 
     private final SimulationFile simulationFile;
-    private JFrame frame;
+    private final JFrame frame;
     private JTable table;
-    private TableColumn filteredColumn;
-    private TableRowSorter rowSorter;
+    private TableColumn selectedColumn = null;
+    private int selectedRow;
+    private TableRowSorter<TableModel> rowSorter;
 
     StatisticsWin(SimulationFile simulationFile) {
         this.simulationFile = simulationFile;
@@ -56,7 +58,7 @@ public class StatisticsWin {
 
     private JComboBox<String> comboBox(){
 
-        String[] options = new String[]{"Area","Humans/Area","Density","Coefficient"};
+        String[] options = new String[]{"None","Name","Type","Color"};
         JComboBox<String> comboBox = new JComboBox<String>(options);
         comboBox.addActionListener(new ActionListener() {
             @Override
@@ -66,17 +68,18 @@ public class StatisticsWin {
                     return;
 
                 switch (selectedItem){
-                    case "Area":
-                        columnsFilter(3);
+                    case "Name":
+                        selectedColumn = table.getColumnModel().getColumn(0);
                         break;
-                    case "Humans/Area":
-                        columnsFilter(4);
+                    case "Type":
+                        selectedColumn = table.getColumnModel().getColumn(1);
                         break;
-                    case "Density":
-                        columnsFilter(5);
+                    case "Color":
+                        selectedColumn = table.getColumnModel().getColumn(2);
                         break;
-                    case "Coefficient":
-                        columnsFilter(6);
+                    case "None":
+                        selectedColumn = null;
+                        rowSorter.setRowFilter(RowFilter.regexFilter(""));
                         break;
                 }
 
@@ -91,6 +94,7 @@ public class StatisticsWin {
 
         JTextField textField = new JTextField("Put Text here");
         textField.getDocument().addDocumentListener(new DocumentListener() {
+
             private void newText(){
                 String text = textField.getText();
                 rowSorter.setRowFilter(RowFilter.regexFilter(text));
@@ -136,30 +140,33 @@ public class StatisticsWin {
     }
 
     private JButton addSick(){
-        return new JButton("Add Sick");
+        JButton button = new JButton("Add Sicks");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(table.getSelectedRow() <= -1) {
+                    JOptionPane.showMessageDialog(null, "Select Row!");
+                    return;
+                }
+                    String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    simulationFile.getM_map().getSettlmentByName(name).setSickPeopleSimulation();
+                }
+
+        });
+        return  button;
     }
 
     private JButton vaccinate(){
         return new JButton("vaccinate");
     }
 
-    private List<String[]> ReadCSV() throws FileNotFoundException {
-
-        List<String[]> args = new ArrayList<String[]>();
-        Scanner csvReader = new Scanner(new File("statistics.csv"));
-
-        while(csvReader.hasNextLine()) {
-            args.add(csvReader.nextLine().split(","));
-        }
-
-        return args;
-    }
 
     private JScrollPane TableMaker(){
 
         Settlement[] settlements = simulationFile.getM_map().getM_settlements();
 
-        String [] columns = new String[]{"Name","Type","Color","Area","Humans/Area","Density",
+        String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Density",
                 "Coefficient", "Number of People","Percentage of infected","number of deaths"};
 
         List<String[]> data = new ArrayList<String[]>();
@@ -172,30 +179,17 @@ public class StatisticsWin {
         rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
 
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                System.out.println(table.getSelectedRow());
-
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+               selectedRow = table.getSelectedRow();
             }
         });
-
 
 
         return new JScrollPane(table);
     }
 
-    private void columnsFilter(int index){
 
-        if(filteredColumn != null) {
-            table.addColumn(filteredColumn);
-            table.moveColumn(table.getColumnCount() -1,filteredColumn.getModelIndex());
-        }
-
-        filteredColumn = table.getColumnModel().getColumn(index);
-        table.removeColumn(filteredColumn);
-
-    }
 
 
 

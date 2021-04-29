@@ -21,6 +21,10 @@ public class StatisticsFile {
         Settlement [] settlements = simulationFile.getM_map().getM_settlements();
         PrintWriter pw = new PrintWriter(path + ".csv");
 
+        String columns = "Name,Type,Color,Area,Area per Person,Density,Coefficient," +
+                "Number of People,Percentage of infected,number of deaths\n";
+        pw.write(columns);
+
         for(Settlement settlement: settlements) {
 
             StringBuilder row = new StringBuilder();
