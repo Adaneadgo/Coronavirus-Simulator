@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class MapWin extends JPanel {
 
-    private Map map;
+    private final Map map;
 
     public MapWin(Map map){
         this.map = map;
@@ -21,12 +21,10 @@ public class MapWin extends JPanel {
         RECTS(g);
 
 
-
-
-
     }
 
     private void LINES(Graphics g){
+
         //Lines
         Settlement[] settlements = map.getM_settlements();
         int x1,y1,x2,y2;
@@ -52,6 +50,7 @@ public class MapWin extends JPanel {
 
     }
     private  void RECTS(Graphics g){
+
         Settlement [] settlements = map.getM_settlements();
         int x,y,w,h;
         for(Settlement settlement: settlements){
@@ -61,9 +60,9 @@ public class MapWin extends JPanel {
             h = settlement.getM_location().getSize().getHeight();
             g.setColor(settlement.getColor());
             g.fillRect(x,y,w,h);
+
             g.setColor(Color.BLACK);
             g.drawString(settlement.getM_name(),x ,y+ h/2 );
-
 
         }
     }

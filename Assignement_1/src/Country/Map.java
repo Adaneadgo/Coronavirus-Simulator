@@ -84,18 +84,18 @@ public class Map {
 
         for(Settlement settlement: m_settlements){
 
-            List<Settlement> neighbours = new ArrayList<>();
-
+            List<Settlement> neighbours = new ArrayList<Settlement>();
+            String currName = settlement.getM_name();
 
             for(String arg: args){
                 tag = arg.substring(2).split(";",0);
                 Settlement neighbour = null;
 
-                if(tag[0].equals(settlement.getM_name()))
+                if(tag[0].equals(currName))
                     neighbour = getSettlmentByName(tag[1]);
 
 
-                else if(tag[1].equals(settlement.getM_name()))
+                else if(tag[1].equals(currName))
                     neighbour = getSettlmentByName(tag[0]);
 
                 if(neighbour != null)

@@ -1,18 +1,20 @@
-City ; Ashdod ; 10;10 ; 100;100 ; 1000
-City ; Beer-Sheva ; 300;300 ; 100;100; 1000
-City ; Tel-Aviv ; 600;400 ; 100;100 ; 1000
+City ; Ashdod ; 110;30 ; 100;100 ; 1000
+City ; Beer-Sheva ; 400;300 ; 100;100; 1000
+City ; Tel-Aviv ; 700;400 ; 100;100 ; 1000
+City ; Jerusalem ; 950;200 ; 200;200 ; 1500
 #;Ashdod;Beer-Sheva
 #;Beer-Sheva;Tel-Aviv
 #;Tel-Aviv;Haifa
-Moshav ; Gevim ; 50;200 ; 80;80 ; 500
-Moshav ; Nir-Galim ; 100;350 ; 80;80 ; 500
-Moshav ; Shtulim ; 300;500 ; 80;80 ; 500
+#;Jerusalem;Nitzanim
+Moshav ; Gevim ; 150;200 ; 80;80 ; 500
+Moshav ; Nir-Galim ; 200;350 ; 80;80 ; 500
+Moshav ; Shtulim ; 400;500 ; 80;80 ; 500
 #;Ashdod;Gevim
 #;Beer-Sheva;Nir-Galim
 #;Tel-Aviv;Shtulim
-Moshav ; Ein-Gedi ; 200;50 ; 60;60 ; 200
-Moshav ; Yotvata ; 400;100 ; 60;60 ; 200
-Moshav ; Nitzanim ; 600;100 ; 60;60 ; 200
+Moshav ; Ein-Gedi ; 300;50 ; 60;60 ; 200
+Moshav ; Yotvata ; 500;100 ; 60;60 ; 200
+Moshav ; Nitzanim ; 700;100 ; 60;60 ; 200
 #;Ashdod;Ein-Gedi
 #;Beer-Sheva;Yotvata
 #;Tel-Aviv;Nitzanim
