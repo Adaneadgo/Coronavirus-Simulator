@@ -1,18 +1,18 @@
-City ; Ashdod ; 0 ; 0 ; 90  ; 50 ; 100
-City; Beer-Sheva; 100;100 ;80 ;80; 100
-Moshav; Gevim; 200; 200;80 ;80; 100
-City ; TLV ; 20 ; 300 ; 90  ; 50 ; 100
-City; NY; 500;600 ;80 ;80; 100
-Moshav; SCE; 600; 500;80 ;80; 100
-City ; BULBUL ; 700 ; 70 ; 90  ; 50 ; 100
-City; SNOOP-DOGG; 700;100 ;80 ;80; 100
-Moshav; MARS; 100; 70;80 ;80; 100
+City ; Ashdod ; 10;10 ; 100;100 ; 1000
+City ; Beer-Sheva ; 300;300 ; 100;100; 1000
+City ; Tel-Aviv ; 600;400 ; 100;100 ; 1000
 #;Ashdod;Beer-Sheva
-#;Beer-Sheva;Gevims
-#;Gevim;TLV
-#;TLV;NY
-#;NY;SCE
-#;SCE;BULBUL
-#;BULBUL;SNOOP-DOG
-#;SNOOP-DOG;MARS
-#;MARS;Ashdod
+#;Beer-Sheva;Tel-Aviv
+#;Tel-Aviv;Haifa
+Moshav ; Gevim ; 50;200 ; 80;80 ; 500
+Moshav ; Nir-Galim ; 100;350 ; 80;80 ; 500
+Moshav ; Shtulim ; 300;500 ; 80;80 ; 500
+#;Ashdod;Gevim
+#;Beer-Sheva;Nir-Galim
+#;Tel-Aviv;Shtulim
+Moshav ; Ein-Gedi ; 200;50 ; 60;60 ; 200
+Moshav ; Yotvata ; 400;100 ; 60;60 ; 200
+Moshav ; Nitzanim ; 600;100 ; 60;60 ; 200
+#;Ashdod;Ein-Gedi
+#;Beer-Sheva;Yotvata
+#;Tel-Aviv;Nitzanim

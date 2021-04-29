@@ -64,6 +64,7 @@ public class MapWin extends JPanel {
             g.setColor(Color.BLACK);
             g.drawString(settlement.getM_name(),x ,y+ h/2 );
 
+
         }
     }
 
