@@ -12,9 +12,9 @@ Moshav ; Shtulim ; 400;500 ; 80;80 ; 500
 #;Ashdod;Gevim
 #;Beer-Sheva;Nir-Galim
 #;Tel-Aviv;Shtulim
-Moshav ; Ein-Gedi ; 300;50 ; 60;60 ; 200
-Moshav ; Yotvata ; 500;100 ; 60;60 ; 200
-Moshav ; Nitzanim ; 700;100 ; 60;60 ; 200
+Kibbutz ; Ein-Gedi ; 300;50 ; 60;60 ; 200
+Kibbutz ; Yotvata ; 500;100 ; 60;60 ; 200
+Kibbutz ; Nitzanim ; 700;100 ; 60;60 ; 200
 #;Ashdod;Ein-Gedi
 #;Beer-Sheva;Yotvata
 #;Tel-Aviv;Nitzanim

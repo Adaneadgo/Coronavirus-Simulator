@@ -1,4 +1,4 @@
-Name,Type,Color,Area,Human per Unit(Humans/Area),Density,Coefficient,Number of People,Total Positive Cases
+Name,Type,Color,Area,Humans/Area,Density,Coefficient,Number of People,Total Positive Cases
 Ashdod,City,Green,10000,10.0,0.1,0.0,1000,0
 Beer-Sheva,City,Green,10000,10.0,0.1,0.0,1000,0
 Tel-Aviv,City,Green,10000,10.0,0.1,0.0,1000,0
@@ -6,6 +6,6 @@ Jerusalem,City,Green,40000,26.666666,0.0375,0.0,1500,0
 Gevim,Moshav,Green,6400,12.8,0.078125,0.0,500,0
 Nir-Galim,Moshav,Green,6400,12.8,0.078125,0.0,500,0
 Shtulim,Moshav,Green,6400,12.8,0.078125,0.0,500,0
-Ein-Gedi,Moshav,Green,3600,18.0,0.055555556,0.0,200,0
-Yotvata,Moshav,Green,3600,18.0,0.055555556,0.0,200,0
-Nitzanim,Moshav,Green,3600,18.0,0.055555556,0.0,200,0
+Ein-Gedi,Kibbutz,Green,3600,18.0,0.055555556,0.0,200,0
+Yotvata,Kibbutz,Green,3600,18.0,0.055555556,0.0,200,0
+Nitzanim,Kibbutz,Green,3600,18.0,0.055555556,0.0,200,0

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import IO.SimulationFile;
 import IO.StatisticsFile;
@@ -12,6 +13,7 @@ import IO.StatisticsFile;
 public class MainWin {
 
     private SimulationFile simulationFile;
+    private StatisticsFile statisticsFile;
     private final JFrame frame;
 
     public MainWin() {
@@ -69,7 +71,9 @@ public class MainWin {
                 try {
                     simulationFile.loadSimulation();
                 } catch (Exception exception) { exception.printStackTrace(); }
+
                 frame.add(new MapWin(simulationFile.getM_map()), BorderLayout.CENTER);
+                statisticsFile = new StatisticsFile(simulationFile);
             }
         });
 
@@ -79,7 +83,20 @@ public class MainWin {
         JMenuItem statistics = new JMenuItem("Statistics");
         statistics.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { new StatisticsWin();}
+            public void actionPerformed(ActionEvent e) {
+                if(statisticsFile == null) {
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+
+
+                try {
+                    statisticsFile.updateCSV();
+                    new StatisticsWin();
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+            }
         });
         return statistics;
     }
