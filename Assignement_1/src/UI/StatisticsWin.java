@@ -1,7 +1,11 @@
 package UI;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +19,7 @@ public class StatisticsWin {
 
     private JTable table;
     private TableColumn filteredColumn;
-
+    private TableRowSorter rowSorter;
 
     StatisticsWin() throws FileNotFoundException {
         ReadCSV();
@@ -76,7 +80,23 @@ public class StatisticsWin {
     }
 
     private JTextField textField(){
-        return new JTextField("put your regex here");
+
+        JTextField textField = new JTextField("Put Text here");
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            private void newText(){
+                String text = textField.getText();
+                rowSorter.setRowFilter(RowFilter.regexFilter(text));
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) { newText();}
+            @Override
+            public void removeUpdate(DocumentEvent e) { newText(); }
+            @Override
+            public void changedUpdate(DocumentEvent e) { newText(); }
+        });
+
+        return textField;
     }
 
 
@@ -115,6 +135,8 @@ public class StatisticsWin {
 
         table = new JTable(data,columns);
         table.getTableHeader().setReorderingAllowed(false);
+        rowSorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(rowSorter);
         return new JScrollPane(table);
     }
 

@@ -20,7 +20,7 @@ public class StatisticsFile {
         pw = new PrintWriter("statistics.csv");
         StringBuilder data = new StringBuilder();
 
-        data.append("Name,Type,Color,Area,Humans/Area,Density,Coefficient,Number of People,Total Positive Cases\n");
+        data.append("Name,Type,Color,Area,Humans/Area,Density,Coefficient,Number of People,Percentage of infected,number of deaths \n");
         for(Settlement settlement: settlements)
             data.append(settlement.getStatisticsCSV()+ "\n");
 

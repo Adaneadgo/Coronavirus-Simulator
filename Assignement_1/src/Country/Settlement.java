@@ -23,6 +23,7 @@ public abstract class Settlement {
     private Settlement [] neighbors;
     private final List<Person> SicksArray = new ArrayList<Person>();
     private final List<Person> notSicksArray = new ArrayList<Person>();
+    private int numberOfDeaths = 0;
 
     //C tors
     public Settlement() {}
@@ -87,10 +88,15 @@ public abstract class Settlement {
 
     //Statistics
     public String getStatisticsCSV(){
+
+        String type = this.getClass().getSimpleName();
         int area = m_location.getSize().getHeight() * m_location.getSize().getWidth();
         float human_per_square =  area/(float)people.size();
         float density = 1/human_per_square;
-        return m_name + "," + this.getClass().getSimpleName() + "," + m_ramzorColor + "," + area  +"," +  human_per_square + "," + density +","+ m_coefficient + "," + people.size() + "," + SicksArray.size() ;
+        float sicksPercents = (float)SicksArray.size()/people.size();
+
+        return m_name + "," + type + "," + m_ramzorColor + "," + area  +"," +  human_per_square + ","
+                + density +","+ m_coefficient + "," + people.size() + "," + sicksPercents +"," + numberOfDeaths ;
     }
 
     //method
