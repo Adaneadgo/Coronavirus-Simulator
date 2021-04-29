@@ -2,31 +2,45 @@ package IO;
 
 import Country.Settlement;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class StatisticsFile {
 
-    private final SimulationFile simulationFile;
-    PrintWriter pw;
+    SimulationFile simulationFile;
 
-    public StatisticsFile(SimulationFile simulationFile){
+    public StatisticsFile(SimulationFile simulationFile) {
         this.simulationFile = simulationFile;
     }
 
-    public void updateCSV() throws FileNotFoundException {
+    public void CreatCsvFile(String path) throws FileNotFoundException {
 
         Settlement [] settlements = simulationFile.getM_map().getM_settlements();
-        pw = new PrintWriter("statistics.csv");
-        StringBuilder data = new StringBuilder();
+        PrintWriter pw = new PrintWriter(path + ".csv");
 
-        data.append("Name,Type,Color,Area,Humans/Area,Density,Coefficient,Number of People,Percentage of infected,number of deaths \n");
-        for(Settlement settlement: settlements)
-            data.append(settlement.getStatisticsCSV()+ "\n");
+        for(Settlement settlement: settlements) {
 
-        pw.write(data.toString());
+            StringBuilder row = new StringBuilder();
+
+            for(String item: settlement.getStatistics()){
+                row.append(item +",");
+            }
+            row.append("\n");
+            pw.write(row.toString());
+
+        }
+
         pw.close();
 
-
     }
+
 }
+
+
+
+
+
+

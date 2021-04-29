@@ -87,17 +87,25 @@ public abstract class Settlement {
     }
 
     //Statistics
-    public String getStatisticsCSV(){
+    public String[] getStatistics(){
+
+        int area = m_location.getSize().getHeight()*m_location.getSize().getWidth();
+        int total = people.size();
+        int sicks = SicksArray.size();
 
         String type = this.getClass().getSimpleName();
-        int area = m_location.getSize().getHeight() * m_location.getSize().getWidth();
-        float human_per_square =  area/(float)people.size();
-        float density = 1/human_per_square;
-        float sicksPercents = (float)SicksArray.size()/people.size();
+        String areaStr = String.valueOf(area);
+        String humansPerSquare = String.valueOf((float)total/area);
+        String density = String.valueOf((float)area/total);
+        String coff = String.valueOf(m_coefficient);
+        String tot = String.valueOf(total);
+        String sickPrec = String.valueOf(sicks/total);
+        String deaths = String.valueOf(numberOfDeaths);
 
-        return m_name + "," + type + "," + m_ramzorColor + "," + area  +"," +  human_per_square + ","
-                + density +","+ m_coefficient + "," + people.size() + "," + sicksPercents +"," + numberOfDeaths ;
+        return new String[]{m_name,type, m_ramzorColor.toString(),areaStr,
+                humansPerSquare,density,coff,tot,sickPrec,deaths};
     }
+
 
     //method
     public abstract RamzorColor calculateRamzorGrade();

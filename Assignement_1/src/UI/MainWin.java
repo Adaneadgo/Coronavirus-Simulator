@@ -13,7 +13,7 @@ import IO.StatisticsFile;
 public class MainWin {
 
     private SimulationFile simulationFile;
-    private StatisticsFile statisticsFile;
+    private boolean flag = false;
     private final JFrame frame;
 
     public MainWin() {
@@ -71,9 +71,9 @@ public class MainWin {
                 try {
                     simulationFile.loadSimulation();
                 } catch (Exception exception) { exception.printStackTrace(); }
-
+                flag = true;
                 frame.add(new MapWin(simulationFile.getM_map()), BorderLayout.CENTER);
-                statisticsFile = new StatisticsFile(simulationFile);
+
             }
         });
 
@@ -84,18 +84,11 @@ public class MainWin {
         statistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(statisticsFile == null) {
+                if(!flag) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-
-
-                try {
-                    statisticsFile.updateCSV();
-                    new StatisticsWin();
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
+                    new StatisticsWin(simulationFile);
             }
         });
         return statistics;

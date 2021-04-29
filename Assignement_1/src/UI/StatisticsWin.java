@@ -1,8 +1,14 @@
 package UI;
 
+import Country.Settlement;
+import IO.SimulationFile;
+import IO.StatisticsFile;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -17,21 +23,23 @@ import java.util.Scanner;
 
 public class StatisticsWin {
 
+    private final SimulationFile simulationFile;
+    private JFrame frame;
     private JTable table;
     private TableColumn filteredColumn;
     private TableRowSorter rowSorter;
 
-    StatisticsWin() throws FileNotFoundException {
-        ReadCSV();
+    StatisticsWin(SimulationFile simulationFile) {
+        this.simulationFile = simulationFile;
 
-        JFrame frame = new JFrame("Statistics");
+        frame = new JFrame("Statistics");
         frame.setLayout(new BorderLayout(0,100));
 
         JPanel upPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
         upPanel.add(comboBox());
         upPanel.add(textField());
         frame.add(upPanel, BorderLayout.NORTH);
-        frame.add(Table(), BorderLayout.CENTER);
+        frame.add(TableMaker(), BorderLayout.CENTER);
 
         JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
 
@@ -102,7 +110,29 @@ public class StatisticsWin {
 
 
     private JButton save(){
-        return new JButton("Save");
+        JButton button = new JButton("Save");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel label = new JLabel();
+
+                    JFileChooser fileChooser = new JFileChooser();
+                    int option = fileChooser.showSaveDialog(frame);
+                    if(option == JFileChooser.APPROVE_OPTION){
+                        File file = fileChooser.getSelectedFile();
+                        try {
+                            new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
+                        } catch (FileNotFoundException fileNotFoundException) {
+                            fileNotFoundException.printStackTrace();
+                        }
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Save Canceled!");
+                    }
+            }
+        });
+
+        return  button;
     }
 
     private JButton addSick(){
@@ -125,18 +155,33 @@ public class StatisticsWin {
         return args;
     }
 
-    private JScrollPane Table() throws FileNotFoundException {
+    private JScrollPane TableMaker(){
 
-        List<String[]> args = ReadCSV();
+        Settlement[] settlements = simulationFile.getM_map().getM_settlements();
 
-        String[] columns = args.get(0);
-        args.remove(0);
-        String[][] data = args.toArray(new String[0][0]);
+        String [] columns = new String[]{"Name","Type","Color","Area","Humans/Area","Density",
+                "Coefficient", "Number of People","Percentage of infected","number of deaths"};
 
-        table = new JTable(data,columns);
+        List<String[]> data = new ArrayList<String[]>();
+        for(Settlement settlement: settlements){
+            data.add(settlement.getStatistics());
+        }
+
+        table = new JTable(data.toArray(new String[0][0]),columns);
         table.getTableHeader().setReorderingAllowed(false);
         rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
+
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                System.out.println(table.getSelectedRow());
+
+            }
+        });
+
+
+
         return new JScrollPane(table);
     }
 
