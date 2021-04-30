@@ -28,7 +28,6 @@ public class StatisticsWin {
     private final JFrame frame;
     private JTable table;
     private TableColumn selectedColumn = null;
-    private int selectedRow;
     private TableRowSorter<TableModel> rowSorter;
 
     StatisticsWin(SimulationFile simulationFile) {
@@ -41,17 +40,17 @@ public class StatisticsWin {
         upPanel.add(comboBox());
         upPanel.add(textField());
         frame.add(upPanel, BorderLayout.NORTH);
+
         frame.add(TableMaker(), BorderLayout.CENTER);
 
         JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
-
         dwPanel.add(save());
         dwPanel.add(addSick());
         dwPanel.add(vaccinate());
         frame.add(dwPanel, BorderLayout.SOUTH);
 
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
 
     }
@@ -167,22 +166,25 @@ public class StatisticsWin {
         Settlement[] settlements = simulationFile.getM_map().getM_settlements();
 
         String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Density",
-                "Coefficient", "Number of People","Percentage of infected","number of deaths"};
+                "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
 
         List<String[]> data = new ArrayList<String[]>();
         for(Settlement settlement: settlements){
             data.add(settlement.getStatistics());
         }
 
-        table = new JTable(data.toArray(new String[0][0]),columns);
+        table = new JTable(data.toArray(new String[0][0]),columns){
+
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+
         table.getTableHeader().setReorderingAllowed(false);
         rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
-
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event) {
-               selectedRow = table.getSelectedRow();
-            }
+            public void valueChanged(ListSelectionEvent event){}
         });
 
 

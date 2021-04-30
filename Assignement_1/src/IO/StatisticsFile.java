@@ -22,7 +22,7 @@ public class StatisticsFile {
         PrintWriter pw = new PrintWriter(path + ".csv");
 
         String columns = "Name,Type,Color,Area,Area per Person,Density,Coefficient," +
-                "Number of People,Percentage of infected,number of deaths\n";
+                "Number of People,Number of Sicks People,Percentage of infected,number of deaths\n";
         pw.write(columns);
 
         for(Settlement settlement: settlements) {

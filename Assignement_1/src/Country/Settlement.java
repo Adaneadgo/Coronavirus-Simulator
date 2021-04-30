@@ -99,11 +99,12 @@ public abstract class Settlement {
         String areaPerHuman = String.valueOf((float)area/total);
         String coff = String.valueOf(m_coefficient);
         String tot = String.valueOf(total);
+        String SicksS = String.valueOf(sicks);
         String sickPrec = String.valueOf((float)sicks/total);
         String deaths = String.valueOf(numberOfDeaths);
 
         return new String[]{m_name,type, m_ramzorColor.toString(),areaStr,
-                areaPerHuman,density,coff,tot,sickPrec,deaths};
+                areaPerHuman,density,coff,tot,SicksS,sickPrec,deaths};
     }
 
 
@@ -170,9 +171,20 @@ public abstract class Settlement {
         IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
 
         //contagious
-        for(int i = 0; i < (int)(people.size() / 100); i++){
+        int counter = (int)(people.size()/100);
+        int total = people.size();
+
+        for(int i = 0; i < total; i = i + 1 ){
+
+            if(people.get(i) instanceof Sick)
+                continue;
+
             people.set(i, people.get(i).contagion(viruses[i % 3]));
             SicksArray.add(people.get(i));
+            counter --;
+
+            if(counter == 0)
+                break;
 
         }
 
