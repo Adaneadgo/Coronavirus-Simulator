@@ -1,37 +1,56 @@
 package UI;
 
+import Virus.BritishVariant;
+import Virus.ChineseVariant;
+import Virus.IVirus;
+import Virus.SouthAfricanVariant;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class EditMutationsWin {
-    EditMutationsWin() {
-        JFrame frame = new JFrame(" Edit Mutations");
-        frame.setLayout(new BorderLayout());
-        frame.add(table(), BorderLayout.CENTER);
 
+    IVirus [] Variants;
+
+    EditMutationsWin(JFrame parent) {
+
+        Variants = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(),
+                SouthAfricanVariant.getInstance()};
+
+        final JDialog frame = new JDialog(parent, "EditMutationsWin",true);
+        frame.getContentPane().add(table());
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
 
     }
 
     private RowedTableScroll table() {
 
-        String[] columns = {"A", "B", "C", "D", "p"};
-        String[][] data = {{"1", "2", "3", "4", "0"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"},
-                {"6", "7", "8", "9", "1"}};
+        String[] variantsNames = {"ChineseVariant", "BritishVariant", "SouthAfricanVariant"};
 
-        JTable table = new JTable(data, columns);
+        String[][] data = new String[3][3];
+
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                data[i][j] = String.valueOf(Variants[i].containMutation(Variants[j]));
+            }
+        }
+
+
+        JTable table = new JTable(data, variantsNames);
+
+        DefaultTableModel model = new DefaultTableModel( )
+        {
+            @Override
+            public Class getColumnClass(int column)
+            {
+                return  Boolean.class;
+            }
+        };
+
         table.setPreferredScrollableViewportSize(new Dimension(500, 50));
         table.setFillsViewportHeight(true);
-        return new RowedTableScroll(table, new String[]{"ma", "kore", "po", "cosemek"});
+        return new RowedTableScroll(table, variantsNames);
     }
 }

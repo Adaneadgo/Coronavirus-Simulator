@@ -11,12 +11,21 @@ import java.util.Random;
 
  public class BritishVariant implements IVirus{
 
+     private static BritishVariant instance;
      private List<IVirus> mutations;
 
-     public BritishVariant(){
+
+     private BritishVariant(){
          mutations = new ArrayList<IVirus>();
          mutations.add(this);
      }
+
+     public static BritishVariant getInstance(){
+         if(instance == null)
+             instance  = new BritishVariant();
+         return instance;
+     }
+
 
     @Override
     public String toString() { return "British Variant"; }
@@ -35,8 +44,24 @@ import java.util.Random;
             return 0.1;
     }
 
+     public void addMutation(IVirus virus) {
+         this.mutations.add(virus);
+     }
+
+     public void removeMutation(IVirus virus) {
+         if (this.mutations.contains(virus))
+             mutations.remove(virus);
+     }
+
+     public boolean containMutation(IVirus virus){
+         return mutations.contains(virus);
+     }
+
      @Override
      public IVirus mutant() {
+         if(mutations.size() == 0)
+             return null;
+
          Random rand = new Random();
          int index = rand.nextInt(mutations.size());
          return mutations.get(index);

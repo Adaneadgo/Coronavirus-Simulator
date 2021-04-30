@@ -28,6 +28,7 @@ public class StatisticsWin {
     private final JFrame frame;
     private JTable table;
     private TableColumn selectedColumn = null;
+    private int selectedRow = -1;
     private TableRowSorter<TableModel> rowSorter;
 
     StatisticsWin(SimulationFile simulationFile) {
@@ -41,7 +42,7 @@ public class StatisticsWin {
         upPanel.add(textField());
         frame.add(upPanel, BorderLayout.NORTH);
 
-        frame.add(TableMaker(), BorderLayout.CENTER);
+        frame.add(TableMaker(),BorderLayout.CENTER);
 
         JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
         dwPanel.add(save());
@@ -144,20 +145,50 @@ public class StatisticsWin {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(table.getSelectedRow() <= -1) {
+                if(selectedRow <= -1) {
                     JOptionPane.showMessageDialog(null, "Select Row!");
                     return;
                 }
-                    String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    String name = table.getValueAt(selectedRow, 0).toString();
                     simulationFile.getM_map().getSettlmentByName(name).setSickPeopleSimulation();
+                    updateRows();
                 }
 
         });
+
         return  button;
     }
 
     private JButton vaccinate(){
-        return new JButton("vaccinate");
+
+        JButton button = new JButton("vaccinate");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                final JDialog jDialog = new JDialog(frame, "EditMutationsWin",true);
+                JTextField textField = new JTextField();
+                jDialog.add(textField);
+
+                JButton button = new JButton("applay");
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String input = textField.getText();
+                       if(input.matches("\\d+")){
+
+                           String name = table.getValueAt(selectedRow, 0).toString();
+                           simulationFile.getM_map().getSettlmentByName(name).setAmountOfVaccines(Integer.parseInt(input));
+                           updateRows();
+                       }
+                    }
+                });
+
+                jDialog.pack();
+                jDialog.setVisible(true);
+            }
+        });
+        return button;
     }
 
 
@@ -165,13 +196,14 @@ public class StatisticsWin {
 
         Settlement[] settlements = simulationFile.getM_map().getM_settlements();
 
-        String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Density",
+        String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Amount of vaccines",
                 "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
 
         List<String[]> data = new ArrayList<String[]>();
         for(Settlement settlement: settlements){
             data.add(settlement.getStatistics());
         }
+
 
         table = new JTable(data.toArray(new String[0][0]),columns){
 
@@ -183,20 +215,34 @@ public class StatisticsWin {
         table.getTableHeader().setReorderingAllowed(false);
         rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            public void valueChanged(ListSelectionEvent event){}
-        });
 
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectedRow = table.getSelectedRow();
+            }
+        });
 
         return new JScrollPane(table);
     }
 
 
+    private void updateRows(){
 
+        Settlement[] settlements = simulationFile.getM_map().getM_settlements();
 
+        List<String[]> newData = new ArrayList<String[]>();
+        for(Settlement settlement: settlements){
+            newData.add(settlement.getStatistics());
+        }
 
-
-
+        for(int i =0; i<table.getRowCount(); i++){
+            String[] newRow = newData.get(i);
+            for(int j = 0; j<table.getColumnCount(); j++){
+                table.getModel().setValueAt(newRow[j],i,j);
+            }
+        }
+        table.repaint();
+    }
 
 
 

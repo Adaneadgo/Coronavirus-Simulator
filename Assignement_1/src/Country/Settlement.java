@@ -86,6 +86,10 @@ public abstract class Settlement {
         this.neighbors = neighbors;
     }
 
+    public void setAmountOfVaccines(int amountOfVaccines) {
+        this.amountOfVaccines = amountOfVaccines;
+    }
+
     //Statistics
     public String[] getStatistics(){
 
@@ -95,7 +99,7 @@ public abstract class Settlement {
 
         String type = this.getClass().getSimpleName();
         String areaStr = String.valueOf(area);
-        String density = String.valueOf((float)total/area);
+        String amountOfVaccinesStr = String.valueOf(amountOfVaccines);
         String areaPerHuman = String.valueOf((float)area/total);
         String coff = String.valueOf(m_coefficient);
         String tot = String.valueOf(total);
@@ -104,7 +108,7 @@ public abstract class Settlement {
         String deaths = String.valueOf(numberOfDeaths);
 
         return new String[]{m_name,type, m_ramzorColor.toString(),areaStr,
-                areaPerHuman,density,coff,tot,SicksS,sickPrec,deaths};
+                areaPerHuman,amountOfVaccinesStr,coff,tot,SicksS,sickPrec,deaths};
     }
 
 
@@ -168,7 +172,7 @@ public abstract class Settlement {
     public void setSickPeopleSimulation(){
 
         // Array that handle all type of Virus
-        IVirus[] viruses = { new ChineseVariant(), new BritishVariant(), new SouthAfricanVariant() };
+        IVirus[] viruses = { ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance() };
 
         //contagious
         int counter = (int)(people.size()/100);

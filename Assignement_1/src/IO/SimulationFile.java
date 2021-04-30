@@ -1,6 +1,7 @@
 package IO;
 
 import Country.Map;
+import Virus.ChineseVariant;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,9 +14,7 @@ public final class SimulationFile {
     private  Map m_map;
 
     //Ctor
-    public SimulationFile(File file) {
-        m_file = file;
-    }
+    public SimulationFile(File file) { m_file = file; }
 
     //ToString
     @Override

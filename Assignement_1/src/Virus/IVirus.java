@@ -65,7 +65,8 @@ public interface IVirus {
     public double variantDeathProbability(Sick sick);
 
     public IVirus mutant();
-
-
+    public void addMutation(IVirus virus);
+    public void removeMutation(IVirus virus);
+    public boolean containMutation(IVirus virus);
 
 }

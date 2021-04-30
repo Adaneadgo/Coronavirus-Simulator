@@ -98,7 +98,7 @@ public class MainWin {
         JMenuItem edit_mutation = new JMenuItem("Edit Mutation");
         edit_mutation.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { new EditMutationsWin();}
+            public void actionPerformed(ActionEvent e) { new EditMutationsWin(frame);}
         });
         return edit_mutation;
     }
