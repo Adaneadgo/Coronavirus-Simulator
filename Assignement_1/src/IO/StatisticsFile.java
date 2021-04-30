@@ -1,24 +1,22 @@
 package IO;
 
+import Country.Map;
 import Country.Settlement;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class StatisticsFile {
 
-    SimulationFile simulationFile;
+    private final Map map;
 
-    public StatisticsFile(SimulationFile simulationFile) {
-        this.simulationFile = simulationFile;
+    public StatisticsFile(Map map) {
+        this.map = map;
     }
 
     public void CreatCsvFile(String path) throws FileNotFoundException {
 
-        Settlement [] settlements = simulationFile.getM_map().getM_settlements();
+        Settlement [] settlements = map.getSettlements();
         PrintWriter pw = new PrintWriter(path + ".csv");
 
         String columns = "Name,Type,Color,Area,Area per Person,Amount of vaccines,Coefficient," +
@@ -30,7 +28,7 @@ public class StatisticsFile {
             StringBuilder row = new StringBuilder();
 
             for(String item: settlement.getStatistics()){
-                row.append(item +",");
+                row.append(item).append(",");
             }
             row.append("\n");
             pw.write(row.toString());

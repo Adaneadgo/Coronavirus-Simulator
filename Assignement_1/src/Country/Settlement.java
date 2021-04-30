@@ -3,7 +3,6 @@ package Country;
 import Location.*;
 import Location.Point;
 import Population.*;
-import Simulation.Clock;
 import Virus.*;
 
 import java.awt.*;
@@ -12,18 +11,18 @@ import java.util.List;
 
 public abstract class Settlement {
 
-    private String m_name;
-    private Location m_location;
+    private String name;
+    private Location location;
     private final List<Person> people = new ArrayList<Person>();
-    protected RamzorColor m_ramzorColor;
-    protected double m_coefficient;
+    protected RamzorColor ramzorColor;
+    protected double coefficient;
 
-    private int limitNumOfPeople;
-    private int amountOfVaccines = 0;
+    private int peopleLimit;
+    private int vaccinesNum = 0;
     private Settlement [] neighbors;
-    private final List<Person> SicksArray = new ArrayList<Person>();
+    private final List<Person> sicksArray = new ArrayList<Person>();
     private final List<Person> notSicksArray = new ArrayList<Person>();
-    private int numberOfDeaths = 0;
+    private int deathsNum = 0;
 
     //C tors
     public Settlement() {}
@@ -33,8 +32,8 @@ public abstract class Settlement {
         Random xrand = new Random(); Random yrand = new Random();
         int y; int x;
 
-        m_name = name;
-        m_location = new Location(location);
+        this.name = name;
+        this.location = new Location(location);
         int age;
         for(int i = 0; i < peopleNum; i++){
             
@@ -51,13 +50,13 @@ public abstract class Settlement {
             notSicksArray.add(newPerson);
         }
 
-        m_ramzorColor = ramzorColor;
-        limitNumOfPeople = (int)(1.3 * peopleNum);
+        this.ramzorColor = ramzorColor;
+        peopleLimit = (int)(1.3 * peopleNum);
     }
 
     //toString
-    public String toString() { return "Name: " + m_name + ", Location: " + m_location + ", Ramzor Color: "
-            + m_ramzorColor + "\nnum of Pepole: "+ people.size()+", contagious Percent: "
+    public String toString() { return "Name: " + name + ", Location: " + location + ", Ramzor Color: "
+            + ramzorColor + "\nnum of Pepole: "+ people.size()+", contagious Percent: "
             + contagiousPercent()*100+"%.\n" +"Neighbors: " + neighborsToString() +"\n";
     }
 
@@ -68,48 +67,46 @@ public abstract class Settlement {
 
         StringBuilder str = new StringBuilder("");
         for(Settlement neighbor: neighbors)
-            str.append(neighbor.getM_name() +", ");
+            str.append(neighbor.getName() +", ");
 
         return str.toString();
     }
 
     //getters
-    public String getM_name() {
-        return m_name;
+    public String getName() {
+        return name;
     }
     public Settlement[] getNeighbors() { return neighbors; }
-    public Location getM_location() { return m_location; }
-    public Color getColor(){ return m_ramzorColor.getColor();}
+    public Location getLocation() { return location; }
+    public Color getColor(){ return ramzorColor.getColor();}
 
     //setters
     public void setNeighbors(Settlement[] neighbors) {
         this.neighbors = neighbors;
     }
 
-    public void setAmountOfVaccines(int amountOfVaccines) {
-        this.amountOfVaccines = amountOfVaccines;
+    public void addVaccines(int amountOfVaccines) {
+        this.vaccinesNum += amountOfVaccines;
     }
 
     //Statistics
     public String[] getStatistics(){
 
-        int area = m_location.getSize().getHeight()*m_location.getSize().getWidth();
-        int total = people.size();
-        int sicks = SicksArray.size();
-
+        String ramzor = ramzorColor.toString();
         String type = this.getClass().getSimpleName();
-        String areaStr = String.valueOf(area);
-        String amountOfVaccinesStr = String.valueOf(amountOfVaccines);
-        String areaPerHuman = String.valueOf((float)area/total);
-        String coff = String.valueOf(m_coefficient);
-        String tot = String.valueOf(total);
-        String SicksS = String.valueOf(sicks);
-        String sickPrec = String.valueOf((float)sicks/total);
-        String deaths = String.valueOf(numberOfDeaths);
+        String area = String.valueOf(location.getArea());
+        String vaccines = String.valueOf(vaccinesNum);
+        String a_p_h = String.valueOf((float)location.getArea()/people.size());
+        String coff = String.valueOf(coefficient);
+        String t_num = String.valueOf(people.size());
+        String SicksS = String.valueOf(sicksArray.size());
+        String sickPre = String.valueOf((float)sicksArray.size()/people.size());
+        String deaths = String.valueOf(deathsNum);
 
-        return new String[]{m_name,type, m_ramzorColor.toString(),areaStr,
-                areaPerHuman,amountOfVaccinesStr,coff,tot,SicksS,sickPrec,deaths};
+        return new String[]{name,type, ramzor,area,a_p_h,vaccines,coff,t_num,SicksS,sickPre,deaths};
     }
+
+
 
 
     //method
@@ -119,7 +116,7 @@ public abstract class Settlement {
         /*
         Calculates the percentage of sick people in the locality
          */
-        int numSicks = SicksArray.size();
+        int numSicks = sicksArray.size();
         int numPeople = people.size();
 
         if(numSicks != 0 && numPeople != 0)
@@ -128,17 +125,17 @@ public abstract class Settlement {
         else
             return 0;
     }
-    public Point randomLocation(){ return m_location.getRandomPosition();}
+    public Point randomLocation(){ return location.getRandomPosition();}
     public boolean AddPerson(Person person){
 
-        if(people.size() >= limitNumOfPeople)
+        if(people.size() >= peopleLimit)
             return false;
 
         else {
             person.setM_settlement(this);
             people.add(person);
             if(person instanceof Sick)
-                SicksArray.add(person);
+                sicksArray.add(person);
             else
                 notSicksArray.add(person);
 
@@ -149,14 +146,14 @@ public abstract class Settlement {
     }
     public boolean transfertPerson(Person person, Settlement settlement){
 
-        double p = m_ramzorColor.getProbability() * settlement.m_ramzorColor.getProbability();
+        double p = ramzorColor.getProbability() * settlement.ramzorColor.getProbability();
         Random rand = new Random();
 
         if (rand.nextInt(100) < p * 100 && settlement.AddPerson(person)){
             people.remove(person);
 
             if(person instanceof Sick)
-                SicksArray.remove(person);
+                sicksArray.remove(person);
             else
                 notSicksArray.remove(person);
 
@@ -184,7 +181,7 @@ public abstract class Settlement {
                 continue;
 
             people.set(i, people.get(i).contagion(viruses[i % 3]));
-            SicksArray.add(people.get(i));
+            sicksArray.add(people.get(i));
             counter --;
 
             if(counter == 0)
@@ -193,7 +190,7 @@ public abstract class Settlement {
         }
 
         // re-calculate Ramzor Grade
-        this.m_ramzorColor = calculateRamzorGrade();
+        this.ramzorColor = calculateRamzorGrade();
 
     }
     public void contagionSimulation(){
@@ -211,13 +208,13 @@ public abstract class Settlement {
 
            if(virus.tryToContagion(sick, person)) {
                people.set(index, person.contagion(virus));
-               SicksArray.add(people.get(index));
+               sicksArray.add(people.get(index));
            }
 
         }
 
          // re-calculate Ramzor Grade
-        this.m_ramzorColor = calculateRamzorGrade();
+        this.ramzorColor = calculateRamzorGrade();
     }
 
 }

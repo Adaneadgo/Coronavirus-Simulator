@@ -9,23 +9,25 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class EditMutationsWin {
+public class EditMutationsWin extends JDialog {
 
-    IVirus [] Variants;
+    private final IVirus [] Variants;
+    private final RowedTableScroll table;
 
     EditMutationsWin(JFrame parent) {
+        super(parent, "EditMutationsWin",true);
 
-        Variants = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(),
-                SouthAfricanVariant.getInstance()};
+        this.Variants = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(),SouthAfricanVariant.getInstance()};
+        this.table = TableMaker();
 
-        final JDialog frame = new JDialog(parent, "EditMutationsWin",true);
-        frame.getContentPane().add(table());
-        frame.pack();
-        frame.setVisible(true);
+
+        this.getContentPane().add(TableMaker());
+        this.pack();
+        this.setVisible(true);
 
     }
 
-    private RowedTableScroll table() {
+    private RowedTableScroll TableMaker() {
 
         String[] variantsNames = {"ChineseVariant", "BritishVariant", "SouthAfricanVariant"};
 
@@ -37,18 +39,7 @@ public class EditMutationsWin {
             }
         }
 
-
         JTable table = new JTable(data, variantsNames);
-
-        DefaultTableModel model = new DefaultTableModel( )
-        {
-            @Override
-            public Class getColumnClass(int column)
-            {
-                return  Boolean.class;
-            }
-        };
-
         table.setPreferredScrollableViewportSize(new Dimension(500, 50));
         table.setFillsViewportHeight(true);
         return new RowedTableScroll(table, variantsNames);

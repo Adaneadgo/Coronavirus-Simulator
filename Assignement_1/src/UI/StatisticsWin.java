@@ -1,18 +1,13 @@
 package UI;
 
+import Country.Map;
 import Country.Settlement;
-import IO.SimulationFile;
 import IO.StatisticsFile;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import javax.swing.text.TableView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,39 +15,43 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class StatisticsWin {
+public class StatisticsWin extends JFrame {
 
-    private final SimulationFile simulationFile;
-    private final JFrame frame;
-    private JTable table;
+    private final Map map;
+    private final StatisticsTable table;
     private TableColumn selectedColumn = null;
-    private int selectedRow = -1;
-    private TableRowSorter<TableModel> rowSorter;
 
-    StatisticsWin(SimulationFile simulationFile) {
-        this.simulationFile = simulationFile;
 
-        frame = new JFrame("Statistics");
-        frame.setLayout(new BorderLayout(0,100));
+    StatisticsWin(Map map, int rowIndex){
+        this(map);
+        table.changeSelection(rowIndex, 0, false, false);
+
+
+    }
+    StatisticsWin(Map map) {
+        super("Statistics");
+        this.map = map;
+
+        this.setLayout(new BorderLayout(0,100));
 
         JPanel upPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
         upPanel.add(comboBox());
         upPanel.add(textField());
-        frame.add(upPanel, BorderLayout.NORTH);
+        this.add(upPanel, BorderLayout.NORTH);
 
-        frame.add(TableMaker(),BorderLayout.CENTER);
+        this.table = LoadTable();
+        this.add(new JScrollPane(table), BorderLayout.CENTER);
 
         JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
         dwPanel.add(save());
         dwPanel.add(addSick());
         dwPanel.add(vaccinate());
-        frame.add(dwPanel, BorderLayout.SOUTH);
+        this.add(dwPanel, BorderLayout.SOUTH);
 
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
 
     }
 
@@ -79,7 +78,7 @@ public class StatisticsWin {
                         break;
                     case "None":
                         selectedColumn = null;
-                        rowSorter.setRowFilter(RowFilter.regexFilter(""));
+                        table.rowSortByColumn("",null);
                         break;
                 }
 
@@ -93,11 +92,12 @@ public class StatisticsWin {
     private JTextField textField(){
 
         JTextField textField = new JTextField("Put Text here");
+        textField.setColumns(20);
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void newText(){
                 String text = textField.getText();
-                rowSorter.setRowFilter(RowFilter.regexFilter(text));
+                table.rowSortByColumn(text,selectedColumn);
             }
 
             @Override
@@ -121,11 +121,11 @@ public class StatisticsWin {
                 JLabel label = new JLabel();
 
                     JFileChooser fileChooser = new JFileChooser();
-                    int option = fileChooser.showSaveDialog(frame);
+                    int option = fileChooser.showSaveDialog(StatisticsWin.this);
                     if(option == JFileChooser.APPROVE_OPTION){
                         File file = fileChooser.getSelectedFile();
                         try {
-                            new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
+                            new StatisticsFile(map).CreatCsvFile(file.toString());
                         } catch (FileNotFoundException fileNotFoundException) {
                             fileNotFoundException.printStackTrace();
                         }
@@ -145,13 +145,13 @@ public class StatisticsWin {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(selectedRow <= -1) {
+                if(table.getSelectedRow() <= -1) {
                     JOptionPane.showMessageDialog(null, "Select Row!");
                     return;
                 }
-                    String name = table.getValueAt(selectedRow, 0).toString();
-                    simulationFile.getM_map().getSettlmentByName(name).setSickPeopleSimulation();
-                    updateRows();
+                    String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    map.getSettlementByName(name).setSickPeopleSimulation();
+                    table.reloadData();
                 }
 
         });
@@ -165,84 +165,54 @@ public class StatisticsWin {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow() <= -1) {
+                    JOptionPane.showMessageDialog(null, "Select Row!");
+                    return;
+                }
 
-                final JDialog jDialog = new JDialog(frame, "EditMutationsWin",true);
-                JTextField textField = new JTextField();
-                jDialog.add(textField);
+                try{
 
-                JButton button = new JButton("applay");
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        String input = textField.getText();
-                       if(input.matches("\\d+")){
+                    String input = JOptionPane.showInputDialog("put");
+                    if(input == null)
+                        return;
 
-                           String name = table.getValueAt(selectedRow, 0).toString();
-                           simulationFile.getM_map().getSettlmentByName(name).setAmountOfVaccines(Integer.parseInt(input));
-                           updateRows();
-                       }
+                    int num = Integer.parseInt(input);
+                    if(num <= 0) {
+                        JOptionPane.showMessageDialog(null, "non positive number!");
                     }
-                });
 
-                jDialog.pack();
-                jDialog.setVisible(true);
+                    String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    map.getSettlementByName(name).addVaccines(num);
+                    table.reloadData();
+                }
+                catch (NumberFormatException nfe) {
+                    JOptionPane.showMessageDialog(null, "not a number!");
+                }
+
+
             }
         });
+
         return button;
     }
 
-
-    private JScrollPane TableMaker(){
-
-        Settlement[] settlements = simulationFile.getM_map().getM_settlements();
+    public StatisticsTable LoadTable(){
 
         String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Amount of vaccines",
                 "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
+
+        Settlement[] settlements = this.map.getSettlements();
 
         List<String[]> data = new ArrayList<String[]>();
         for(Settlement settlement: settlements){
             data.add(settlement.getStatistics());
         }
 
+        return new StatisticsTable(map,data.toArray(new String[0][0]),columns);
 
-        table = new JTable(data.toArray(new String[0][0]),columns){
-
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-
-        table.getTableHeader().setReorderingAllowed(false);
-        rowSorter = new TableRowSorter<>(table.getModel());
-        table.setRowSorter(rowSorter);
-
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRow = table.getSelectedRow();
-            }
-        });
-
-        return new JScrollPane(table);
     }
 
 
-    private void updateRows(){
-
-        Settlement[] settlements = simulationFile.getM_map().getM_settlements();
-
-        List<String[]> newData = new ArrayList<String[]>();
-        for(Settlement settlement: settlements){
-            newData.add(settlement.getStatistics());
-        }
-
-        for(int i =0; i<table.getRowCount(); i++){
-            String[] newRow = newData.get(i);
-            for(int j = 0; j<table.getColumnCount(); j++){
-                table.getModel().setValueAt(newRow[j],i,j);
-            }
-        }
-        table.repaint();
-    }
 
 
 

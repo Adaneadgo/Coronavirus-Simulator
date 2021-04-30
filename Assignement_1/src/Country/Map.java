@@ -2,13 +2,12 @@ package Country;
 
 import Location.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
 
-    private  final Settlement[] m_settlements;
+    private  final Settlement[] settlements;
 
     //C tors
     public Map(String[][] args){
@@ -17,11 +16,11 @@ public class Map {
 
 
         if(args[args.length - 1][0].charAt(0) == '#') {
-            m_settlements = new Settlement[args.length - 1];
+            settlements = new Settlement[args.length - 1];
             neighbours = args[args.length - 1];
         }
         else
-            m_settlements = new Settlement[args.length];
+            settlements = new Settlement[args.length];
 
 
 
@@ -34,15 +33,15 @@ public class Map {
             {
 
                 case "Moshav":
-                    m_settlements[i] = new Moshav(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    settlements[i] = new Moshav(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
                     break;
     
                 case "Kibbutz":
-                    m_settlements[i] = new Kibbutz(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    settlements[i] = new Kibbutz(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
                     break;
     
                 case "City":
-                    m_settlements[i] = new City(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
+                    settlements[i] = new City(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
                     break;
     
             }
@@ -53,27 +52,27 @@ public class Map {
             setNeighbours(neighbours);
     }
 
-    public Settlement[] getM_settlements() {
-        return m_settlements;
+    public Settlement[] getSettlements() {
+        return settlements;
     }
 
     //toString
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("\n");
-        for(Settlement settlement: m_settlements)
+        for(Settlement settlement: settlements)
             str.append(settlement).append("\n");
         return str.toString();
     }
 
     // Simulation Methods
     public void setSickPeopleSimulation(){
-        for(Settlement settlement: m_settlements)
+        for(Settlement settlement: settlements)
             settlement.setSickPeopleSimulation();
     }
 
     public void contagionSimulation(){
-        for(Settlement settlement: m_settlements)
+        for(Settlement settlement: settlements)
              settlement.contagionSimulation();
     }
 
@@ -82,21 +81,21 @@ public class Map {
 
         String[] tag = new String[2];
 
-        for(Settlement settlement: m_settlements){
+        for(Settlement settlement: settlements){
 
             List<Settlement> neighbours = new ArrayList<Settlement>();
-            String currName = settlement.getM_name();
+            String currName = settlement.getName();
 
             for(String arg: args){
                 tag = arg.substring(2).split(";",0);
                 Settlement neighbour = null;
 
                 if(tag[0].equals(currName))
-                    neighbour = getSettlmentByName(tag[1]);
+                    neighbour = getSettlementByName(tag[1]);
 
 
                 else if(tag[1].equals(currName))
-                    neighbour = getSettlmentByName(tag[0]);
+                    neighbour = getSettlementByName(tag[0]);
 
                 if(neighbour != null)
                     neighbours.add(neighbour);
@@ -109,15 +108,26 @@ public class Map {
 
     }
 
-    public Settlement getSettlmentByName(String name){
+    public Settlement getSettlementByName(String name){
 
-        for(Settlement settlement: m_settlements){
+        for(Settlement settlement: settlements){
 
-            if(settlement.getM_name().equals(name))
+            if(settlement.getName().equals(name))
                 return settlement;
         }
 
         return null;
+    }
+
+
+    public int getSettlementIndex(Settlement settlement){
+        for(int i = 0; i<settlements.length; i++){
+            if(settlement == settlements[i])
+                return i;
+        }
+
+        return -1;
+
     }
 
 

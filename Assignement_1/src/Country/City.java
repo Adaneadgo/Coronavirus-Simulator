@@ -22,17 +22,17 @@ public class City extends Settlement {
 
         //Calculate the constant for the equation
         double P = this.contagiousPercent();
-        m_coefficient = 0.2 * Math.pow(4, 1.25*P);
+        coefficient = 0.2 * Math.pow(4, 1.25*P);
 
 
         //Constant for equation
-        if(m_coefficient < 0.4)
+        if(coefficient < 0.4)
         return RamzorColor.Green;
 
-        else if (m_coefficient < 0.6)
+        else if (coefficient < 0.6)
             return RamzorColor.Yellow;
 
-        else if(m_coefficient < 0.8)
+        else if(coefficient < 0.8)
            return RamzorColor.Orange; 
         
         else          

@@ -22,16 +22,16 @@ public class Moshav extends Settlement {
 
         //Calculate the constant for the equation
         double P = this.contagiousPercent();
-        m_coefficient = 0.3 + 3*Math.pow(Math.pow(1.2, m_coefficient)*(P-0.35),5);
-        if(m_coefficient < 0.4)
+        coefficient = 0.3 + 3*Math.pow(Math.pow(1.2, coefficient)*(P-0.35),5);
+        if(coefficient < 0.4)
         return RamzorColor.Green;
 
 
         //Constant values
-        else if (m_coefficient < 0.6)
+        else if (coefficient < 0.6)
             return RamzorColor.Yellow;
 
-        else if(m_coefficient < 0.8)
+        else if(coefficient < 0.8)
             return RamzorColor.Orange; 
         
         else          

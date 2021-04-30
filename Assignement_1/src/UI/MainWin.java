@@ -5,31 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import IO.SimulationFile;
-import IO.StatisticsFile;
 
-public class MainWin {
+public class MainWin extends JFrame {
 
-    private SimulationFile simulationFile;
-    private boolean flag = false;
-    private final JFrame frame;
+    private SimulationFile simulationFile = null;
+    private MapWin mapWin;
 
     public MainWin() {
+        this.setName("Main Window");
+        this.setLayout(new BorderLayout());
 
-        frame = new JFrame("Main Window");
-        frame.setLayout(new BorderLayout());
+        this.setJMenuBar(Menu_Bar());
+        this.add(Simulation_Speed_Slider(), BorderLayout.SOUTH);
 
-        frame.setJMenuBar(Menu_Bar());
-        frame.add(Simulation_Speed_Slider(), BorderLayout.SOUTH);
-
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
 
     }
-
 
 
     private JMenuBar Menu_Bar(){
@@ -52,27 +47,22 @@ public class MainWin {
     private JMenuItem Load_Item() {
         JMenuItem load = new JMenuItem("Load");
         load.addActionListener(new ActionListener() {
-
-            private File loadFileFunc() {
-                FileDialog fd = new FileDialog((Frame) null, "Please choose a file:", FileDialog.LOAD);
-                fd.setVisible(true);
-
-                if (fd.getFile() == null)
-                    return null;
-                File f = new File(fd.getDirectory(), fd.getFile());
-                System.out.println(f.getPath());
-                return f;
-            }
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 File file = loadFileFunc();
-                simulationFile = new SimulationFile(file);
+
+                if(file == null) {
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
                 try {
+                    simulationFile = new SimulationFile(file);
                     simulationFile.loadSimulation();
+                    mapWin = new MapWin(simulationFile.getMap());
+                    MainWin.this.add(mapWin);
+                    mapWin.revalidate();
                 } catch (Exception exception) { exception.printStackTrace(); }
-                flag = true;
-                frame.add(new MapWin(simulationFile.getM_map()), BorderLayout.CENTER);
+
 
             }
         });
@@ -84,12 +74,14 @@ public class MainWin {
         statistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!flag) {
+                if(simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                    new StatisticsWin(simulationFile);
+                new StatisticsWin(simulationFile.getMap());
+                mapWin.revalidate();
             }
+
         });
         return statistics;
     }
@@ -98,7 +90,14 @@ public class MainWin {
         JMenuItem edit_mutation = new JMenuItem("Edit Mutation");
         edit_mutation.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { new EditMutationsWin(frame);}
+            public void actionPerformed(ActionEvent e) {
+                if(simulationFile == null) {
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+                new EditMutationsWin(MainWin.this);
+                mapWin.revalidate();
+            }
         });
         return edit_mutation;
     }
@@ -107,7 +106,9 @@ public class MainWin {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int confirmed = JOptionPane.showConfirmDialog(MainWin.this, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
+                if (confirmed == JOptionPane.YES_OPTION)
+                    MainWin.this.dispose();
             }
         });
         return exit;
@@ -158,6 +159,16 @@ public class MainWin {
     private JSlider Simulation_Speed_Slider(){
         JSlider jslider = new JSlider();
         return jslider;
+
+    }
+
+    private File loadFileFunc() {
+        FileDialog fd = new FileDialog((Frame) null, "Please choose a file:", FileDialog.LOAD);
+        fd.setVisible(true);
+
+        if (fd.getFile() == null)
+            return null;
+        return  new File(fd.getDirectory(), fd.getFile());
 
     }
 

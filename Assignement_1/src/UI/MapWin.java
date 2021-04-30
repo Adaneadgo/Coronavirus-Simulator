@@ -5,6 +5,8 @@ import Country.Settlement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MapWin extends JPanel {
 
@@ -15,10 +17,14 @@ public class MapWin extends JPanel {
     }
 
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
 
+        if(map == null)
+            return;
+
+        super.paintComponent(g);
         LINES(g);
         RECTS(g);
+        setButtons();
 
 
     }
@@ -26,12 +32,12 @@ public class MapWin extends JPanel {
     private void LINES(Graphics g){
 
         //Lines
-        Settlement[] settlements = map.getM_settlements();
+        Settlement[] settlements = map.getSettlements();
         int x1,y1,x2,y2;
 
         for(Settlement settlement: settlements){
-            x1 = settlement.getM_location().getPoint().getX();
-            y1 = settlement.getM_location().getPoint().getY();
+            x1 = settlement.getLocation().getPoint().getX();
+            y1 = settlement.getLocation().getPoint().getY();
 
             Settlement[] neighbors = settlement.getNeighbors();
 
@@ -39,8 +45,8 @@ public class MapWin extends JPanel {
                 continue;
 
             for(Settlement neighbor: neighbors){
-                x2 = neighbor.getM_location().getPoint().getX();
-                y2 = neighbor.getM_location().getPoint().getY();
+                x2 = neighbor.getLocation().getPoint().getX();
+                y2 = neighbor.getLocation().getPoint().getY();
 
                 g.drawLine(x1,y1,x2,y2);
 
@@ -51,20 +57,49 @@ public class MapWin extends JPanel {
     }
     private  void RECTS(Graphics g){
 
-        Settlement [] settlements = map.getM_settlements();
+        Settlement [] settlements = map.getSettlements();
         int x,y,w,h;
         for(Settlement settlement: settlements){
-            x = settlement.getM_location().getPoint().getX();
-            y = settlement.getM_location().getPoint().getY();
-            w = settlement.getM_location().getSize().getWidth();
-            h = settlement.getM_location().getSize().getHeight();
+            x = settlement.getLocation().getPoint().getX();
+            y = settlement.getLocation().getPoint().getY();
+            w = settlement.getLocation().getSize().getWidth();
+            h = settlement.getLocation().getSize().getHeight();
             g.setColor(settlement.getColor());
             g.fillRect(x,y,w,h);
 
             g.setColor(Color.BLACK);
-            g.drawString(settlement.getM_name(),x ,y+ h/2 );
+            g.drawString(settlement.getName(),x ,y+ h/2 );
 
         }
+    }
+    private void setButtons(){
+
+        Settlement [] settlements = map.getSettlements();
+        int x,y,w,h;
+        for(Settlement settlement: settlements) {
+            x = settlement.getLocation().getPoint().getX();
+            y = settlement.getLocation().getPoint().getY();
+            w = settlement.getLocation().getSize().getWidth();
+            h = settlement.getLocation().getSize().getHeight();
+
+            JButton button = new JButton();
+            button.setLocation(x,y);
+            button.setSize(w,h);
+            button.setOpaque(false);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new StatisticsWin(map,map.getSettlementIndex(settlement));
+                }
+            });
+
+            this.add(button);
+        }
+
+
     }
 
     public Dimension getPreferredSize(){
