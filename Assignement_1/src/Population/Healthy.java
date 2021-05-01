@@ -9,6 +9,7 @@ public class Healthy extends Person {
 
     //Ctors
     public Healthy(){}
+    public Healthy(Person person) {super(person);}
     public Healthy(int age, Location location, Settlement settlement){ super(age, location, settlement);}
      
     // toString & equals

@@ -24,9 +24,18 @@ public final class SimulationFile {
     //Methods
     public void loadSimulation() throws Exception { map = new Map(readArgsFromFile());}
     public void initialSimulation(){ map.setSickPeopleSimulation();}
-    public void simulateSimulation(){
-        map.contagionSimulation();}
+    public void simulateSimulation(){ map.contagionSimulation();}
 
+    // New Simulation
+    public void Simulation(){
+
+
+    }
+
+    private void step1(){
+
+
+    }
 
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{
