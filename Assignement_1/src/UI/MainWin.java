@@ -1,12 +1,15 @@
 package UI;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import IO.SimulationFile;
+import Simulation.Clock;
 
 public class MainWin extends JFrame {
 
@@ -18,7 +21,7 @@ public class MainWin extends JFrame {
         this.setLayout(new BorderLayout());
 
         this.setJMenuBar(Menu_Bar());
-        this.add(Simulation_Speed_Slider(), BorderLayout.SOUTH);
+        this.add(Simulation_Speed_Slider(50), BorderLayout.SOUTH);
 
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,7 +81,7 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                new StatisticsWin(simulationFile.getMap());
+                new StatisticsWin(simulationFile.getMap(),mapWin);
                 mapWin.revalidate();
             }
 
@@ -137,7 +140,34 @@ public class MainWin extends JFrame {
     }
     private JMenuItem Set_Ticks_Per_Day_Item(){
         JMenuItem set_ticks_per_day = new JMenuItem("Set Ticks per day");
+        set_ticks_per_day.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jSpinner();
+            }
+        });
         return set_ticks_per_day;
+    }
+
+    private void jSpinner(){
+        SpinnerNumberModel sModel = new SpinnerNumberModel(Clock.getTicks_per_day(), 1, 100, 1);
+        JSpinner spinner = new JSpinner(sModel);
+
+        int option = JOptionPane.showOptionDialog(null, spinner, "Set Ticks Per Day",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+        if (option == JOptionPane.OK_OPTION) {
+            try{
+                long ticks = Long.parseLong(spinner.getValue().toString());
+                Clock.setTicks_per_day(ticks);
+                System.out.println(ticks);
+            }
+            catch (Exception exc){
+                JOptionPane.showMessageDialog(null, "Error occurred");
+            }
+
+        }
+
     }
 
     private JMenu Help_Menu(){
@@ -149,16 +179,40 @@ public class MainWin extends JFrame {
 
     private JMenuItem Help_Item(){
         JMenuItem help = new JMenuItem("Help");
+        help.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Fuck you!");
+            }
+        });
         return help;
     }
     private JMenuItem About_Item(){
         JMenuItem about = new JMenuItem("About");
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Adane and Elie!");
+            }
+        });
         return about;
     }
 
-    private JSlider Simulation_Speed_Slider(){
-        JSlider jslider = new JSlider();
-        return jslider;
+    private JSlider Simulation_Speed_Slider(int current){
+        JSlider slider = new JSlider(0,100,current);
+        slider.setMajorTickSpacing(10);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+
+
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                System.out.println(slider.getValue());
+            }
+        });
+        return slider;
 
     }
 

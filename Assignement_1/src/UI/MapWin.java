@@ -92,7 +92,7 @@ public class MapWin extends JPanel {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new StatisticsWin(map,map.getSettlementIndex(settlement));
+                    new StatisticsWin(map,MapWin.this,map.getSettlementIndex(settlement));
                 }
             });
 

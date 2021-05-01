@@ -19,19 +19,21 @@ import java.util.List;
 public class StatisticsWin extends JFrame {
 
     private final Map map;
+    private final MapWin mapWin;
     private final StatisticsTable table;
     private TableColumn selectedColumn = null;
 
 
-    StatisticsWin(Map map, int rowIndex){
-        this(map);
+    StatisticsWin(Map map,MapWin mapWin, int rowIndex){
+        this(map,mapWin);
         table.changeSelection(rowIndex, 0, false, false);
 
 
     }
-    StatisticsWin(Map map) {
+    StatisticsWin(Map map,MapWin mapWin) {
         super("Statistics");
         this.map = map;
+        this.mapWin = mapWin;
 
         this.setLayout(new BorderLayout(0,100));
 
@@ -152,6 +154,7 @@ public class StatisticsWin extends JFrame {
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                     map.getSettlementByName(name).setSickPeopleSimulation();
                     table.reloadData();
+                    mapWin.revalidate();
                 }
 
         });
