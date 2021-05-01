@@ -7,13 +7,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
+import Country.Settlement;
 import IO.SimulationFile;
 import Simulation.Clock;
 
 public class MainWin extends JFrame {
 
     private SimulationFile simulationFile = null;
+    private StatisticsWin statisticsWin;
     private MapWin mapWin;
 
     public MainWin() {
@@ -21,7 +24,7 @@ public class MainWin extends JFrame {
         this.setLayout(new BorderLayout());
 
         this.setJMenuBar(Menu_Bar());
-        this.add(Simulation_Speed_Slider(50), BorderLayout.SOUTH);
+        this.add(Simulation_Speed_Slider(), BorderLayout.SOUTH);
 
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,11 +62,12 @@ public class MainWin extends JFrame {
                     return;
                 }
                 try {
-                    simulationFile = new SimulationFile(file);
+                    simulationFile = SimulationFile.getInstance(file);
                     simulationFile.loadSimulation();
                     mapWin = new MapWin(simulationFile.getMap());
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
+
                 } catch (Exception exception) { exception.printStackTrace(); }
 
 
@@ -81,7 +85,7 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                new StatisticsWin(simulationFile.getMap(),mapWin);
+                statisticsWin = new StatisticsWin(simulationFile.getMap(),mapWin);
                 mapWin.revalidate();
             }
 
@@ -128,14 +132,45 @@ public class MainWin extends JFrame {
 
     private JMenuItem Play_Item(){
         JMenuItem play = new JMenuItem("Play");
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (simulationFile == null) {
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+                simulationFile.setState(true);
+            }
+
+        });
         return play;
     }
     private JMenuItem Pause_Item(){
         JMenuItem pause = new JMenuItem("Pause");
+        pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (simulationFile == null){
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+                simulationFile.setState(false);
+            }
+        });
         return pause;
     }
     private JMenuItem Stop_Item(){
         JMenuItem stop = new JMenuItem("Stop");
+        stop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (simulationFile == null){
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+                simulationFile.setState(true);
+            }
+        });
         return stop;
     }
     private JMenuItem Set_Ticks_Per_Day_Item(){
@@ -161,6 +196,7 @@ public class MainWin extends JFrame {
                 long ticks = Long.parseLong(spinner.getValue().toString());
                 Clock.setTicks_per_day(ticks);
                 System.out.println(ticks);
+
             }
             catch (Exception exc){
                 JOptionPane.showMessageDialog(null, "Error occurred");
@@ -198,8 +234,8 @@ public class MainWin extends JFrame {
         return about;
     }
 
-    private JSlider Simulation_Speed_Slider(int current){
-        JSlider slider = new JSlider(0,100,current);
+    private JSlider Simulation_Speed_Slider(){
+        JSlider slider = new JSlider(0,100,50);
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(1);
         slider.setPaintTicks(true);
@@ -209,7 +245,7 @@ public class MainWin extends JFrame {
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println(slider.getValue());
+                Clock.setSleep(slider.getValue());
             }
         });
         return slider;
@@ -226,5 +262,17 @@ public class MainWin extends JFrame {
 
     }
 
+    public boolean isSimulationLoaded() {
+        return simulationFile != null ;
+    }
 
+    public SimulationFile getSimulationFile() {
+        return simulationFile;
+    }
+
+    public void RefreshAll(){
+        statisticsWin.repaint();
+        mapWin.repaint();
+        statisticsWin.RefreshTable();
+    }
 }

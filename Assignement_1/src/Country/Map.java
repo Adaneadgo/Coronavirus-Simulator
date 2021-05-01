@@ -1,6 +1,7 @@
 package Country;
 
 import Location.*;
+import Simulation.Clock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,5 +131,13 @@ public class Map {
 
     }
 
-
+    // New Simulation
+    public void Simulation()  {
+        for(Settlement settlement: settlements){
+            settlement.step1();
+            settlement.step2();
+            settlement.step3();
+            settlement.step4();
+        }
+    }
 }

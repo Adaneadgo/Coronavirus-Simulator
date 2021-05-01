@@ -1,6 +1,7 @@
 package IO;
 
 import Country.Map;
+import Country.Settlement;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,9 +12,22 @@ public final class SimulationFile {
 
     private final File file;
     private  Map map;
+    private  boolean  State = false;
+    private static SimulationFile instance = null;
 
     //Ctor
-    public SimulationFile(File file) { this.file = file; }
+    private SimulationFile(File file) { this.file = file; }
+
+    public static SimulationFile getInstance(File file){
+        if(instance == null)
+            instance = new SimulationFile(file);
+
+        return instance;
+    }
+
+    public static SimulationFile getInstance() {
+        return instance;
+    }
 
     //ToString
     @Override
@@ -25,16 +39,21 @@ public final class SimulationFile {
     public void loadSimulation() throws Exception { map = new Map(readArgsFromFile());}
     public void initialSimulation(){ map.setSickPeopleSimulation();}
     public void simulateSimulation(){ map.contagionSimulation();}
-
-    // New Simulation
-    public void Simulation(){
-
-
+    // new Simulation
+    public void Simulation()  {
+            map.Simulation();
     }
 
-    private void step1(){
+    public void setState(boolean state) {
+        this.State = state;
+    }
 
+    public boolean isON(){
 
+        if(instance == null)
+            return false;
+
+        return this.State;
     }
 
     //auxiliary

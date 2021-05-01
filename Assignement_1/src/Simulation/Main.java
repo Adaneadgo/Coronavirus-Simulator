@@ -13,9 +13,32 @@ import java.io.File;
 
 
 public class Main {
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws InterruptedException {
 
-        new MainWin();
+        MainWin mainWin = new MainWin();
+        RunSimulation(mainWin);
+
+    }
+
+    private static void RunSimulation(MainWin mainWin) throws InterruptedException {
+
+        do{
+            Thread.sleep(1000);
+
+        }while(!mainWin.isSimulationLoaded());
+
+
+        SimulationFile simulationFile = mainWin.getSimulationFile();
+        while(true){
+            Clock.nextTick();
+
+            if(simulationFile.isON()) {
+                simulationFile.Simulation();
+                System.out.println("Fucking work");
+            }
+
+        }
+
     }
 
 }

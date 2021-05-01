@@ -229,6 +229,7 @@ public abstract class Settlement {
                 Sick newSick = person.contagion(virus);
                 people.set(index, newSick);
                 sicksArray.add(newSick);
+                notSicksArray.remove(person);
             }
 
         }
@@ -245,11 +246,35 @@ public abstract class Settlement {
 
     }
 
-    private void step1() {
+    protected void step1() {
 
-    }
+        int counter = (int)sicksArray.size()/5;
+        Random rand = new Random();
 
-    private void step2() {
+        for(int i = 0; i < counter; i++){
+            Sick sick = sicksArray.get(rand.nextInt(sicksArray.size() - 1));
+            IVirus virus = sick.getVirus();
+
+            for(int j = 0; j< 3; j++){
+                int index = rand.nextInt(notSicksArray.size() - 1);
+                Person person = notSicksArray.get(index);
+
+                if(virus.tryToContagion(sick,person)){
+                    Sick newSick = person.contagion(virus);
+                    people.set(index, newSick);
+                    sicksArray.add(newSick);
+                    notSicksArray.remove(person);
+                }
+
+                }
+
+            }
+
+
+        }
+
+
+    protected void step2() {
         for (Sick sick : sicksArray) {
 
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
@@ -261,26 +286,30 @@ public abstract class Settlement {
         }
     }
 
-    private void step3() {
+    protected void step3() {
 
         if (neighbors == null)
             return;
-
-        int peopleRange = people.size() - 1;
-        int neighborsRange = neighbors.length - 1;
+        ;
         int counter = (int) (3 * people.size()) / 100;
         Random rand = new Random();
-
+        Settlement neighbor;
         while (counter > 0) {
-            Person person = people.get(rand.nextInt(peopleRange));
-            Settlement neighbor = neighbors[rand.nextInt(neighborsRange)];
+            Person person = people.get(rand.nextInt(people.size() - 1));
+
+            if(neighbors.length == 1)
+                neighbor = neighbors[0];
+
+            else
+            neighbor = neighbors[rand.nextInt(neighbors.length - 1)];
+
             this.transfertPerson(person, neighbor);
             counter--;
         }
     }
 
 
-    private void step4(){
+    protected void step4(){
 
         int length = notSicksArray.size();
 
@@ -291,11 +320,12 @@ public abstract class Settlement {
 
             else if(notSicksArray.get(i) instanceof Healthy){
                 notSicksArray.set(i, ((Healthy) notSicksArray.get(i)).vaccinate());
+                vaccinesNum--;
             }
-
-
-
         }
     }
+
+
+
 
 }

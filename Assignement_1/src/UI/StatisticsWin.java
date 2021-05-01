@@ -216,6 +216,12 @@ public class StatisticsWin extends JFrame {
     }
 
 
+    public void RefreshTable(){
+        table.reloadData();
+        table.revalidate();
+    }
+
+
 
 
 
