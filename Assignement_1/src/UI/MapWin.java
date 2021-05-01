@@ -12,8 +12,10 @@ public class MapWin extends JPanel {
 
     private final Map map;
     private StatisticsWin statsWin = null;
+    private boolean buttons = false;
 
     public MapWin(Map map){
+
         this.map = map;
     }
 
@@ -23,11 +25,9 @@ public class MapWin extends JPanel {
             return;
 
         super.paintComponent(g);
+        this.removeAll();
         LINES(g);
-        RECTS(g);
         setButtons();
-
-
     }
 
     private void LINES(Graphics g){
@@ -56,23 +56,7 @@ public class MapWin extends JPanel {
         }
 
     }
-    private  void RECTS(Graphics g){
 
-        Settlement [] settlements = map.getSettlements();
-        int x,y,w,h;
-        for(Settlement settlement: settlements){
-            x = settlement.getLocation().getPoint().getX();
-            y = settlement.getLocation().getPoint().getY();
-            w = settlement.getLocation().getSize().getWidth();
-            h = settlement.getLocation().getSize().getHeight();
-            g.setColor(settlement.getColor());
-            g.fillRect(x,y,w,h);
-
-            g.setColor(Color.BLACK);
-            g.drawString(settlement.getName(),x ,y+ h/2 );
-
-        }
-    }
     private void setButtons(){
 
         Settlement [] settlements = map.getSettlements();
@@ -83,12 +67,10 @@ public class MapWin extends JPanel {
             w = settlement.getLocation().getSize().getWidth();
             h = settlement.getLocation().getSize().getHeight();
 
-            JButton button = new JButton();
+            JButton button = new JButton(settlement.getName());
             button.setLocation(x,y);
             button.setSize(w,h);
-            button.setOpaque(false);
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(false);
+            button.setBackground(settlement.getColor());
 
             button.addActionListener(new ActionListener() {
                 @Override
@@ -98,6 +80,7 @@ public class MapWin extends JPanel {
             });
 
             this.add(button);
+            buttons = true;
         }
 
 

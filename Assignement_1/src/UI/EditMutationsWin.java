@@ -39,6 +39,8 @@ public class EditMutationsWin extends JDialog {
             }
         }
 
+
+
         JTable table = new JTable(data, variantsNames);
         table.setPreferredScrollableViewportSize(new Dimension(500, 50));
         table.setFillsViewportHeight(true);

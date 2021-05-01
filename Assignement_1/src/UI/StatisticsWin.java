@@ -81,7 +81,6 @@ public class StatisticsWin extends JFrame {
                         break;
                     case "None":
                         selectedColumn = null;
-                        table.rowSortByColumn("",null);
                         break;
                 }
 

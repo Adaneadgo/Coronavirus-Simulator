@@ -49,7 +49,11 @@ public class StatisticsTable extends JTable {
 
 
     public void rowSortByColumn(String text, TableColumn col){
-        rowSorter.setRowFilter(RowFilter.regexFilter(text));
+        if(col == null){
+            rowSorter.setRowFilter(RowFilter.regexFilter(""));
+        }
+        assert col != null;
+        rowSorter.setRowFilter(RowFilter.regexFilter(text,0,col.getModelIndex()));
     }
 
 
