@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 public class MapWin extends JPanel {
 
     private final Map map;
+    private StatisticsWin statsWin = null;
 
     public MapWin(Map map){
         this.map = map;
@@ -92,7 +93,7 @@ public class MapWin extends JPanel {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new StatisticsWin(map,MapWin.this,map.getSettlementIndex(settlement));
+                    statsWin = new StatisticsWin(map,MapWin.this,map.getSettlementIndex(settlement));
                 }
             });
 
@@ -105,4 +106,15 @@ public class MapWin extends JPanel {
     public Dimension getPreferredSize(){
         return new Dimension( 1000 , 1000);
     }
+
+
+    @Override
+    public void repaint() {
+        super.repaint();
+
+        if(statsWin != null)
+            statsWin.refreshStatsWin();
+
+    }
 }
+

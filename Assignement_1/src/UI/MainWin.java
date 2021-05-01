@@ -154,7 +154,14 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
+
+                if(!simulationFile.isON()){
+                    JOptionPane.showMessageDialog(null, "play simulation!");
+                    return;
+
+                }
                 simulationFile.setState(false);
+
             }
         });
         return pause;
@@ -168,7 +175,15 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                simulationFile.setState(true);
+                if(!simulationFile.isON()){
+                    JOptionPane.showMessageDialog(null, "play simulation!");
+                    return;
+
+                }
+                simulationFile.setState(false);
+                simulationFile = null;
+                MainWin.this.getContentPane().remove(mapWin);
+                MainWin.this.repaint();
             }
         });
         return stop;
@@ -271,8 +286,13 @@ public class MainWin extends JFrame {
     }
 
     public void RefreshAll(){
-        statisticsWin.repaint();
-        mapWin.repaint();
-        statisticsWin.RefreshTable();
+        if(statisticsWin != null){
+            statisticsWin.repaint();
+            statisticsWin.refreshStatsWin();
+        }
+
+        if(mapWin != null)
+            mapWin.repaint();
+
     }
 }

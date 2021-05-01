@@ -34,7 +34,8 @@ public class Main {
 
             if(simulationFile.isON()) {
                 simulationFile.Simulation();
-                System.out.println("Fucking work");
+                mainWin.RefreshAll();
+                System.out.println(Clock.now());
             }
 
         }

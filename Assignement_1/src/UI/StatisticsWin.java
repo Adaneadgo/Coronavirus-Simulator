@@ -2,6 +2,7 @@ package UI;
 
 import Country.Map;
 import Country.Settlement;
+import IO.SimulationFile;
 import IO.StatisticsFile;
 
 import javax.swing.*;
@@ -120,7 +121,10 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JLabel label = new JLabel();
+                if(SimulationFile.getInstance().isON()) {
+                    JOptionPane.showMessageDialog(null, "Stop simulation!");
+                    return;
+                }
 
                     JFileChooser fileChooser = new JFileChooser();
                     int option = fileChooser.showSaveDialog(StatisticsWin.this);
@@ -146,6 +150,11 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(SimulationFile.getInstance().isON()){
+                    JOptionPane.showMessageDialog(null, "Stop simulation!");
+                    return;
+
+                }
 
                 if(table.getSelectedRow() <= -1) {
                     JOptionPane.showMessageDialog(null, "Select Row!");
@@ -168,7 +177,14 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(table.getSelectedRow() <= -1) {
+                if(SimulationFile.getInstance().isON()){
+                    JOptionPane.showMessageDialog(null, "Stop simulation!");
+                    return;
+
+                }
+
+
+                else if(table.getSelectedRow() <= -1) {
                     JOptionPane.showMessageDialog(null, "Select Row!");
                     return;
                 }
@@ -216,9 +232,16 @@ public class StatisticsWin extends JFrame {
     }
 
 
-    public void RefreshTable(){
-        table.reloadData();
-        table.revalidate();
+    public void refreshStatsWin(){
+        if(table != null){
+            table.reloadData();
+            table.revalidate();
+            table.repaint();
+        }
+
+
+        this.repaint();
+        this.revalidate();
     }
 
 
