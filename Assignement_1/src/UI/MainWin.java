@@ -233,7 +233,11 @@ public class MainWin extends JFrame {
         help.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Fuck you!");
+                JOptionPane.showMessageDialog(MainWin.this,
+                        "a b c d e f g he efewfw\n" +
+                                "ewfewffewfewfewfewfewfewfew\n" +
+                                "ewfewfewfewfewfwefewfewfew\n" +
+                                "sdfdsfsdfdsfdfdf\n");
             }
         });
         return help;
@@ -243,7 +247,7 @@ public class MainWin extends JFrame {
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Adane and Elie!");
+                JOptionPane.showMessageDialog(MainWin.this, "Adane and Elie!");
             }
         });
         return about;
