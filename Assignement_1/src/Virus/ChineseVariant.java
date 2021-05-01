@@ -60,6 +60,8 @@ public class ChineseVariant implements IVirus{
     }
 
     public void addMutation(IVirus virus) {
+        if(this.containMutation(virus))
+            return;
         this.mutations.add(virus);
     }
 
@@ -78,7 +80,11 @@ public class ChineseVariant implements IVirus{
             return null;
 
         Random rand = new Random();
-        int index = rand.nextInt(mutations.size());
+
+        if(mutations.size() == 1)
+            return mutations.get(0);
+
+        int index = rand.nextInt(mutations.size() - 1);
         return mutations.get(index);
     }
 

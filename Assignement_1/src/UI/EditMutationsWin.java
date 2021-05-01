@@ -8,6 +8,8 @@ import Virus.SouthAfricanVariant;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class EditMutationsWin extends JDialog {
 
@@ -30,19 +32,43 @@ public class EditMutationsWin extends JDialog {
     private RowedTableScroll TableMaker() {
 
         String[] variantsNames = {"ChineseVariant", "BritishVariant", "SouthAfricanVariant"};
+        IVirus[] variants  = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance()};
 
         String[][] data = new String[3][3];
 
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                data[i][j] = String.valueOf(Variants[i].containMutation(Variants[j]));
+        DefaultTableModel model = new DefaultTableModel(variantsNames, 0) {
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return Boolean.class;
             }
-        }
+        };
+        for(int i = 0; i < 3 ; i++)
+            model.addRow(new Boolean[]{variants[i].containMutation(variants[0]), variants[i].containMutation(variants[1]), variants[i].containMutation(variants[2])});
 
+        JTable table = new JTable(model);
+        table.addMouseListener(new MouseListener() {
 
-
-        JTable table = new JTable(data, variantsNames);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 50));
+            private void mouseAction(){
+                int i = table.getSelectedRow();
+                int j = table.getSelectedColumn();
+                if((Boolean) table.getValueAt(i,j))
+                    variants[i].addMutation(variants[j]);
+                else
+                    variants[i].removeMutation(variants[j]);
+                System.out.print( " " + i + "  succeed  " + j + " " + (Boolean) table.getValueAt(i,j) );
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) { mouseAction(); }
+            @Override
+            public void mousePressed(MouseEvent e) {  }
+            @Override
+            public void mouseReleased(MouseEvent e) {  }
+            @Override
+            public void mouseEntered(MouseEvent e) {  }
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        });
+        table.setPreferredScrollableViewportSize(new Dimension(1000, 50));
         table.setFillsViewportHeight(true);
         return new RowedTableScroll(table, variantsNames);
     }

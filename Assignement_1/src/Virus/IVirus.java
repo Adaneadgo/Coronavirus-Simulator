@@ -28,6 +28,7 @@ public interface IVirus {
         /*
         person1 is Sick and the method checks their health condition, and if the other is healthy then he is infected.
          */
+
         if ( (person1 instanceof Sick) && !(person2 instanceof Sick)) {
 
              if (Clock.daysPass(((Sick) person1).getContagiousTime()) < 5)

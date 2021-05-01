@@ -265,8 +265,8 @@ public abstract class Settlement {
                 int index = rand.nextInt(notSicksArray.size() - 1);
                 Person person = notSicksArray.get(index);
 
-                if(virus.tryToContagion(sick,person)){
-                    Sick newSick = person.contagion(virus);
+                if(virus.tryToContagion(sick,person) && virus.mutant() != null){
+                    Sick newSick = person.contagion(virus.mutant());
                     toAdd.add(newSick);
                     toRemove.add(person);
 

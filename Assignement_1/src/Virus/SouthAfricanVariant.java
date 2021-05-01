@@ -52,6 +52,8 @@ public class SouthAfricanVariant implements IVirus{
 
 
     public void addMutation(IVirus virus) {
+        if(this.containMutation(virus))
+            return;
         this.mutations.add(virus);
     }
 
