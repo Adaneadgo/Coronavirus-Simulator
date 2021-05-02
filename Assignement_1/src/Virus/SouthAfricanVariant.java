@@ -70,10 +70,11 @@ public class SouthAfricanVariant implements IVirus{
     public IVirus mutant() {
         if(mutations.size() == 0)
             return null;
-
-        Random rand = new Random();
-        int index = rand.nextInt(mutations.size());
-        return mutations.get(index);
+        else {
+            Random rand = new Random();
+            int index = rand.nextInt(mutations.size());
+            return mutations.get(index);
+        }
     }
 
 }
