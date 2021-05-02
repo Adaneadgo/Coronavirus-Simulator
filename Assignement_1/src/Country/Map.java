@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
+    /**
+     * Represent the map that we create
+     */
 
     private  final Settlement[] settlements;
 
-    //C tors
+    //Ctors
     public Map(String[][] args){
 
          String[] neighbours = null;
@@ -53,9 +56,7 @@ public class Map {
             setNeighbours(neighbours);
     }
 
-    public Settlement[] getSettlements() {
-        return settlements;
-    }
+    public Settlement[] getSettlements() { return settlements; }
 
     //toString
     @Override
@@ -68,17 +69,26 @@ public class Map {
 
     // Simulation Methods
     public void setSickPeopleSimulation(){
+        /**
+         * In the Simulation we create Sick people
+         */
         for(Settlement settlement: settlements)
             settlement.setSickPeopleSimulation();
     }
 
     public void contagionSimulation(){
+        /**
+         * In the Simulation we try to contagion
+         */
         for(Settlement settlement: settlements)
              settlement.contagionSimulation();
     }
 
     // auxiliary
     public void setNeighbours(String[] args){
+        /**
+         * When we read from file we set Neighbours between Settlement
+         */
 
         String[] tag = new String[2];
 
@@ -110,6 +120,9 @@ public class Map {
     }
 
     public Settlement getSettlementByName(String name){
+        /**
+         * Return the settlement by the given name
+         */
 
         for(Settlement settlement: settlements){
 
@@ -122,6 +135,9 @@ public class Map {
 
 
     public int getSettlementIndex(Settlement settlement){
+        /**
+         * Return the Index by the given Settlement
+         */
         for(int i = 0; i<settlements.length; i++){
             if(settlement == settlements[i])
                 return i;
@@ -133,6 +149,9 @@ public class Map {
 
     // New Simulation
     public void Simulation()  {
+        /**
+         * Run Single simulation
+         */
         for(Settlement settlement: settlements){
             settlement.step1();
             settlement.step2();

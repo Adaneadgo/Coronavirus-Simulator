@@ -9,17 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MapWin extends JPanel {
+    /**
+     * Map Windows for Statistics Window
+     */
+
 
     private final Map map;
     private StatisticsWin statsWin = null;
     private boolean buttons = false;
 
+    //Ctor
     public MapWin(Map map){
 
         this.map = map;
     }
 
     public void paintComponent(Graphics g){
+        /**
+         * Create Location for settlement
+         */
 
         if(map == null)
             return;
@@ -31,6 +39,9 @@ public class MapWin extends JPanel {
     }
 
     private void LINES(Graphics g){
+        /**
+         * Create Location for settlement
+         */
 
         //Lines
         Settlement[] settlements = map.getSettlements();

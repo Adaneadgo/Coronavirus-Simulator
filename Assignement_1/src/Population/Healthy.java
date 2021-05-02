@@ -5,7 +5,11 @@ import Location.Location;
 
 public class Healthy extends Person {
 
-    private static double m_probability = 1;
+    /**
+     * represent healthy person
+     */
+
+    private final static double m_probability = 1;
 
     //Ctors
     public Healthy(){}

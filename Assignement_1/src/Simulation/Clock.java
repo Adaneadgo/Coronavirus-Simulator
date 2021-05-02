@@ -5,6 +5,10 @@ import IO.SimulationFile;
 
 public class Clock {
 
+    /**
+     *Clock repression as described
+     */
+
     private static long now = 0;
     private static long ticks_per_day = 1;
     private static int sleep = 1;

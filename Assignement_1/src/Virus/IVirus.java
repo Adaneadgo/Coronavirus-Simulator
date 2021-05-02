@@ -13,10 +13,15 @@ import Simulation.Clock;
 
 public interface IVirus {
 
+    /**
+     virus interface for the use of  ChineseVariant, BritishVariant, SouthAfricanVariant
+     */
+
+
 
     default public double contagionProbability(Person person)
     {
-        /*
+        /**
         A method that calculates the probability that the transferred person will be infected. The probability of the virus is multiplied by the probability coefficient of
         The person being transferred.
          */
@@ -49,7 +54,7 @@ public interface IVirus {
     }
    
     default public boolean tryToKill(Sick sick) {
-        /*
+        /**
          A method that calculates the probability that the person being transferred
          will die from the disease, according to which returns whether the person was killed or not.
          */

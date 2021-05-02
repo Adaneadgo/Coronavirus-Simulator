@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsTable extends JTable {
+    /**
+     * Statistic Table for Statistic Window
+     */
     private final Map map;
     private final TableRowSorter<TableModel> rowSorter;
 
@@ -30,6 +33,9 @@ public class StatisticsTable extends JTable {
     }
 
     public void reloadData(){
+        /**
+         * Update the table data
+         */
 
         Settlement[] settlements = this.map.getSettlements();
 
@@ -49,8 +55,12 @@ public class StatisticsTable extends JTable {
 
 
     public void rowSortByColumn(String text, TableColumn col){
+        /**
+         the table sorter by regex
+         */
         if(col == null){
             rowSorter.setRowFilter(RowFilter.regexFilter(""));
+            return;
         }
         assert col != null;
         rowSorter.setRowFilter(RowFilter.regexFilter(text,0,col.getModelIndex()));

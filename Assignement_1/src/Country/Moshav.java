@@ -3,6 +3,9 @@ package Country;
 import Location.Location;
 
 public class Moshav extends Settlement {
+    /**
+     * Represent Settlement of type "Moshav"
+     */
 
     //ctors
     public Moshav(){}
@@ -15,8 +18,8 @@ public class Moshav extends Settlement {
     //method
     @Override
     public RamzorColor calculateRamzorGrade() {
-         /*
-        Return the color that define how much the city is contagious
+         /**
+         * Return the color that define how much the city is contagious
          */
 
 

@@ -3,6 +3,9 @@ package Country;
 import java.awt.*;
 
 public enum RamzorColor {
+    /**
+     * Enum of RamzorColor
+     */
 
 
     //all values refers to a particular color
@@ -43,10 +46,16 @@ public enum RamzorColor {
     public double getCoefficient() { return defaultCoefficient; }
 
     public Color getColor() {
+        /**
+         * Return Color
+         */
         return color;
     }
 
     public double getProbability() {
+        /**
+         * Return probability
+         */
         return probability;
     }
 }

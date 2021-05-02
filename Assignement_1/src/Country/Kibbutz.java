@@ -3,6 +3,9 @@ package Country;
 import Location.Location;
 
 public class Kibbutz extends Settlement {
+    /**
+     * Represent Settlement of type "Kibbutz"
+     */
 
 
     //ctors
@@ -16,8 +19,8 @@ public class Kibbutz extends Settlement {
     //methods
     @Override
     public RamzorColor calculateRamzorGrade() {
-        /*
-        Return the color that define how much the city is contagious
+        /**
+         *Return the color that define how much the city is contagious
          */
 
 

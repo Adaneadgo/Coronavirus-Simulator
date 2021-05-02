@@ -4,6 +4,10 @@ import Simulation.Clock;
 
 public class Vaccinated extends Person {
 
+    /**
+     * vaccinated person as described
+     */
+
     private long m_vaccinationTime;
 
     //Ctors

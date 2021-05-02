@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.List;
 
 public abstract class Settlement {
+    /**
+     * Abstract class for creating real City, Moshav, Kibbutz
+     */
 
     private String name;
     private Location location;
@@ -25,7 +28,7 @@ public abstract class Settlement {
     private final List<Person> notSicksArray = new ArrayList<Person>();
     private int deathsNum = 0;
 
-    //C tors
+    //Ctors
     public Settlement() {
     }
 
@@ -67,6 +70,9 @@ public abstract class Settlement {
     }
 
     private String neighborsToString() {
+        /**
+         * Return String of the neighbour name
+         */
 
         if (neighbors == null)
             return "No neighbors";
@@ -106,6 +112,9 @@ public abstract class Settlement {
 
     //Statistics
     public String[] getStatistics() {
+        /**
+         * Return Statistics for the table
+         */
 
         String ramzor = ramzorColor.toString();
         String type = this.getClass().getSimpleName();
@@ -126,8 +135,7 @@ public abstract class Settlement {
     public abstract RamzorColor calculateRamzorGrade();
 
     public double contagiousPercent() {
-
-        /*
+        /**
         Calculates the percentage of sick people in the locality
          */
         int numSicks = sicksArray.size();
@@ -145,6 +153,9 @@ public abstract class Settlement {
     }
 
     public boolean AddPerson(Person person) {
+        /**
+         * Add person to the settlement
+         */
 
         if (people.size() >= peopleLimit)
             return false;
@@ -167,6 +178,9 @@ public abstract class Settlement {
     }
 
     public boolean transfertPerson(Person person, Settlement settlement) {
+        /**
+         * Transfer person to a another settlement
+         */
 
         double p = ramzorColor.getProbability() * settlement.ramzorColor.getProbability();
         Random rand = new Random();
@@ -187,6 +201,9 @@ public abstract class Settlement {
 
     // Simulation Methods
     public void setSickPeopleSimulation() {
+        /**
+         * Set sick people in Simulation (1%)
+         */
 
         // Array that handle all type of Virus
         IVirus[] viruses = {ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance()};
@@ -216,6 +233,9 @@ public abstract class Settlement {
     }
 
     public void contagionSimulation() {
+        /**
+         * Contagion Simulation ex1
+         */
         // all variable needed for method
         Sick sick = (Sick) people.get(0);
         IVirus virus = sick.getVirus();
@@ -250,6 +270,10 @@ public abstract class Settlement {
     }
 
     protected void step1() {
+        /**
+         * Step1 : as instructed in the assignment
+         * In every setllement 20% aur randomly sick
+         */
 
         int counter = (int)sicksArray.size()/5;
         Random rand = new Random();
@@ -288,15 +312,19 @@ public abstract class Settlement {
 
 
     protected void step2() {
+        /**
+         * Step2 : as instructed in the assignment
+         * Set Convalescent people after 25 days
+         */
 
         List<Sick> toRemove = new ArrayList<Sick>();
 
         for (Sick sick : sicksArray) {
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
 
-                Healthy healthy = new Healthy(sick);
+                Convalescent convalescent= new Convalescent(sick);
                 toRemove.add(sick);
-                notSicksArray.add(healthy);
+                notSicksArray.add(convalescent);
             }
         }
 
@@ -306,6 +334,10 @@ public abstract class Settlement {
     }
 
     protected void step3() {
+        /**
+         * Step3 : as instructed in the assignment
+         * try to move 3% people
+         */
 
         if (neighbors == null)
             return;
@@ -331,6 +363,10 @@ public abstract class Settlement {
 
 
     protected void step4(){
+        /**
+         * Step4 : as instructed in the assignment
+         * Vaccinate people
+         */
 
         int length = notSicksArray.size();
 

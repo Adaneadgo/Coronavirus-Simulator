@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsWin extends JFrame {
+    /**
+     * The windows that will displayed all the options as Instructed
+     */
 
     private final Map map;
     private final MapWin mapWin;
@@ -25,12 +28,14 @@ public class StatisticsWin extends JFrame {
     private TableColumn selectedColumn = null;
 
 
+    //Ctor
     StatisticsWin(Map map,MapWin mapWin, int rowIndex){
         this(map,mapWin);
         table.changeSelection(rowIndex, 0, false, false);
 
 
     }
+    //Ctor
     StatisticsWin(Map map,MapWin mapWin) {
         super("Statistics");
         this.map = map;
@@ -58,7 +63,12 @@ public class StatisticsWin extends JFrame {
 
     }
 
+
+
     private JComboBox<String> comboBox(){
+        /**
+         * Create the combo Box for Statistics Windows
+         */
 
         String[] options = new String[]{"None","Name","Type","Color"};
         JComboBox<String> comboBox = new JComboBox<String>(options);
@@ -81,6 +91,7 @@ public class StatisticsWin extends JFrame {
                         break;
                     case "None":
                         selectedColumn = null;
+                        table.rowSortByColumn("NONE",selectedColumn);
                         break;
                 }
 
@@ -92,12 +103,18 @@ public class StatisticsWin extends JFrame {
     }
 
     private JTextField textField(){
+        /**
+         * Created Text Field for Statistics window
+         */
 
         JTextField textField = new JTextField("Put Text here");
         textField.setColumns(20);
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void newText(){
+
+                if(selectedColumn == null)
+                    return;
                 String text = textField.getText();
                 table.rowSortByColumn(text,selectedColumn);
             }
@@ -116,6 +133,9 @@ public class StatisticsWin extends JFrame {
 
 
     private JButton save(){
+        /**
+         * Create the save button for saving all data into the CVS file
+         */
         JButton button = new JButton("Save");
         button.addActionListener(new ActionListener() {
             @Override
@@ -145,6 +165,9 @@ public class StatisticsWin extends JFrame {
     }
 
     private JButton addSick(){
+        /**
+         * Create add sick button for statistics window
+         */
         JButton button = new JButton("Add Sicks");
         button.addActionListener(new ActionListener() {
             @Override
@@ -154,6 +177,12 @@ public class StatisticsWin extends JFrame {
                     return;
 
                 }
+
+                if(selectedColumn != null) {
+                    JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
+                    return;
+                }
+
 
                 if(table.getSelectedRow() <= -1) {
                     JOptionPane.showMessageDialog(null, "Select Row!");
@@ -171,6 +200,9 @@ public class StatisticsWin extends JFrame {
     }
 
     private JButton vaccinate(){
+        /**
+         * Create vaccinate button for statistics window
+         */
 
         JButton button = new JButton("vaccinate");
         button.addActionListener(new ActionListener() {
@@ -181,6 +213,12 @@ public class StatisticsWin extends JFrame {
                     return;
 
                 }
+
+                if(selectedColumn != null) {
+                    JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
+                    return;
+                }
+
 
 
                 else if(table.getSelectedRow() <= -1) {
@@ -215,6 +253,9 @@ public class StatisticsWin extends JFrame {
     }
 
     public StatisticsTable LoadTable(){
+        /**
+         * A first initial of the table
+         */
 
         String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Amount of vaccines",
                 "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
@@ -232,6 +273,9 @@ public class StatisticsWin extends JFrame {
 
 
     public void refreshStatsWin(){
+        /**
+         * Refresh
+         */
         if(table != null){
             table.reloadData();
             table.revalidate();

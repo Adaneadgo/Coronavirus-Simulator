@@ -4,6 +4,10 @@ import java.util.Random;
 
 public class Location {
 
+    /**
+     * represent location object used by peoples and settlements
+     */
+
     private Point position;
     private Size size;
 

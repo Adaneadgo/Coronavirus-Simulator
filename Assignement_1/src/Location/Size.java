@@ -2,6 +2,10 @@ package Location;
 
 public class Size {
 
+    /**
+     *represent area as height X width
+     */
+
     private int height;
     private int width;
 

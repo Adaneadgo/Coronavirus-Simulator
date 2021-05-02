@@ -3,6 +3,9 @@ package Country;
 import Location.Location;
 
 public class City extends Settlement {
+    /**
+     * Represent Settlement of type "City"
+     */
 
     //ctors
     public City(){} // default Constructor
@@ -15,10 +18,9 @@ public class City extends Settlement {
     //methos
     @Override
     public RamzorColor calculateRamzorGrade() {
-        /*
-        Return the color that define how much the city is contagious
+        /**
+         * Return: Return the color that define how much the city is contagious
          */
-
 
         //Calculate the constant for the equation
         double P = this.contagiousPercent();

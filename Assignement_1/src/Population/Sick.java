@@ -4,6 +4,10 @@ import Simulation.Clock;
 import Virus.IVirus;
 
 public class Sick extends Person {
+
+    /**
+     *represent an infected by virus  person
+     */
     
     private long contagiousTime;
     private IVirus virus;

@@ -7,6 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class StatisticsFile {
+    /**
+     * used by statistic window
+     * create and export the csv file!
+     */
+
 
     private final Map map;
 
@@ -15,6 +20,10 @@ public class StatisticsFile {
     }
 
     public void CreatCsvFile(String path) throws FileNotFoundException {
+
+        /**
+         *create and export the csv file!
+         */
 
         Settlement [] settlements = map.getSettlements();
         PrintWriter pw = new PrintWriter(path + ".csv");

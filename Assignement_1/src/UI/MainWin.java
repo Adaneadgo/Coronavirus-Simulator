@@ -12,11 +12,15 @@ import IO.SimulationFile;
 import Simulation.Clock;
 
 public class MainWin extends JFrame {
+    /**
+     * Main Window that will operate the all system
+     */
 
     private SimulationFile simulationFile = null;
     private StatisticsWin statisticsWin;
     private MapWin mapWin;
 
+    //Ctor
     public MainWin() {
         this.setName("Main Window");
         this.setLayout(new BorderLayout());
@@ -32,6 +36,9 @@ public class MainWin extends JFrame {
 
 
     private JMenuBar Menu_Bar(){
+        /**
+         * Jswing operation to add all the instruction as needed
+         */
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(File_Menu());
         menuBar.add(Simulation_Menu());
@@ -40,6 +47,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenu File_Menu(){
+        /**
+         * All options that related to edited the file
+         */
         JMenu file = new JMenu("File");
         file.add(Load_Item());
         file.add(Statistics_Item());
@@ -49,6 +59,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenuItem Load_Item() {
+        /**
+         * Open Dialog to open file that contain all data
+         */
         JMenuItem load = new JMenuItem("Load");
         load.addActionListener(new ActionListener() {
             @Override
@@ -75,6 +88,9 @@ public class MainWin extends JFrame {
         return load;
     }
     private JMenuItem Statistics_Item(){
+        /**
+         * Open Statistics windows
+         */
         JMenuItem statistics = new JMenuItem("Statistics");
         statistics.addActionListener(new ActionListener() {
             @Override
@@ -92,6 +108,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenuItem Edit_Mutation_Item(){
+        /**
+         * Open the edit mutation window
+         */
         JMenuItem edit_mutation = new JMenuItem("Edit Mutation");
         edit_mutation.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +126,9 @@ public class MainWin extends JFrame {
         return edit_mutation;
     }
     private JMenuItem Exit_Item(){
+        /**
+         * Open the exit option window
+         */
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener(new ActionListener() {
             @Override
@@ -120,6 +142,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenu Simulation_Menu(){
+        /**
+         * Open the option to start pause or stop all the simulations
+         */
         JMenu simulation = new JMenu("Simulation");
         simulation.add(Play_Item());
         simulation.add(Pause_Item());
@@ -129,6 +154,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenuItem Play_Item(){
+        /**
+         * Run the simulation
+         */
         JMenuItem play = new JMenuItem("Play");
         play.addActionListener(new ActionListener() {
             @Override
@@ -144,6 +172,9 @@ public class MainWin extends JFrame {
         return play;
     }
     private JMenuItem Pause_Item(){
+        /**
+         * Pause the simulation
+         */
         JMenuItem pause = new JMenuItem("Pause");
         pause.addActionListener(new ActionListener() {
             @Override
@@ -165,6 +196,9 @@ public class MainWin extends JFrame {
         return pause;
     }
     private JMenuItem Stop_Item(){
+        /**
+         * Stop the simulation
+         */
         JMenuItem stop = new JMenuItem("Stop");
         stop.addActionListener(new ActionListener() {
             @Override
@@ -187,6 +221,9 @@ public class MainWin extends JFrame {
         return stop;
     }
     private JMenuItem Set_Ticks_Per_Day_Item(){
+        /**
+         * Set ticks per day for in order to calculate days
+         */
         JMenuItem set_ticks_per_day = new JMenuItem("Set Ticks per day");
         set_ticks_per_day.addActionListener(new ActionListener() {
             @Override
@@ -198,6 +235,9 @@ public class MainWin extends JFrame {
     }
 
     private void jSpinner(){
+        /**
+         * Spinner that used to Set ticks per days
+         */
         SpinnerNumberModel sModel = new SpinnerNumberModel(Clock.getTicks_per_day(), 1, 100, 1);
         JSpinner spinner = new JSpinner(sModel);
 
@@ -220,6 +260,9 @@ public class MainWin extends JFrame {
     }
 
     private JMenu Help_Menu(){
+        /**
+         * Open dialog for Help Menu
+         */
         JMenu help_menu = new JMenu("Help");
         help_menu.add(Help_Item());
         help_menu.add(About_Item());
@@ -227,31 +270,52 @@ public class MainWin extends JFrame {
     }
 
     private JMenuItem Help_Item(){
+        /**
+         * Open Instruction for Help
+         */
         JMenuItem help = new JMenuItem("Help");
         help.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(MainWin.this,
-                        "a b c d e f g he efewfw\n" +
-                                "ewfewffewfewfewfewfewfewfew\n" +
-                                "ewfewfewfewfewfwefewfewfew\n" +
-                                "sdfdsfsdfdsfdfdf\n");
+                        "================Help Menu================\n" +
+                                "\n------------------Main Window------------------\n\n" +
+                                "Load: Choose the relevant file\n" +
+                                "Edit Mutation: What kind of Variant you want\n" +
+                                "Slider: What Speed you want for your Simulation\n" +
+                                "Exit: Exit the program\n" +
+                                "\n-------------Statistics Window---------------\n\n" +
+                                "Combo Box: Choose relevant data you want\n" +
+                                "Text Field: Specific Data\n" +
+                                "Add sick: Choose city then add sick\n" +
+                                "Vaccinate: Amount of vaccin you want to give to the city\n" +
+                                "Save: Save all data in CVS file\n" +
+                                "\n--------------Simulation Window--------------\n\n" +
+                                "Start: Run the Simulation\n" +
+                                "Pause: Pause the Simulation\n" +
+                                "Stop: Stop the Simulation\n");
             }
         });
         return help;
     }
     private JMenuItem About_Item(){
+        /**
+         * Set About options
+         */
         JMenuItem about = new JMenuItem("About");
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainWin.this, "Adane and Elie!");
+                JOptionPane.showMessageDialog(MainWin.this, "=============MADE BY=============\n" + "Elie Bracha : 204795900\n"+ "Adane Adgo : 315721969\n");
             }
         });
         return about;
     }
 
     private JSlider Simulation_Speed_Slider(){
+        /**
+         * Speed Simulation Slider when simulation run
+         */
         JSlider slider = new JSlider(0,100,50);
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(1);
@@ -262,7 +326,7 @@ public class MainWin extends JFrame {
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Clock.setSleep(slider.getValue());
+                Clock.setSleep(slider.getValue()+100);
             }
         });
         return slider;
@@ -270,6 +334,9 @@ public class MainWin extends JFrame {
     }
 
     private File loadFileFunc() {
+        /**
+         * Open dialog For loqd the file
+         */
         FileDialog fd = new FileDialog((Frame) null, "Please choose a file:", FileDialog.LOAD);
         fd.setVisible(true);
 
@@ -288,6 +355,9 @@ public class MainWin extends JFrame {
     }
 
     public void RefreshAll(){
+        /**
+         * Refresh the statistics Windows
+         */
         if(statisticsWin != null){
             statisticsWin.repaint();
             statisticsWin.refreshStatsWin();

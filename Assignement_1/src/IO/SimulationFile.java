@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public final class SimulationFile {
+    /**
+     * The simulation file as instructed
+     * implemented as singleton
+     */
 
     private final File file;
     private  Map map;
@@ -19,6 +23,10 @@ public final class SimulationFile {
     private SimulationFile(File file) { this.file = file; }
 
     public static SimulationFile getInstance(File file){
+        /**
+         * singleton implementation
+         */
+
         if(instance == null)
             instance = new SimulationFile(file);
 
@@ -41,10 +49,16 @@ public final class SimulationFile {
     public void simulateSimulation(){ map.contagionSimulation();}
     // new Simulation
     public void Simulation()  {
+        /**
+         *run the simulation one time on all settlements
+         */
             map.Simulation();
     }
 
     public void setState(boolean state) {
+        /**
+         * indicate if simulation is on or not
+         */
         this.State = state;
     }
 
@@ -58,6 +72,9 @@ public final class SimulationFile {
 
     //auxiliary
     private String [][] readArgsFromFile() throws Exception{
+        /**
+         * reading the data from the file
+         */
         // Create a scanner file in order to read our File
         Scanner sc = new Scanner(file);
 

@@ -12,10 +12,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class EditMutationsWin extends JDialog {
+    /**
+     * All variants mutations possibilities
+     */
 
     private final IVirus [] Variants;
     private final RowedTableScroll table;
 
+    //Ctor
     EditMutationsWin(JFrame parent) {
         super(parent, "EditMutationsWin",true);
 
@@ -30,6 +34,9 @@ public class EditMutationsWin extends JDialog {
     }
 
     private RowedTableScroll TableMaker() {
+        /**
+         * Created the table that we allowed us to edit the variants
+         */
 
         String[] variantsNames = {"ChineseVariant", "BritishVariant", "SouthAfricanVariant"};
         IVirus[] variants  = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance()};
