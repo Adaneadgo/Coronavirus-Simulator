@@ -1,3 +1,5 @@
+//Adane Adgo 315721969
+//Elie Bracha 204795900
 package Virus;
 
 
@@ -7,8 +9,6 @@ import java.util.Random;
 import Population.Person;
 import Population.Sick;
 import Simulation.Clock;
-
-
 
 
 public interface IVirus {

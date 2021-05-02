@@ -1,3 +1,5 @@
+//Adane Adgo 315721969
+//Elie Bracha 204795900
 package UI;
 
 import javax.swing.*;

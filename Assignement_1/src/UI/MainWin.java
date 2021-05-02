@@ -1,3 +1,5 @@
+//Adane Adgo 315721969
+//Elie Bracha 204795900
 package UI;
 
 import javax.swing.*;
@@ -331,7 +333,6 @@ public class MainWin extends JFrame {
                 frame.setSize(new Dimension(100,100));
 
                 frame.pack();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
 
 
