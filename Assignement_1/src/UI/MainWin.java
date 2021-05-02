@@ -19,6 +19,7 @@ public class MainWin extends JFrame {
     private SimulationFile simulationFile = null;
     private StatisticsWin statisticsWin;
     private MapWin mapWin;
+    private boolean Closed = false;
 
     //Ctor
     public MainWin() {
@@ -134,8 +135,15 @@ public class MainWin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirmed = JOptionPane.showConfirmDialog(MainWin.this, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION)
+                if (confirmed == JOptionPane.YES_OPTION) {
+
+                    if(statisticsWin != null)
+                        statisticsWin.dispose();
+
+                    Closed = true;
                     MainWin.this.dispose();
+
+                }
             }
         });
         return exit;
@@ -228,7 +236,13 @@ public class MainWin extends JFrame {
         set_ticks_per_day.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jSpinner();
+                if(simulationFile == null){
+                    JOptionPane.showMessageDialog(null, "file not been loaded!");
+                    return;
+                }
+
+                else
+                    jSpinner();
             }
         });
         return set_ticks_per_day;
@@ -244,11 +258,10 @@ public class MainWin extends JFrame {
         int option = JOptionPane.showOptionDialog(null, spinner, "Set Ticks Per Day",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-        if (option == JOptionPane.OK_OPTION) {
+        if (option == 0) {
             try{
-                long ticks = Long.parseLong(spinner.getValue().toString());
+                long ticks = (long)Float.parseFloat(spinner.getValue().toString());
                 Clock.setTicks_per_day(ticks);
-                System.out.println(ticks);
 
             }
             catch (Exception exc){
@@ -306,7 +319,22 @@ public class MainWin extends JFrame {
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainWin.this, "=============MADE BY=============\n" + "Elie Bracha : 204795900\n"+ "Adane Adgo : 315721969\n");
+
+
+                String aboutUs = "<html><br/>==================MADE BY==================<br/>" +
+                        "Adane Adgo : 315721969 and Elie Bracha : 204795900 <br/>"+
+                        "                At:  2/5/2021<br/>" +
+                        "</html>";
+
+                JFrame frame = new JFrame();
+                frame.add(new JLabel(aboutUs));
+                frame.setSize(new Dimension(100,100));
+
+                frame.pack();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+
+
             }
         });
         return about;
@@ -366,5 +394,9 @@ public class MainWin extends JFrame {
         if(mapWin != null)
             mapWin.repaint();
 
+    }
+
+    public boolean isClosed(){
+        return Closed;
     }
 }

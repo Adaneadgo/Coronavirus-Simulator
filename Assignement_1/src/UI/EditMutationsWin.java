@@ -62,7 +62,7 @@ public class EditMutationsWin extends JDialog {
                     variants[i].addMutation(variants[j]);
                 else
                     variants[i].removeMutation(variants[j]);
-                System.out.print( " " + i + "  succeed  " + j + " " + (Boolean) table.getValueAt(i,j) );
+
             }
             @Override
             public void mouseClicked(MouseEvent e) { mouseAction(); }

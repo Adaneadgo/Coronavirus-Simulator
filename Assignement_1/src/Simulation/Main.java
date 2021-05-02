@@ -35,8 +35,10 @@ public class Main {
             if(simulationFile.isON()) {
                 simulationFile.Simulation();
                 mainWin.RefreshAll();
-                System.out.println(Clock.now());
             }
+
+            if(mainWin.isClosed())
+                return;
 
         }
 

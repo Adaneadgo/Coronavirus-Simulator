@@ -10,7 +10,7 @@ public class Clock {
      */
 
     private static long now = 0;
-    private static long ticks_per_day = 1;
+    private static long ticks_per_day = 24;
     private static int sleep = 1000;
 
     public static long now(){ return now;}
