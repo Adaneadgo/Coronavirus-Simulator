@@ -294,9 +294,9 @@ public abstract class Settlement {
         for (Sick sick : sicksArray) {
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
 
-                Healthy healthy = new Healthy(sick);
+                Convalescent convalescent = new Convalescent(sick);
                 toRemove.add(sick);
-                notSicksArray.add(healthy);
+                notSicksArray.add(convalescent);
             }
         }
 

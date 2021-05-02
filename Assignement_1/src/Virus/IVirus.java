@@ -28,6 +28,8 @@ public interface IVirus {
         /*
         person1 is Sick and the method checks their health condition, and if the other is healthy then he is infected.
          */
+        if(this.mutant() == null)
+            return false;
 
         if ( (person1 instanceof Sick) && !(person2 instanceof Sick)) {
 

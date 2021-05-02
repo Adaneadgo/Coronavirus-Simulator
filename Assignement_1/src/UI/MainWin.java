@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Dictionary;
 
 import IO.SimulationFile;
 import Simulation.Clock;
@@ -204,9 +205,9 @@ public class MainWin extends JFrame {
         int option = JOptionPane.showOptionDialog(null, spinner, "Set Ticks Per Day",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-        if (option == JOptionPane.OK_OPTION) {
+        if (option == 0) {
             try{
-                long ticks = Long.parseLong(spinner.getValue().toString());
+                long ticks = (long)Float.parseFloat(spinner.getValue().toString());
                 Clock.setTicks_per_day(ticks);
                 System.out.println(ticks);
 
@@ -252,7 +253,7 @@ public class MainWin extends JFrame {
     }
 
     private JSlider Simulation_Speed_Slider(){
-        JSlider slider = new JSlider(0,100,50);
+        JSlider slider = new JSlider(0,100,100);
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(1);
         slider.setPaintTicks(true);
@@ -262,7 +263,7 @@ public class MainWin extends JFrame {
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Clock.setSleep(slider.getValue());
+                Clock.setSleep(slider.getValue() * 10 );
             }
         });
         return slider;

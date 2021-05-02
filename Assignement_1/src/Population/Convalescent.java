@@ -9,6 +9,10 @@ public class Convalescent extends Person{
 
     //Ctors
     public Convalescent(){}
+    public Convalescent(Sick sick){
+        super(sick);
+        m_virus = sick.getVirus();
+    }
     public Convalescent(IVirus virus){ m_virus = virus;}
 
     //Getters

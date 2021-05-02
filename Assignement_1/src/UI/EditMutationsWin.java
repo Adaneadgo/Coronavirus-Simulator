@@ -17,7 +17,7 @@ public class EditMutationsWin extends JDialog {
     private final RowedTableScroll table;
 
     EditMutationsWin(JFrame parent) {
-        super(parent, "EditMutationsWin",true);
+        super(parent, "Edit Mutations",true);
 
         this.Variants = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(),SouthAfricanVariant.getInstance()};
         this.table = TableMaker();
@@ -34,16 +34,16 @@ public class EditMutationsWin extends JDialog {
         String[] variantsNames = {"ChineseVariant", "BritishVariant", "SouthAfricanVariant"};
         IVirus[] variants  = new IVirus[]{ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance()};
 
-        String[][] data = new String[3][3];
-
         DefaultTableModel model = new DefaultTableModel(variantsNames, 0) {
             @Override
             public Class getColumnClass(int columnIndex) {
                 return Boolean.class;
             }
         };
-        for(int i = 0; i < 3 ; i++)
-            model.addRow(new Boolean[]{variants[i].containMutation(variants[0]), variants[i].containMutation(variants[1]), variants[i].containMutation(variants[2])});
+
+
+        for (IVirus variant : variants)
+            model.addRow(new Boolean[]{variant.containMutation(variants[0]), variant.containMutation(variants[1]), variant.containMutation(variants[2])});
 
         JTable table = new JTable(model);
         table.addMouseListener(new MouseListener() {
@@ -60,15 +60,16 @@ public class EditMutationsWin extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) { mouseAction(); }
             @Override
-            public void mousePressed(MouseEvent e) {  }
+            public void mousePressed(MouseEvent e){}
             @Override
-            public void mouseReleased(MouseEvent e) {  }
+            public void mouseReleased(MouseEvent e){}
             @Override
-            public void mouseEntered(MouseEvent e) {  }
+            public void mouseEntered(MouseEvent e){}
             @Override
-            public void mouseExited(MouseEvent e) {}
+            public void mouseExited(MouseEvent e){}
         });
-        table.setPreferredScrollableViewportSize(new Dimension(1000, 50));
+
+        table.setPreferredScrollableViewportSize(new Dimension(500, 50));
         table.setFillsViewportHeight(true);
         return new RowedTableScroll(table, variantsNames);
     }
