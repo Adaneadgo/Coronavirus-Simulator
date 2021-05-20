@@ -77,6 +77,7 @@ public class MainWin extends JFrame {
                 }
                 try {
                     simulationFile = new SimulationFile(file);
+                    new Thread(simulationFile).start();
                     mapWin = new MapWin(simulationFile);
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
@@ -175,9 +176,8 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                 }
 
-                else {
+                else{
                     simulationFile.setState(true);
-                    System.out.println("Play");
                 }
             }
 
@@ -229,6 +229,7 @@ public class MainWin extends JFrame {
 
                 simulationFile.setState(false);
                 simulationFile = null;
+                statisticsWin.dispose();
                 MainWin.this.getContentPane().remove(mapWin);
                 MainWin.this.repaint();
             }

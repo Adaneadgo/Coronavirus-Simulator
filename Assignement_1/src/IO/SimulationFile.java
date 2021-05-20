@@ -15,7 +15,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public final class SimulationFile {
+public final class SimulationFile implements Runnable {
     /**
      * The simulation file as instructed
      * implemented as singleton
@@ -52,16 +52,33 @@ public final class SimulationFile {
 
     //Getters and Setters
     public Map getMap() { return map; }
-    public void setState(boolean state){ this.state = state; }
+    public void setState(boolean state){
+
+        synchronized (this) {
+            this.state = state;
+
+            if (state)
+                this.notifyAll();
+        }
+    }
     public boolean isON(){ return state; }
 
     //methods
-    public  synchronized void RunSimulation() throws InterruptedException {
+    public void RunSimulation() throws InterruptedException {
         /**
          *run the simulation one time on all settlements
          */
-        for(SimulationRunner simulationRunner: simulationRunners)
-            executor.submit(simulationRunner);
+        synchronized (this) {
+            while (true) {
+
+                if (this.state) {
+                    for (SimulationRunner simulationRunner : simulationRunners)
+                        executor.submit(simulationRunner);
+                } else
+                    this.wait();
+
+            }
+        }
     }
 
     //auxiliary
@@ -96,5 +113,13 @@ public final class SimulationFile {
 
     }
 
-    
+
+    @Override
+    public void run() {
+        try {
+            RunSimulation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
