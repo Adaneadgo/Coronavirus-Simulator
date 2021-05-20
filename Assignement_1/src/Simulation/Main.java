@@ -3,17 +3,14 @@
 
 package Simulation;
 
-import Country.RamzorColor;
 import IO.SimulationFile;
-import IO.StatisticsFile;
 import UI.MainWin;
-
-import java.awt.*;
-import java.io.File;
 
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+
+
 
         MainWin mainWin = new MainWin();
         RunSimulation(mainWin);
@@ -33,12 +30,11 @@ public class Main {
             Clock.nextTick();
 
             if(simulationFile.isON()) {
-                simulationFile.Simulation();
+                simulationFile.RunSimulation();
                 mainWin.RefreshAll();
+                System.out.println("YES");
             }
-
-            if(mainWin.isClosed())
-                return;
+            System.out.println("NO");
 
         }
 

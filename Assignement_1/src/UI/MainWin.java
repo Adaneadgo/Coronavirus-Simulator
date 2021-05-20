@@ -18,10 +18,10 @@ public class MainWin extends JFrame {
      * Main Window that will operate the all system
      */
 
-    private SimulationFile simulationFile = null;
+    private SimulationFile simulationFile;
     private StatisticsWin statisticsWin;
     private MapWin mapWin;
-    private boolean Closed = false;
+
 
     //Ctor
     public MainWin() {
@@ -76,11 +76,11 @@ public class MainWin extends JFrame {
                     return;
                 }
                 try {
-                    simulationFile = SimulationFile.getInstance(file);
-                    simulationFile.loadSimulation();
-                    mapWin = new MapWin(simulationFile.getMap());
+                    simulationFile = new SimulationFile(file);
+                    mapWin = new MapWin(simulationFile);
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
+                    System.out.println("loaded");
 
                 } catch (Exception exception) { exception.printStackTrace(); }
 
@@ -102,7 +102,7 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                statisticsWin = new StatisticsWin(simulationFile.getMap(),mapWin);
+                statisticsWin = new StatisticsWin(simulationFile, mapWin);
                 mapWin.revalidate();
             }
 
@@ -137,12 +137,12 @@ public class MainWin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirmed = JOptionPane.showConfirmDialog(MainWin.this, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
+
                 if (confirmed == JOptionPane.YES_OPTION) {
 
                     if(statisticsWin != null)
                         statisticsWin.dispose();
 
-                    Closed = true;
                     MainWin.this.dispose();
 
                 }
@@ -173,9 +173,12 @@ public class MainWin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                    return;
                 }
-                simulationFile.setState(true);
+
+                else {
+                    simulationFile.setState(true);
+                    System.out.println("Play");
+                }
             }
 
         });
@@ -201,12 +204,13 @@ public class MainWin extends JFrame {
                 }
                 simulationFile.setState(false);
 
+
             }
         });
         return pause;
     }
     private JMenuItem Stop_Item(){
-        /**
+        /*
          * Stop the simulation
          */
         JMenuItem stop = new JMenuItem("Stop");
@@ -222,6 +226,7 @@ public class MainWin extends JFrame {
                     return;
 
                 }
+
                 simulationFile.setState(false);
                 simulationFile = null;
                 MainWin.this.getContentPane().remove(mapWin);
@@ -240,7 +245,6 @@ public class MainWin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(simulationFile == null){
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                    return;
                 }
 
                 else
@@ -397,7 +401,4 @@ public class MainWin extends JFrame {
 
     }
 
-    public boolean isClosed(){
-        return Closed;
-    }
 }

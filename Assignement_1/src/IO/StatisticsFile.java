@@ -15,10 +15,10 @@ public class StatisticsFile {
      */
 
 
-    private final Map map;
+    private final SimulationFile simulationFile;
 
-    public StatisticsFile(Map map) {
-        this.map = map;
+    public StatisticsFile(SimulationFile simulationFile) {
+        this.simulationFile = simulationFile;
     }
 
     public void CreatCsvFile(String path) throws FileNotFoundException {
@@ -27,7 +27,7 @@ public class StatisticsFile {
          *create and export the csv file!
          */
 
-        Settlement [] settlements = map.getSettlements();
+        Settlement [] settlements = simulationFile.getMap().getSettlements();
         PrintWriter pw = new PrintWriter(path + ".csv");
 
         String columns = "Name,Type,Color,Area,Area per Person,Amount of vaccines,Coefficient," +

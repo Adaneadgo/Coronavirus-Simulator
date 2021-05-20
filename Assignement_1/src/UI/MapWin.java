@@ -4,6 +4,7 @@ package UI;
 
 import Country.Map;
 import Country.Settlement;
+import IO.SimulationFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +17,13 @@ public class MapWin extends JPanel {
      */
 
 
-    private final Map map;
+    private final SimulationFile simulationFile;
     private StatisticsWin statsWin = null;
-    private boolean buttons = false;
 
     //Ctor
-    public MapWin(Map map){
+    public MapWin(SimulationFile simulationFile){
 
-        this.map = map;
+        this.simulationFile = simulationFile;
     }
 
     public void paintComponent(Graphics g){
@@ -31,23 +31,23 @@ public class MapWin extends JPanel {
          * Create Location for settlement
          */
 
-        if(map == null)
+        if(simulationFile == null)
             return;
 
         super.paintComponent(g);
         this.removeAll();
-        LINES(g);
-        setButtons();
+        setLines(g);
+        setRecButtons();
     }
 
-    private void LINES(Graphics g){
+    private void setLines(Graphics g){
         /**
          * Create Location for settlement
          */
 
         //Lines
-        Settlement[] settlements = map.getSettlements();
-        int x1,y1,x2,y2;
+        Settlement[] settlements = simulationFile.getMap().getSettlements();
+        int x1, y1, x2, y2;
 
         for(Settlement settlement: settlements){
             x1 = settlement.getLocation().getPoint().getX();
@@ -70,9 +70,11 @@ public class MapWin extends JPanel {
 
     }
 
-    private void setButtons(){
+    private void setRecButtons(){
 
-        Settlement [] settlements = map.getSettlements();
+        Map map = simulationFile.getMap();
+
+        Settlement[] settlements = map.getSettlements();
         int x,y,w,h;
         for(Settlement settlement: settlements) {
             x = settlement.getLocation().getPoint().getX();
@@ -88,12 +90,11 @@ public class MapWin extends JPanel {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    statsWin = new StatisticsWin(map,MapWin.this,map.getSettlementIndex(settlement));
+                    statsWin = new StatisticsWin(simulationFile,MapWin.this,map.getSettlementIndex(settlement));
                 }
             });
 
             this.add(button);
-            buttons = true;
         }
 
 

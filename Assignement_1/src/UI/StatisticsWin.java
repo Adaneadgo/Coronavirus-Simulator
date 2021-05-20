@@ -24,23 +24,23 @@ public class StatisticsWin extends JFrame {
      * The windows that will displayed all the options as Instructed
      */
 
-    private final Map map;
+    private final SimulationFile simulationFile;
     private final MapWin mapWin;
     private final StatisticsTable table;
     private TableColumn selectedColumn = null;
 
 
     //Ctor
-    StatisticsWin(Map map,MapWin mapWin, int rowIndex){
-        this(map,mapWin);
+    StatisticsWin(SimulationFile simulationFile, MapWin mapWin, int rowIndex){
+        this(simulationFile,mapWin);
         table.changeSelection(rowIndex, 0, false, false);
 
 
     }
     //Ctor
-    StatisticsWin(Map map,MapWin mapWin) {
+    StatisticsWin(SimulationFile simulationFile, MapWin mapWin) {
         super("Statistics");
-        this.map = map;
+        this.simulationFile = simulationFile;
         this.mapWin = mapWin;
 
         this.setLayout(new BorderLayout(0,100));
@@ -93,7 +93,7 @@ public class StatisticsWin extends JFrame {
                         break;
                     case "None":
                         selectedColumn = null;
-                        table.rowSortByColumn("NONE",selectedColumn);
+                        table.rowSortByColumn("NONE",null);
                         break;
                 }
 
@@ -142,7 +142,7 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(SimulationFile.getInstance().isON()) {
+                if(simulationFile.isON()) {
                     JOptionPane.showMessageDialog(null, "Stop simulation!");
                     return;
                 }
@@ -152,7 +152,7 @@ public class StatisticsWin extends JFrame {
                     if(option == JFileChooser.APPROVE_OPTION){
                         File file = fileChooser.getSelectedFile();
                         try {
-                            new StatisticsFile(map).CreatCsvFile(file.toString());
+                            new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
                         } catch (FileNotFoundException fileNotFoundException) {
                             fileNotFoundException.printStackTrace();
                         }
@@ -174,7 +174,7 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(SimulationFile.getInstance().isON()){
+                if(simulationFile.isON()){
                     JOptionPane.showMessageDialog(null, "Stop simulation!");
                     return;
 
@@ -191,7 +191,7 @@ public class StatisticsWin extends JFrame {
                     return;
                 }
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
-                    map.getSettlementByName(name).setSickPeopleSimulation();
+                    simulationFile.getMap().getSettlementByName(name).setSickPeopleSimulation();
                     table.reloadData();
                     mapWin.revalidate();
                 }
@@ -210,7 +210,7 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(SimulationFile.getInstance().isON()){
+                if(simulationFile.isON()){
                     JOptionPane.showMessageDialog(null, "Stop simulation!");
                     return;
 
@@ -240,7 +240,7 @@ public class StatisticsWin extends JFrame {
                     }
 
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
-                    map.getSettlementByName(name).addVaccines(num);
+                    simulationFile.getMap().getSettlementByName(name).addVaccines(num);
                     table.reloadData();
                 }
                 catch (NumberFormatException nfe) {
@@ -262,14 +262,14 @@ public class StatisticsWin extends JFrame {
         String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Amount of vaccines",
                 "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
 
-        Settlement[] settlements = this.map.getSettlements();
+        Settlement[] settlements = this.simulationFile.getMap().getSettlements();
 
         List<String[]> data = new ArrayList<String[]>();
         for(Settlement settlement: settlements){
             data.add(settlement.getStatistics());
         }
 
-        return new StatisticsTable(map,data.toArray(new String[0][0]),columns);
+        return new StatisticsTable(simulationFile.getMap(),data.toArray(new String[0][0]),columns);
 
     }
 

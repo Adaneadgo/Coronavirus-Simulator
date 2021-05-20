@@ -267,14 +267,16 @@ public abstract class Settlement {
     //new simulation
 
     public void runSimulation() {
-
-
+        step1();
+        step2();
+        step3();
+        step4();
     }
 
-    protected void step1() {
+    protected synchronized void step1() {
         /**
          * Step1 : as instructed in the assignment
-         * In every setllement 20% aur randomly sick
+         * In every settlement 20% aur randomly sick
          */
 
         int counter = (int)sicksArray.size()/5;
@@ -313,7 +315,7 @@ public abstract class Settlement {
         }
 
 
-    protected void step2() {
+    protected synchronized void step2() {
         /**
          * Step2 : as instructed in the assignment
          * Set Convalescent people after 25 days
@@ -335,7 +337,7 @@ public abstract class Settlement {
 
     }
 
-    protected void step3() {
+    protected synchronized void step3() {
         /**
          * Step3 : as instructed in the assignment
          * try to move 3% people
@@ -364,7 +366,7 @@ public abstract class Settlement {
     }
 
 
-    protected void step4(){
+    protected synchronized void step4(){
         /**
          * Step4 : as instructed in the assignment
          * Vaccinate people

@@ -4,11 +4,16 @@ package IO;
 
 import Country.Map;
 import Country.Settlement;
+import Simulation.SimulationRunner;
+
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public final class SimulationFile {
     /**
@@ -17,59 +22,46 @@ public final class SimulationFile {
      */
 
     private final File file;
-    private  Map map;
-    private  boolean  State = false;
-    private static SimulationFile instance = null;
+    private final Map map;
+    private boolean state;
+    private final ExecutorService executor;
+    private final List<SimulationRunner> simulationRunners;
+
 
     //Ctor
-    private SimulationFile(File file) { this.file = file; }
+    public SimulationFile(File file) throws Exception {
+        this.file = file;
+        state = false;
+        String [][] args = readArgsFromFile();
+        map = new Map(args);
 
-    public static SimulationFile getInstance(File file){
-        /**
-         * singleton implementation
-         */
+        Settlement [] settlements = map.getSettlements();
+        CyclicBarrier barrier = new CyclicBarrier(settlements.length);
+        executor = Executors.newFixedThreadPool(settlements.length);
+        simulationRunners = new ArrayList<SimulationRunner>();
 
-        if(instance == null)
-            instance = new SimulationFile(file);
+        for(Settlement settlement: settlements)
+            simulationRunners.add(new SimulationRunner(settlement, barrier));
 
-        return instance;
     }
 
-    public static SimulationFile getInstance() {
-        return instance;
-    }
 
     //ToString
     @Override
     public String toString() { return "\nSimulation File path: " + file + map; }
 
+    //Getters and Setters
     public Map getMap() { return map; }
+    public void setState(boolean state){ this.state = state; }
+    public boolean isON(){ return state; }
 
-    //Methods
-    public void loadSimulation() throws Exception { map = new Map(readArgsFromFile());}
-    public void initialSimulation(){ map.setSickPeopleSimulation();}
-    public void simulateSimulation(){ map.contagionSimulation();}
-    // new Simulation
-    public void Simulation()  {
+    //methods
+    public  synchronized void RunSimulation() throws InterruptedException {
         /**
          *run the simulation one time on all settlements
          */
-            map.Simulation();
-    }
-
-    public void setState(boolean state) {
-        /**
-         * indicate if simulation is on or not
-         */
-        this.State = state;
-    }
-
-    public boolean isON(){
-
-        if(instance == null)
-            return false;
-
-        return this.State;
+        for(SimulationRunner simulationRunner: simulationRunners)
+            executor.submit(simulationRunner);
     }
 
     //auxiliary
@@ -103,10 +95,6 @@ public final class SimulationFile {
         return args.toArray(new String[0][0]); // return Array type
 
     }
-
-
-
-
 
     
 }

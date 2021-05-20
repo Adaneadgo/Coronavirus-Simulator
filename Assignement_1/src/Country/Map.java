@@ -121,6 +121,10 @@ public class Map {
 
     }
 
+    public int getNumberOfSettlements(){
+        return settlements.length;
+    }
+
     public Settlement getSettlementByName(String name){
         /**
          * Return the settlement by the given name
