@@ -85,7 +85,7 @@ public class MapWin extends JPanel {
             JButton button = new JButton(settlement.getName());
             button.setLocation(x,y);
             button.setSize(w,h);
-            button.setBackground(settlement.getColor());
+            button.setBackground(settlement.getColorCode());
 
             button.addActionListener(new ActionListener() {
                 @Override

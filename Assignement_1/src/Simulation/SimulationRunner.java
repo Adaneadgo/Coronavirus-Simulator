@@ -18,6 +18,7 @@ public class SimulationRunner implements Runnable {
     public void run() {
 
         settlement.runSimulation();
+
         try {
             barrier.await();
         } catch (InterruptedException | BrokenBarrierException e) {

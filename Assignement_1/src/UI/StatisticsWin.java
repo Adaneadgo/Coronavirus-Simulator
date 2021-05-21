@@ -50,7 +50,7 @@ public class StatisticsWin extends JFrame {
         upPanel.add(textField());
         this.add(upPanel, BorderLayout.NORTH);
 
-        this.table = LoadTable();
+        this.table = new StatisticsTable(simulationFile.getMap().getSettlements());
         this.add(new JScrollPane(table), BorderLayout.CENTER);
 
         JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
@@ -192,7 +192,6 @@ public class StatisticsWin extends JFrame {
                 }
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                     simulationFile.getMap().getSettlementByName(name).setSickPeopleSimulation();
-                    table.reloadData();
                     mapWin.revalidate();
                 }
 
@@ -241,7 +240,6 @@ public class StatisticsWin extends JFrame {
 
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                     simulationFile.getMap().getSettlementByName(name).addVaccines(num);
-                    table.reloadData();
                 }
                 catch (NumberFormatException nfe) {
                     JOptionPane.showMessageDialog(null, "not a number!");
@@ -254,32 +252,12 @@ public class StatisticsWin extends JFrame {
         return button;
     }
 
-    public StatisticsTable LoadTable(){
-        /**
-         * A first initial of the table
-         */
-
-        String [] columns = new String[]{"Name","Type","Color","Area","Area per Person","Amount of vaccines",
-                "Coefficient", "Number of People","Number of Sick People","Percentage of infected","number of deaths"};
-
-        Settlement[] settlements = this.simulationFile.getMap().getSettlements();
-
-        List<String[]> data = new ArrayList<String[]>();
-        for(Settlement settlement: settlements){
-            data.add(settlement.getStatistics());
-        }
-
-        return new StatisticsTable(simulationFile.getMap(),data.toArray(new String[0][0]),columns);
-
-    }
-
 
     public void refreshStatsWin(){
         /**
          * Refresh
          */
         if(table != null){
-            table.reloadData();
             table.revalidate();
             table.repaint();
         }

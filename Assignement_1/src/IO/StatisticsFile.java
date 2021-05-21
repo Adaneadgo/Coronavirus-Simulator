@@ -30,8 +30,8 @@ public class StatisticsFile {
         Settlement [] settlements = simulationFile.getMap().getSettlements();
         PrintWriter pw = new PrintWriter(path + ".csv");
 
-        String columns = "Name,Type,Color,Area,Area per Person,Amount of vaccines,Coefficient," +
-                "Number of People,Number of Sicks People,Percentage of infected,number of deaths\n";
+        String columns = "Name,Type,Color,Area,Occupancy,Number of People,Coefficient," +
+                "Percentage of infected,Number of vaccines,number of deaths\n";
         pw.write(columns);
 
         for(Settlement settlement: settlements) {

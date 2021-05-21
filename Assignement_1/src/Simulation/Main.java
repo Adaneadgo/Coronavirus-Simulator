@@ -9,7 +9,7 @@ import UI.MainWin;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        new MainWin();
 
-       new MainWin();
     }
 }

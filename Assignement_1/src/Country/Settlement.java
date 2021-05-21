@@ -24,11 +24,11 @@ public abstract class Settlement {
     protected double coefficient;
 
     private int peopleLimit;
-    private int vaccinesNum = 0;
+    private int vaccinesNumber = 0;
     private Settlement[] neighbors;
     private final List<Sick> sicksArray = new ArrayList<Sick>();
     private final List<Person> notSicksArray = new ArrayList<Person>();
-    private int deathsNum = 0;
+    private int deathsNumber = 0;
 
     //Ctors
     public Settlement() {
@@ -87,21 +87,41 @@ public abstract class Settlement {
     }
 
     //getters
+
     public String getName() {
         return name;
     }
+    public String getType() {return this.getClass().getSimpleName();}
+    public RamzorColor getRamzorColor() { return ramzorColor; }
+    public int getArea() {return location.getArea();}
+    public float getOccupancy() {return (float)people.size()/peopleLimit; }
+    public int getTotalNumber() { return people.size(); }
+    public double getCoefficient() { return coefficient;}
+    public float getSicksRatio() { return (float)sicksArray.size()/people.size();}
+    public int getVaccinesNumber() { return vaccinesNumber; }
+    public int getDeathsNumber() { return deathsNumber;}
 
+    public String[] getStatistics(){
+        return new String[]{
+
+        };
+
+
+
+    }
+
+    public Color getColorCode() {
+        return ramzorColor.getColor();
+    }
+    public int getSicksNumber(){ return sicksArray.size();}
+    public int getNotSickNumber() {return notSicksArray.size(); }
     public Settlement[] getNeighbors() {
         return neighbors;
     }
-
     public Location getLocation() {
         return location;
     }
 
-    public Color getColor() {
-        return ramzorColor.getColor();
-    }
 
     //setters
     public void setNeighbors(Settlement[] neighbors) {
@@ -109,30 +129,8 @@ public abstract class Settlement {
     }
 
     public void addVaccines(int amountOfVaccines) {
-        this.vaccinesNum += amountOfVaccines;
+        this.vaccinesNumber += amountOfVaccines;
     }
-
-    //Statistics
-    public String[] getStatistics() {
-        /**
-         * Return Statistics for the table
-         */
-
-        String ramzor = ramzorColor.toString();
-        String type = this.getClass().getSimpleName();
-        String area = String.valueOf(location.getArea());
-        String vaccines = String.valueOf(vaccinesNum);
-        String a_p_h = String.valueOf((float) location.getArea() / people.size());
-        String coff = String.valueOf(coefficient);
-        String t_num = String.valueOf(people.size());
-        String SicksS = String.valueOf(sicksArray.size());
-        String sickPre = String.valueOf((float) sicksArray.size() / people.size());
-        String deaths = String.valueOf(deathsNum);
-
-        return new String[]{name, type, ramzor, area, a_p_h, vaccines, coff, t_num, SicksS, sickPre, deaths};
-    }
-
-
     //method
     public abstract RamzorColor calculateRamzorGrade();
 
@@ -376,12 +374,12 @@ public abstract class Settlement {
 
         for(int i = 0; i < length; i++){
 
-            if(vaccinesNum <= 0)
+            if(vaccinesNumber <= 0)
                 return;
 
             else if(notSicksArray.get(i) instanceof Healthy){
                 notSicksArray.set(i, ((Healthy) notSicksArray.get(i)).vaccinate());
-                vaccinesNum--;
+                vaccinesNumber--;
             }
         }
         this.ramzorColor = calculateRamzorGrade();

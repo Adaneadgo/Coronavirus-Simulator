@@ -6,12 +6,7 @@ import Country.Map;
 import Country.Settlement;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,40 +14,51 @@ public class StatisticsTable extends JTable {
     /**
      * Statistic Table for Statistic Window
      */
-    private final Map map;
+
     private final TableRowSorter<TableModel> rowSorter;
 
-    StatisticsTable(Map map, String[][] Data, String[] col) {
-        super(Data,col);
-        this.map = map;
+    private static class Model extends AbstractTableModel{
+        private final Settlement [] settlements;
+        private final String[] columnNames = {"Name","Type","Color","Area","Occupancy","Number of People"
+                ,"Coefficient","Percentage of infected","Number of vaccines","number of deaths"};
 
+        public Model(Settlement[] data){ this.settlements = data;}
+        @Override
+        public int getRowCount() { return settlements.length; }
+        @Override
+        public int getColumnCount() { return 10; }
+
+        @Override
+        public String getColumnName(int column) { return columnNames[column]; }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Settlement settlement = settlements[rowIndex];
+            switch (columnIndex){
+                case 0: return settlement.getName();
+                case 1: return settlement.getType();
+                case 2: return settlement.getRamzorColor().toString();
+                case 3: return settlement.getArea();
+                case 4: return settlement.getOccupancy();
+                case 5: return settlement.getTotalNumber();
+                case 6: return settlement.getCoefficient();
+                case 7: return settlement.getSicksRatio();
+                case 8: return settlement.getVaccinesNumber();
+                case 9: return settlement.getDeathsNumber();
+
+            }
+            return null;
+        }
+    }
+
+    StatisticsTable(Settlement[] settlements) {
+        this.setModel(new Model(settlements));
 
         rowSorter = new TableRowSorter<>(this.getModel());
         this.setRowSorter(rowSorter);
         this.getTableHeader().setReorderingAllowed(false);
 
 
-    }
-
-    public void reloadData(){
-        /**
-         * Update the table data
-         */
-
-        Settlement[] settlements = this.map.getSettlements();
-
-        List<String[]> newData = new ArrayList<String[]>();
-        for(Settlement settlement: settlements){
-            newData.add(settlement.getStatistics());
-        }
-
-        for(int i =0; i<this.getRowCount(); i++){
-            String[] newRow = newData.get(i);
-            for(int j = 0; j<this.getColumnCount(); j++){
-                this.getModel().setValueAt(newRow[j],i,j);
-            }
-        }
-        this.repaint();
     }
 
 

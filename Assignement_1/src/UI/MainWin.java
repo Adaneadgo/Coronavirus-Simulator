@@ -77,7 +77,8 @@ public class MainWin extends JFrame {
                 }
                 try {
                     simulationFile = new SimulationFile(file);
-                    new Thread(simulationFile).start();
+                    simulationFile.newSimulationThread().start();
+
                     mapWin = new MapWin(simulationFile);
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
@@ -178,6 +179,7 @@ public class MainWin extends JFrame {
 
                 else{
                     simulationFile.setState(true);
+                    System.out.println("play: set to be true");
                 }
             }
 
@@ -192,17 +194,15 @@ public class MainWin extends JFrame {
         pause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (simulationFile == null){
+
+                if (simulationFile == null)
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                    return;
-                }
 
-                if(!simulationFile.isON()){
+                else if(simulationFile.isOFF())
                     JOptionPane.showMessageDialog(null, "play simulation!");
-                    return;
 
-                }
-                simulationFile.setState(false);
+                else
+                    simulationFile.setState(false);
 
 
             }
@@ -229,7 +229,6 @@ public class MainWin extends JFrame {
 
                 simulationFile.setState(false);
                 simulationFile = null;
-                statisticsWin.dispose();
                 MainWin.this.getContentPane().remove(mapWin);
                 MainWin.this.repaint();
             }
