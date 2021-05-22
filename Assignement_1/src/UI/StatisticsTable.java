@@ -70,7 +70,6 @@ public class StatisticsTable extends JTable {
             rowSorter.setRowFilter(RowFilter.regexFilter(""));
             return;
         }
-        assert col != null;
         rowSorter.setRowFilter(RowFilter.regexFilter(text,0,col.getModelIndex()));
     }
 

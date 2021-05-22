@@ -104,14 +104,5 @@ public class MapWin extends JPanel {
         return new Dimension( 1000 , 1000);
     }
 
-
-    @Override
-    public void repaint() {
-        super.repaint();
-
-        if(statsWin != null)
-            statsWin.refreshStatsWin();
-
-    }
 }
 

@@ -27,6 +27,7 @@ public final class SimulationFile {
     private boolean state;
     private final ExecutorService executor;
     private final List<SimulationRunner> simulationRunners;
+    private  LogFile logFile;
 
 
     //Ctor
@@ -63,7 +64,7 @@ public final class SimulationFile {
         }
     }
     public boolean isON() { return state; }
-    public boolean isOFF(){ return !state; }
+    public boolean isOFF() { return !state; }
 
     //methods
     private void RunSingleSimulation() throws InterruptedException {
@@ -77,7 +78,6 @@ public final class SimulationFile {
     public void RunSimulations() throws InterruptedException {
         synchronized (this){
             while(true) {
-                System.out.println("inside the runner");
 
                 if (this.isOFF())
                     wait();
@@ -85,7 +85,6 @@ public final class SimulationFile {
                 else {
                     while (this.isON()) {
                         RunSingleSimulation();
-                        System.out.println("working");
                     }
                 }
             }

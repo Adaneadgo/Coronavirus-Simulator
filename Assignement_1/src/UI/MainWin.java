@@ -9,8 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import IO.LogFile;
 import IO.SimulationFile;
+import IO.StatisticsFile;
 import Simulation.Clock;
 
 public class MainWin extends JFrame {
@@ -38,7 +42,7 @@ public class MainWin extends JFrame {
     }
 
 
-    private JMenuBar Menu_Bar(){
+    private JMenuBar Menu_Bar() {
         /**
          * Jswing operation to add all the instruction as needed
          */
@@ -49,7 +53,7 @@ public class MainWin extends JFrame {
         return menuBar;
     }
 
-    private JMenu File_Menu(){
+    private JMenu File_Menu() {
         /**
          * All options that related to edited the file
          */
@@ -57,6 +61,7 @@ public class MainWin extends JFrame {
         file.add(Load_Item());
         file.add(Statistics_Item());
         file.add(Edit_Mutation_Item());
+        file.add(Log_Item());
         file.add(Exit_Item());
         return file;
     }
@@ -71,7 +76,7 @@ public class MainWin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 File file = loadFileFunc();
 
-                if(file == null) {
+                if (file == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
@@ -84,7 +89,9 @@ public class MainWin extends JFrame {
                     mapWin.revalidate();
                     System.out.println("loaded");
 
-                } catch (Exception exception) { exception.printStackTrace(); }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
 
 
             }
@@ -92,7 +99,8 @@ public class MainWin extends JFrame {
 
         return load;
     }
-    private JMenuItem Statistics_Item(){
+
+    private JMenuItem Statistics_Item() {
         /**
          * Open Statistics windows
          */
@@ -100,7 +108,7 @@ public class MainWin extends JFrame {
         statistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile == null) {
+                if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
@@ -112,7 +120,7 @@ public class MainWin extends JFrame {
         return statistics;
     }
 
-    private JMenuItem Edit_Mutation_Item(){
+    private JMenuItem Edit_Mutation_Item() {
         /**
          * Open the edit mutation window
          */
@@ -120,7 +128,7 @@ public class MainWin extends JFrame {
         edit_mutation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile == null) {
+                if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
@@ -130,7 +138,36 @@ public class MainWin extends JFrame {
         });
         return edit_mutation;
     }
-    private JMenuItem Exit_Item(){
+
+    private JMenuItem Log_Item() {
+        /**
+         * Open LOG
+         */
+        JMenuItem log = new JMenuItem("Logs");
+        log.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFileChooser fileChooser = new JFileChooser();
+                int option = fileChooser.showSaveDialog(MainWin.this);
+                if (option == JFileChooser.APPROVE_OPTION) {
+
+                    try {
+                        System.out.println(fileChooser.getSelectedFile().toString());
+                        LogFile.initialize(fileChooser.getSelectedFile().toString());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+
+                else
+                    JOptionPane.showMessageDialog(null, "location not selected");
+            }
+        });
+        return log;
+    }
+
+    private JMenuItem Exit_Item() {
         /**
          * Open the exit option window
          */
@@ -142,9 +179,12 @@ public class MainWin extends JFrame {
 
                 if (confirmed == JOptionPane.YES_OPTION) {
 
-                    if(statisticsWin != null)
+                    if (statisticsWin != null)
                         statisticsWin.dispose();
-
+                    if(LogFile.isInitialized()) {
+                        assert LogFile.getInstance() != null;
+                        LogFile.getInstance().fileHandler.close();
+                    }
                     MainWin.this.dispose();
 
                 }
@@ -153,7 +193,7 @@ public class MainWin extends JFrame {
         return exit;
     }
 
-    private JMenu Simulation_Menu(){
+    private JMenu Simulation_Menu() {
         /**
          * Open the option to start pause or stop all the simulations
          */
@@ -165,7 +205,7 @@ public class MainWin extends JFrame {
         return simulation;
     }
 
-    private JMenuItem Play_Item(){
+    private JMenuItem Play_Item() {
         /**
          * Run the simulation
          */
@@ -175,9 +215,7 @@ public class MainWin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                }
-
-                else{
+                } else {
                     simulationFile.setState(true);
                     System.out.println("play: set to be true");
                 }
@@ -186,7 +224,8 @@ public class MainWin extends JFrame {
         });
         return play;
     }
-    private JMenuItem Pause_Item(){
+
+    private JMenuItem Pause_Item() {
         /**
          * Pause the simulation
          */
@@ -198,7 +237,7 @@ public class MainWin extends JFrame {
                 if (simulationFile == null)
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
 
-                else if(simulationFile.isOFF())
+                else if (simulationFile.isOFF())
                     JOptionPane.showMessageDialog(null, "play simulation!");
 
                 else
@@ -209,7 +248,8 @@ public class MainWin extends JFrame {
         });
         return pause;
     }
-    private JMenuItem Stop_Item(){
+
+    private JMenuItem Stop_Item() {
         /*
          * Stop the simulation
          */
@@ -217,11 +257,11 @@ public class MainWin extends JFrame {
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (simulationFile == null){
+                if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                     return;
                 }
-                if(!simulationFile.isON()){
+                if (!simulationFile.isON()) {
                     JOptionPane.showMessageDialog(null, "play simulation!");
                     return;
 
@@ -235,7 +275,8 @@ public class MainWin extends JFrame {
         });
         return stop;
     }
-    private JMenuItem Set_Ticks_Per_Day_Item(){
+
+    private JMenuItem Set_Ticks_Per_Day_Item() {
         /**
          * Set ticks per day for in order to calculate days
          */
@@ -243,18 +284,16 @@ public class MainWin extends JFrame {
         set_ticks_per_day.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile == null){
+                if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                }
-
-                else
+                } else
                     jSpinner();
             }
         });
         return set_ticks_per_day;
     }
 
-    private void jSpinner(){
+    private void jSpinner() {
         /**
          * Spinner that used to Set ticks per days
          */
@@ -265,12 +304,11 @@ public class MainWin extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
         if (option == 0) {
-            try{
-                long ticks = (long)Float.parseFloat(spinner.getValue().toString());
+            try {
+                long ticks = (long) Float.parseFloat(spinner.getValue().toString());
                 Clock.setTicks_per_day(ticks);
 
-            }
-            catch (Exception exc){
+            } catch (Exception exc) {
                 JOptionPane.showMessageDialog(null, "Error occurred");
             }
 
@@ -278,7 +316,7 @@ public class MainWin extends JFrame {
 
     }
 
-    private JMenu Help_Menu(){
+    private JMenu Help_Menu() {
         /**
          * Open dialog for Help Menu
          */
@@ -288,7 +326,7 @@ public class MainWin extends JFrame {
         return help_menu;
     }
 
-    private JMenuItem Help_Item(){
+    private JMenuItem Help_Item() {
         /**
          * Open Instruction for Help
          */
@@ -317,7 +355,8 @@ public class MainWin extends JFrame {
         });
         return help;
     }
-    private JMenuItem About_Item(){
+
+    private JMenuItem About_Item() {
         /**
          * Set About options
          */
@@ -328,13 +367,13 @@ public class MainWin extends JFrame {
 
 
                 String aboutUs = "<html><br/>==================MADE BY==================<br/>" +
-                        "Adane Adgo : 315721969 and Elie Bracha : 204795900 <br/>"+
+                        "Adane Adgo : 315721969 and Elie Bracha : 204795900 <br/>" +
                         "                At:  2/5/2021<br/>" +
                         "</html>";
 
                 JFrame frame = new JFrame();
                 frame.add(new JLabel(aboutUs));
-                frame.setSize(new Dimension(100,100));
+                frame.setSize(new Dimension(100, 100));
 
                 frame.pack();
                 frame.setVisible(true);
@@ -345,11 +384,11 @@ public class MainWin extends JFrame {
         return about;
     }
 
-    private JSlider Simulation_Speed_Slider(){
+    private JSlider Simulation_Speed_Slider() {
         /**
          * Speed Simulation Slider when simulation run
          */
-        JSlider slider = new JSlider(0,100,50);
+        JSlider slider = new JSlider(0, 100, 50);
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(1);
         slider.setPaintTicks(true);
@@ -359,7 +398,7 @@ public class MainWin extends JFrame {
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Clock.setSleep(slider.getValue()+100);
+                Clock.setSleep(slider.getValue() + 100);
             }
         });
         return slider;
@@ -375,30 +414,9 @@ public class MainWin extends JFrame {
 
         if (fd.getFile() == null)
             return null;
-        return  new File(fd.getDirectory(), fd.getFile());
+        return new File(fd.getDirectory(), fd.getFile());
 
     }
 
-    public boolean isSimulationLoaded() {
-        return simulationFile != null ;
-    }
-
-    public SimulationFile getSimulationFile() {
-        return simulationFile;
-    }
-
-    public void RefreshAll(){
-        /**
-         * Refresh the statistics Windows
-         */
-        if(statisticsWin != null){
-            statisticsWin.repaint();
-            statisticsWin.refreshStatsWin();
-        }
-
-        if(mapWin != null)
-            mapWin.repaint();
-
-    }
 
 }

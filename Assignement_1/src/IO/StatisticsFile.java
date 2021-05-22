@@ -38,7 +38,7 @@ public class StatisticsFile {
 
             StringBuilder row = new StringBuilder();
 
-            for(String item: settlement.getStatistics()){
+            for(String item: settlement.getCsvStats()){
                 row.append(item).append(",");
             }
             row.append("\n");

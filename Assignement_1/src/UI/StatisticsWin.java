@@ -31,21 +31,22 @@ public class StatisticsWin extends JFrame {
 
 
     //Ctor
-    StatisticsWin(SimulationFile simulationFile, MapWin mapWin, int rowIndex){
-        this(simulationFile,mapWin);
+    StatisticsWin(SimulationFile simulationFile, MapWin mapWin, int rowIndex) {
+        this(simulationFile, mapWin);
         table.changeSelection(rowIndex, 0, false, false);
 
 
     }
+
     //Ctor
     StatisticsWin(SimulationFile simulationFile, MapWin mapWin) {
         super("Statistics");
         this.simulationFile = simulationFile;
         this.mapWin = mapWin;
 
-        this.setLayout(new BorderLayout(0,100));
+        this.setLayout(new BorderLayout(0, 100));
 
-        JPanel upPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
+        JPanel upPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 0));
         upPanel.add(comboBox());
         upPanel.add(textField());
         this.add(upPanel, BorderLayout.NORTH);
@@ -53,7 +54,7 @@ public class StatisticsWin extends JFrame {
         this.table = new StatisticsTable(simulationFile.getMap().getSettlements());
         this.add(new JScrollPane(table), BorderLayout.CENTER);
 
-        JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,100,0));
+        JPanel dwPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 0));
         dwPanel.add(save());
         dwPanel.add(addSick());
         dwPanel.add(vaccinate());
@@ -66,22 +67,21 @@ public class StatisticsWin extends JFrame {
     }
 
 
-
-    private JComboBox<String> comboBox(){
+    private JComboBox<String> comboBox() {
         /**
          * Create the combo Box for Statistics Windows
          */
 
-        String[] options = new String[]{"None","Name","Type","Color"};
+        String[] options = new String[]{"None", "Name", "Type", "Color"};
         JComboBox<String> comboBox = new JComboBox<String>(options);
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedItem = (String) comboBox.getSelectedItem();
-                if(selectedItem == null)
+                if (selectedItem == null)
                     return;
 
-                switch (selectedItem){
+                switch (selectedItem) {
                     case "Name":
                         selectedColumn = table.getColumnModel().getColumn(0);
                         break;
@@ -93,7 +93,7 @@ public class StatisticsWin extends JFrame {
                         break;
                     case "None":
                         selectedColumn = null;
-                        table.rowSortByColumn("NONE",null);
+                        table.rowSortByColumn("NONE", null);
                         break;
                 }
 
@@ -104,7 +104,7 @@ public class StatisticsWin extends JFrame {
 
     }
 
-    private JTextField textField(){
+    private JTextField textField() {
         /**
          * Created Text Field for Statistics window
          */
@@ -113,28 +113,35 @@ public class StatisticsWin extends JFrame {
         textField.setColumns(20);
         textField.getDocument().addDocumentListener(new DocumentListener() {
 
-            private void newText(){
+            private void newText() {
 
-                if(selectedColumn == null)
+                if (selectedColumn == null)
                     return;
                 String text = textField.getText();
-                table.rowSortByColumn(text,selectedColumn);
+                table.rowSortByColumn(text, selectedColumn);
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) { newText();}
+            public void insertUpdate(DocumentEvent e) {
+                newText();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) { newText(); }
+            public void removeUpdate(DocumentEvent e) {
+                newText();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) { newText(); }
+            public void changedUpdate(DocumentEvent e) {
+                newText();
+            }
         });
 
         return textField;
     }
 
 
-
-    private JButton save(){
+    private JButton save() {
         /**
          * Create the save button for saving all data into the CVS file
          */
@@ -142,31 +149,30 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile.isON()) {
-                    JOptionPane.showMessageDialog(null, "Stop simulation!");
+                if (simulationFile.isON()) {
+                    JOptionPane.showMessageDialog(null, "Pause simulation!");
                     return;
                 }
 
-                    JFileChooser fileChooser = new JFileChooser();
-                    int option = fileChooser.showSaveDialog(StatisticsWin.this);
-                    if(option == JFileChooser.APPROVE_OPTION){
-                        File file = fileChooser.getSelectedFile();
-                        try {
-                            new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
-                        } catch (FileNotFoundException fileNotFoundException) {
-                            fileNotFoundException.printStackTrace();
-                        }
+                JFileChooser fileChooser = new JFileChooser();
+                int option = fileChooser.showSaveDialog(StatisticsWin.this);
+                if (option == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    try {
+                        new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Save Canceled!");
-                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Save Canceled!");
+                }
             }
         });
 
-        return  button;
+        return button;
     }
 
-    private JButton addSick(){
+    private JButton addSick() {
         /**
          * Create add sick button for statistics window
          */
@@ -174,33 +180,32 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile.isON()){
-                    JOptionPane.showMessageDialog(null, "Stop simulation!");
-                    return;
+                if (simulationFile.isON())
+                    JOptionPane.showMessageDialog(null, "Pause simulation!");
 
-                }
 
-                if(selectedColumn != null) {
+                else if (selectedColumn != null)
                     JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
-                    return;
-                }
 
 
-                if(table.getSelectedRow() <= -1) {
+                else if (table.getSelectedRow() <= -1)
                     JOptionPane.showMessageDialog(null, "Select Row!");
-                    return;
-                }
+
+
+                else {
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                     simulationFile.getMap().getSettlementByName(name).setSickPeopleSimulation();
+                    table.revalidate();
                     mapWin.revalidate();
                 }
+            }
 
         });
 
-        return  button;
+        return button;
     }
 
-    private JButton vaccinate(){
+    private JButton vaccinate() {
         /**
          * Create vaccinate button for statistics window
          */
@@ -209,70 +214,37 @@ public class StatisticsWin extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(simulationFile.isON()){
+                if (simulationFile.isON())
                     JOptionPane.showMessageDialog(null, "Stop simulation!");
-                    return;
 
-                }
 
-                if(selectedColumn != null) {
+                else if (selectedColumn != null)
                     JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
-                    return;
-                }
 
-
-
-                else if(table.getSelectedRow() <= -1) {
+                else if (table.getSelectedRow() <= -1)
                     JOptionPane.showMessageDialog(null, "Select Row!");
-                    return;
+
+
+                else {
+                        String input = JOptionPane.showInputDialog("put");
+                        if (input == null)
+                            return;
+
+                        int num = Integer.parseInt(input);
+
+                        if (num <= 0)
+                            JOptionPane.showMessageDialog(null, "non positive number!");
+
+                        else {
+                            String name = table.getValueAt(table.getSelectedRow(), 0).toString();
+                            simulationFile.getMap().getSettlementByName(name).addVaccines(num);
+                        }
                 }
-
-                try{
-
-                    String input = JOptionPane.showInputDialog("put");
-                    if(input == null)
-                        return;
-
-                    int num = Integer.parseInt(input);
-                    if(num <= 0) {
-                        JOptionPane.showMessageDialog(null, "non positive number!");
-                    }
-
-                    String name = table.getValueAt(table.getSelectedRow(), 0).toString();
-                    simulationFile.getMap().getSettlementByName(name).addVaccines(num);
-                }
-                catch (NumberFormatException nfe) {
-                    JOptionPane.showMessageDialog(null, "not a number!");
-                }
-
-
             }
         });
 
         return button;
     }
-
-
-    public void refreshStatsWin(){
-        /**
-         * Refresh
-         */
-        if(table != null){
-            table.revalidate();
-            table.repaint();
-        }
-
-
-        this.repaint();
-        this.revalidate();
-    }
-
-
-
-
-
-
-
 
 
 }

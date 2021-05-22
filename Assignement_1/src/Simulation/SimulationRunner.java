@@ -2,6 +2,7 @@ package Simulation;
 
 import Country.Settlement;
 
+import java.io.IOException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -17,7 +18,11 @@ public class SimulationRunner implements Runnable {
     @Override
     public void run() {
 
-        settlement.runSimulation();
+        try {
+            settlement.runSimulation();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             barrier.await();

@@ -69,23 +69,6 @@ public class Map {
         return str.toString();
     }
 
-    // Simulation Methods
-    public void setSickPeopleSimulation(){
-        /**
-         * In the Simulation we create Sick people
-         */
-        for(Settlement settlement: settlements)
-            settlement.setSickPeopleSimulation();
-    }
-
-    public void contagionSimulation(){
-        /**
-         * In the Simulation we try to contagion
-         */
-        for(Settlement settlement: settlements)
-             settlement.contagionSimulation();
-    }
-
     // auxiliary
     public void setNeighbours(String[] args){
         /**
@@ -121,10 +104,6 @@ public class Map {
 
     }
 
-    public int getNumberOfSettlements(){
-        return settlements.length;
-    }
-
     public Settlement getSettlementByName(String name){
         /**
          * Return the settlement by the given name
@@ -151,18 +130,5 @@ public class Map {
 
         return -1;
 
-    }
-
-    // New Simulation
-    public void Simulation()  {
-        /**
-         * Run Single simulation
-         */
-        for(Settlement settlement: settlements){
-            settlement.step1();
-            settlement.step2();
-            settlement.step3();
-            settlement.step4();
-        }
     }
 }
