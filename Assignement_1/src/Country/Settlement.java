@@ -236,6 +236,9 @@ public abstract class Settlement {
         step5();
     }
 
+
+
+
     private synchronized void step1() {
         /**
          * Step1 : as instructed in the assignment
@@ -297,7 +300,7 @@ public abstract class Settlement {
         this.ramzorColor = calculateRamzorGrade();
 
     }
-    private synchronized void step3() {
+    private void step3() {
         /**
          * Step3 : as instructed in the assignment
          * try to move 3% people
@@ -311,15 +314,17 @@ public abstract class Settlement {
         Settlement neighbor;
         while (counter > 0) {
             Person person = people.get(rand.nextInt(people.size() - 1));
-
             if(neighbors.length == 1)
                 neighbor = neighbors[0];
-
             else
-            neighbor = neighbors[rand.nextInt(neighbors.length - 1)];
+                neighbor = neighbors[rand.nextInt(neighbors.length - 1)];
 
-            this.transfertPerson(person, neighbor);
-            counter--;
+
+
+            synchronized (neighbor) {
+                this.transfertPerson(person, neighbor);
+                counter--;
+            }
         }
         this.ramzorColor = calculateRamzorGrade();
 
