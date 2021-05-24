@@ -5,8 +5,9 @@ package IO;
 import Country.Map;
 import Country.Settlement;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.io.*;
 
 public class StatisticsFile {
     /**
@@ -15,40 +16,29 @@ public class StatisticsFile {
      */
 
 
-    private final SimulationFile simulationFile;
+    public StatisticsFile(JTable table, String path) throws IOException {
 
-    public StatisticsFile(SimulationFile simulationFile) {
-        this.simulationFile = simulationFile;
-    }
 
-    public void CreatCsvFile(String path) throws FileNotFoundException {
+        TableModel model = table.getModel();
+        int rows = table.getModel().getRowCount();
+        int cols = table.getModel().getColumnCount();
+        FileWriter csv = new FileWriter(new File(path + ".csv"));
 
-        /**
-         *create and export the csv file!
-         */
+        for (int i = 0; i < cols; i++)
+            csv.write(model.getColumnName(i) + ",");
+        csv.write("\n");
 
-        Settlement [] settlements = simulationFile.getMap().getSettlements();
-        PrintWriter pw = new PrintWriter(path + ".csv");
 
-        String columns = "Name,Type,Color,Area,Occupancy,Number of People,Coefficient," +
-                "Percentage of infected,Number of vaccines,number of deaths\n";
-        pw.write(columns);
-
-        for(Settlement settlement: settlements) {
-
-            StringBuilder row = new StringBuilder();
-
-            for(String item: settlement.getCsvStats()){
-                row.append(item).append(",");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                csv.write(model.getValueAt(i, j).toString() + ",");
             }
-            row.append("\n");
-            pw.write(row.toString());
-
+            csv.write("\n");
         }
-
-        pw.close();
-
+        csv.close();
+        
     }
+
 
 }
 

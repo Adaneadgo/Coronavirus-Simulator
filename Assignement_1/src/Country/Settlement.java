@@ -13,7 +13,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
 
 public abstract class Settlement {
     /**
@@ -37,6 +36,7 @@ public abstract class Settlement {
     //Ctors
     public Settlement() {
     }
+
     public Settlement(String name, Location location, int peopleNum, RamzorColor ramzorColor) {
 
         // we use class Random for age
@@ -73,6 +73,7 @@ public abstract class Settlement {
                 + ramzorColor + "\nnum of Pepole: " + people.size() + ", contagious Percent: "
                 + contagiousPercent() * 100 + "%.\n" + "Neighbors: " + neighborsToString() + "\n";
     }
+
     private String neighborsToString() {
         /**
          * Return String of the neighbour name
@@ -92,31 +93,66 @@ public abstract class Settlement {
     public String getName() {
         return name;
     }
-    public String getType() {return this.getClass().getSimpleName();}
-    public RamzorColor getRamzorColor() { return ramzorColor; }
-    public int getArea() {return location.getArea();}
-    public float getOccupancy() {return (float)people.size()/peopleLimit; }
-    public int getTotalNumber() { return people.size(); }
-    public double getCoefficient() { return coefficient;}
-    public float getSicksRatio() { return (float)sicksArray.size()/people.size();}
-    public int getVaccinesNumber() { return vaccinesNumber; }
-    public int getDeathsNumber() { return deathsNumber;}
 
-    public String[] getCsvStats(){
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    public RamzorColor getRamzorColor() {
+        return ramzorColor;
+    }
+
+    public int getArea() {
+        return location.getArea();
+    }
+
+    public float getOccupancy() {
+        return (float) people.size() / peopleLimit;
+    }
+
+    public int getTotalNumber() {
+        return people.size();
+    }
+
+    public double getCoefficient() {
+        return coefficient;
+    }
+
+    public float getSicksRatio() {
+        return (float) sicksArray.size() / people.size();
+    }
+
+    public int getVaccinesNumber() {
+        return vaccinesNumber;
+    }
+
+    public int getDeathsNumber() {
+        return deathsNumber;
+    }
+
+    public String[] getCsvStats() {
         return new String[]{
         };
 
 
-
     }
+
     public Color getColorCode() {
         return ramzorColor.getColor();
     }
-    public int getSicksNumber(){ return sicksArray.size();}
-    public int getNotSickNumber() {return notSicksArray.size(); }
+
+    public int getSicksNumber() {
+        return sicksArray.size();
+    }
+
+    public int getNotSickNumber() {
+        return notSicksArray.size();
+    }
+
     public Settlement[] getNeighbors() {
         return neighbors;
     }
+
     public Location getLocation() {
         return location;
     }
@@ -126,15 +162,17 @@ public abstract class Settlement {
     public void setNeighbors(Settlement[] neighbors) {
         this.neighbors = neighbors;
     }
+
     public void addVaccines(int amountOfVaccines) {
         this.vaccinesNumber += amountOfVaccines;
     }
 
     //method
     public abstract RamzorColor calculateRamzorGrade();
+
     public double contagiousPercent() {
         /**
-        Calculates the percentage of sick people in the locality
+         Calculates the percentage of sick people in the locality
          */
         int numSicks = sicksArray.size();
         int numPeople = people.size();
@@ -145,9 +183,11 @@ public abstract class Settlement {
         else
             return 0;
     }
+
     public Point randomLocation() {
         return location.getRandomPosition();
     }
+
     public boolean AddPerson(Person person) {
         /**
          * Add person to the settlement
@@ -156,7 +196,7 @@ public abstract class Settlement {
         if (people.size() >= peopleLimit)
             return false;
 
-        if(person == null)
+        if (person == null)
             return false;
 
         else {
@@ -172,6 +212,7 @@ public abstract class Settlement {
         }
 
     }
+
     public boolean transfertPerson(Person person, Settlement settlement) {
         /**
          * Transfer person to a another settlement
@@ -228,7 +269,7 @@ public abstract class Settlement {
     }
 
     //new simulation
-    public void runSimulation() throws IOException {
+    public void runSimulation() {
         step1();
         step2();
         step3();
@@ -237,48 +278,47 @@ public abstract class Settlement {
     }
 
 
-
-
     private synchronized void step1() {
         /**
          * Step1 : as instructed in the assignment
          * In every settlement 20% aur randomly sick
          */
 
-        int counter = (int)sicksArray.size()/5;
+        int counter = (int) sicksArray.size() / 5;
         Random rand = new Random();
 
         List<Person> toRemove = new ArrayList<Person>();
         List<Sick> toAdd = new ArrayList<Sick>();
 
-        for(int i = 0; i < counter; i++){
+        for (int i = 0; i < counter; i++) {
             Sick sick = sicksArray.get(rand.nextInt(sicksArray.size() - 1));
             IVirus virus = sick.getVirus();
 
-            for(int j = 0; j< 3; j++){
+            for (int j = 0; j < 3; j++) {
                 int index = rand.nextInt(notSicksArray.size() - 1);
                 Person person = notSicksArray.get(index);
 
-                if(virus.tryToContagion(sick,person) && virus.mutant() != null){
+                if (virus.tryToContagion(sick, person) && virus.mutant() != null) {
                     Sick newSick = person.contagion(virus.mutant());
                     toAdd.add(newSick);
                     toRemove.add(person);
 
                 }
 
-                }
-
             }
+
+        }
 
         people.removeAll(toRemove);
         notSicksArray.removeAll(toRemove);
         people.addAll(toAdd);
-        notSicksArray.addAll(toAdd);
+        sicksArray.addAll(toAdd);
 
         this.ramzorColor = calculateRamzorGrade();
 
 
-        }
+    }
+
     private synchronized void step2() {
         /**
          * Step2 : as instructed in the assignment
@@ -286,21 +326,25 @@ public abstract class Settlement {
          */
 
         List<Sick> toRemove = new ArrayList<Sick>();
+        List<Convalescent> toAdd = new ArrayList<Convalescent>();
 
         for (Sick sick : sicksArray) {
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
 
-                Convalescent convalescent= new Convalescent(sick);
+                Convalescent convalescent = new Convalescent(sick);
                 toRemove.add(sick);
-                notSicksArray.add(convalescent);
+                toAdd.add(convalescent);
             }
         }
 
         sicksArray.removeAll(toRemove);
+        notSicksArray.addAll(toAdd);
+        people.addAll(toAdd);
         this.ramzorColor = calculateRamzorGrade();
 
     }
-    private void step3() {
+
+    private synchronized void step3() {
         /**
          * Step3 : as instructed in the assignment
          * try to move 3% people
@@ -309,27 +353,39 @@ public abstract class Settlement {
         if (neighbors == null)
             return;
 
+        Settlement a;
+        Settlement b;
         int counter = (int) (3 * people.size()) / 100;
         Random rand = new Random();
         Settlement neighbor;
+
         while (counter > 0) {
             Person person = people.get(rand.nextInt(people.size() - 1));
-            if(neighbors.length == 1)
+            if (neighbors.length == 1)
                 neighbor = neighbors[0];
             else
                 neighbor = neighbors[rand.nextInt(neighbors.length - 1)];
 
-
-
-            synchronized (neighbor) {
-                this.transfertPerson(person, neighbor);
-                counter--;
+            if (this.hashCode() > neighbor.hashCode()) {
+                a = this;
+                b = neighbor;
+            } else {
+                a = neighbor;
+                b = this;
             }
+
+
+            this.transfertPerson(person, neighbor);
+            counter--;
+
+
         }
+
         this.ramzorColor = calculateRamzorGrade();
 
     }
-    private synchronized void step4(){
+
+    private synchronized void step4() {
         /**
          * Step4 : as instructed in the assignment
          * Vaccinate people
@@ -337,12 +393,12 @@ public abstract class Settlement {
 
         int length = notSicksArray.size();
 
-        for(int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
 
-            if(vaccinesNumber <= 0)
+            if (vaccinesNumber <= 0)
                 return;
 
-            else if(notSicksArray.get(i) instanceof Healthy){
+            else if (notSicksArray.get(i) instanceof Healthy) {
                 notSicksArray.set(i, ((Healthy) notSicksArray.get(i)).vaccinate());
                 vaccinesNumber--;
             }
@@ -350,28 +406,26 @@ public abstract class Settlement {
         this.ramzorColor = calculateRamzorGrade();
 
     }
-    private synchronized void step5() throws IOException {
 
-        for(Sick sick: sicksArray){
-            if(sick.tryToDie()) {
+    private synchronized void step5() {
+
+        for (Sick sick : sicksArray) {
+            if (sick.tryToDie()) {
                 sicksArray.remove(sick);
                 people.remove(sick);
                 deathsNumber += 1;
                 newDeathsNumber += 1;
 
-                if(newDeathsNumber >= (int)people.size()/100 && LogFile.isInitialized()){
+                if (newDeathsNumber >= (int) people.size() / 100 && LogFile.isInitialized()) {
                     LogFile log = LogFile.getInstance();
                     assert log != null;
-                    log.logger.info("\nName:" + getName() +"\nNumber of Sicks:" +sicksArray.size() +
-                            "\nNumber of Deaths" +deathsNumber );
+                    log.writeLog(this);
+                    newDeathsNumber = 0;
                 }
             }
 
         }
     }
-
-
-
 
 
 }

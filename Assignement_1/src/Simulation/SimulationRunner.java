@@ -18,11 +18,7 @@ public class SimulationRunner implements Runnable {
     @Override
     public void run() {
 
-        try {
-            settlement.runSimulation();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        settlement.runSimulation();
 
         try {
             barrier.await();

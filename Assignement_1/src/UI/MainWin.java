@@ -153,7 +153,6 @@ public class MainWin extends JFrame {
                 if (option == JFileChooser.APPROVE_OPTION) {
 
                     try {
-                        System.out.println(fileChooser.getSelectedFile().toString());
                         LogFile.initialize(fileChooser.getSelectedFile().toString());
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
@@ -183,7 +182,7 @@ public class MainWin extends JFrame {
                         statisticsWin.dispose();
                     if(LogFile.isInitialized()) {
                         assert LogFile.getInstance() != null;
-                        LogFile.getInstance().fileHandler.close();
+                        LogFile.closeLogger();
                     }
                     MainWin.this.dispose();
 
@@ -269,6 +268,7 @@ public class MainWin extends JFrame {
 
                 simulationFile.setState(false);
                 simulationFile = null;
+                LogFile.closeLogger();
                 MainWin.this.getContentPane().remove(mapWin);
                 MainWin.this.repaint();
             }

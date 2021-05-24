@@ -1,5 +1,7 @@
 package IO;
 
+import Country.Settlement;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -7,8 +9,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class LogFile {
-    public Logger logger;
-    public FileHandler fileHandler;
+    private static Logger logger;
+    private static FileHandler fileHandler;
     private static LogFile instance;
 
     private LogFile(String path) throws IOException  {
@@ -32,15 +34,29 @@ public class LogFile {
     }
 
     public static LogFile getInstance()  {
-        if(instance != null)
-            return instance;
-        else
-            return null;
+       return instance;
     }
-
 
 
     public static boolean isInitialized(){
         return instance != null;
     }
+
+
+
+    public synchronized void writeLog(Settlement settlement){
+
+        logger.info("\nName:" + settlement.getName() +"\nNumber of Sicks:" +settlement.getSicksNumber() +
+                "\nNumber of Deaths" +settlement.getDeathsNumber() );
+    }
+
+    public static void closeLogger(){
+
+        if(instance != null) {
+            fileHandler.close();
+            logger = null;
+            instance = null;
+        }
+    }
+
 }

@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,11 +159,12 @@ public class StatisticsWin extends JFrame {
                 int option = fileChooser.showSaveDialog(StatisticsWin.this);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
+
                     try {
-                        new StatisticsFile(simulationFile).CreatCsvFile(file.toString());
-                    } catch (FileNotFoundException fileNotFoundException) {
-                        fileNotFoundException.printStackTrace();
-                    }
+                        new StatisticsFile(table, file.toString());
+                    } catch (IOException ignored) { }
+
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Save Canceled!");
                 }
@@ -245,6 +247,5 @@ public class StatisticsWin extends JFrame {
 
         return button;
     }
-
 
 }

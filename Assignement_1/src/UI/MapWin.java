@@ -18,7 +18,7 @@ public class MapWin extends JPanel {
 
 
     private final SimulationFile simulationFile;
-    private StatisticsWin statsWin = null;
+    private StatisticsWin statisticsWin = null;
 
     //Ctor
     public MapWin(SimulationFile simulationFile){
@@ -90,7 +90,7 @@ public class MapWin extends JPanel {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    statsWin = new StatisticsWin(simulationFile,MapWin.this,map.getSettlementIndex(settlement));
+                    statisticsWin = new StatisticsWin(simulationFile,MapWin.this,map.getSettlementIndex(settlement));
                 }
             });
 
