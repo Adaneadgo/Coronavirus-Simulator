@@ -9,12 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import IO.LogFile;
 import IO.SimulationFile;
-import IO.StatisticsFile;
 import Simulation.Clock;
 
 public class MainWin extends JFrame {
@@ -82,16 +80,15 @@ public class MainWin extends JFrame {
                 }
                 try {
                     simulationFile = new SimulationFile(file);
+                    simulationFile.setMainWin(MainWin.this);
                     simulationFile.newSimulationThread().start();
+
 
                     mapWin = new MapWin(simulationFile);
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
-                    System.out.println("loaded");
 
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+                } catch (Exception ignored) { }
 
 
             }
@@ -180,11 +177,13 @@ public class MainWin extends JFrame {
 
                     if (statisticsWin != null)
                         statisticsWin.dispose();
+
                     if(LogFile.isInitialized()) {
                         assert LogFile.getInstance() != null;
                         LogFile.closeLogger();
                     }
                     MainWin.this.dispose();
+                    System.exit(0);
 
                 }
             }
@@ -215,8 +214,7 @@ public class MainWin extends JFrame {
                 if (simulationFile == null) {
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
                 } else {
-                    simulationFile.setState(true);
-                    System.out.println("play: set to be true");
+                    simulationFile.setSimulationState(true);
                 }
             }
 
@@ -240,7 +238,7 @@ public class MainWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "play simulation!");
 
                 else
-                    simulationFile.setState(false);
+                    simulationFile.setSimulationState(false);
 
 
             }
@@ -266,8 +264,9 @@ public class MainWin extends JFrame {
 
                 }
 
-                simulationFile.setState(false);
+                simulationFile.setSimulationState(false);
                 simulationFile = null;
+
                 LogFile.closeLogger();
                 MainWin.this.getContentPane().remove(mapWin);
                 MainWin.this.repaint();
@@ -416,6 +415,13 @@ public class MainWin extends JFrame {
             return null;
         return new File(fd.getDirectory(), fd.getFile());
 
+    }
+
+    public void refresh(){
+        this.repaint();
+        try {
+            statisticsWin.getTable().repaint();
+        }catch (NullPointerException ignored){}
     }
 
 

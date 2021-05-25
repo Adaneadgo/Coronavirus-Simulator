@@ -248,4 +248,7 @@ public class StatisticsWin extends JFrame {
         return button;
     }
 
+    public StatisticsTable getTable() {
+        return table;
+    }
 }

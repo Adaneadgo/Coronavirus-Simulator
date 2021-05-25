@@ -6,6 +6,7 @@ import Country.Map;
 import Country.Settlement;
 import Simulation.Clock;
 import Simulation.SimulationRunner;
+import UI.MainWin;
 
 
 import java.io.File;
@@ -24,16 +25,18 @@ public final class SimulationFile {
 
     private final File file;
     private final Map map;
-    private boolean state;
+    private boolean SimulationState;
+
     private final ExecutorService executor;
     private final List<SimulationRunner> simulationRunners;
-    private  LogFile logFile;
+
+    private MainWin mainWin;
 
 
     //Ctor
     public SimulationFile(File file) throws Exception {
         this.file = file;
-        state = false;
+        SimulationState = false;
         String[][] args = readArgsFromFile();
         map = new Map(args);
 
@@ -57,33 +60,37 @@ public final class SimulationFile {
 
     //Getters and Setters
     public Map getMap() { return map; }
-    public void setState(boolean state) {
-        this.state = state;
+    public void setSimulationState(boolean simulationState) {
+        this.SimulationState = simulationState;
+
         synchronized (this) {
             this.notify();
         }
     }
-    public boolean isON() { return state; }
-    public boolean isOFF() { return !state; }
+    public boolean isON() { return SimulationState; }
+    public boolean isOFF() { return !SimulationState; }
 
     //methods
     private void RunSingleSimulation() throws InterruptedException {
         /**
          *run the simulation one time on all settlements
          */
-        for (SimulationRunner simulationRunner : simulationRunners)
+        for (SimulationRunner simulationRunner : simulationRunners) {
             executor.submit(simulationRunner);
-        Clock.nextTick();
+            SimulationFile.this.mainWin.refresh();
+            Clock.nextTick();
+        }
+
     }
-    public void RunSimulations() throws InterruptedException {
+    private void RunSimulations() throws InterruptedException {
         synchronized (this){
             while(true) {
 
-                if (this.isOFF())
+                if (!SimulationState)
                     wait();
 
                 else {
-                    while (this.isON()) {
+                    while (SimulationState) {
                         RunSingleSimulation();
                     }
                 }
@@ -97,9 +104,7 @@ public final class SimulationFile {
             public void run() {
                 try {
                     SimulationFile.this.RunSimulations();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                } catch (InterruptedException ignored) {}
             }
         });
 
@@ -132,9 +137,16 @@ public final class SimulationFile {
         }
         sc.close();
 
-        args.add(neighbours.toArray(new String[0]));
+        if(neighbours.size() > 0)
+            args.add(neighbours.toArray(new String[0]));
+
         return args.toArray(new String[0][0]); // return Array type
 
     }
+
+    public void setMainWin(MainWin mainWin) {
+        this.mainWin = mainWin;
+    }
+
 
 }

@@ -10,7 +10,6 @@ import Simulation.Clock;
 import Virus.*;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -196,12 +195,14 @@ public abstract class Settlement {
         if (people.size() >= peopleLimit)
             return false;
 
-        if (person == null)
+        else if (person == null)
             return false;
 
         else {
-            person.setM_settlement(this);
+
+            person.setSettlement(this);
             people.add(person);
+
             if (person instanceof Sick)
                 sicksArray.add((Sick) person);
             else
@@ -213,25 +214,40 @@ public abstract class Settlement {
 
     }
 
-    public boolean transfertPerson(Person person, Settlement settlement) {
+    public void transferPerson(Person person, Settlement settlement) {
         /**
          * Transfer person to a another settlement
          */
+        Settlement a = this;
+        Settlement b = settlement;
 
-        double p = ramzorColor.getProbability() * settlement.ramzorColor.getProbability();
-        Random rand = new Random();
+        if (b.hashCode() > a.hashCode()) {
+            a = settlement;
+            b = this;
+        }
 
-        if (rand.nextInt(100) < p * 100 && settlement.AddPerson(person)) {
-            people.remove(person);
+        synchronized (a) {
+            synchronized (b) {
 
-            if (person instanceof Sick)
-                sicksArray.remove(person);
-            else
-                notSicksArray.remove(person);
+                double p = ramzorColor.getProbability() * settlement.ramzorColor.getProbability();
+                Random rand = new Random();
 
-            return true;
-        } else
-            return false;
+                if (rand.nextInt(100) < p * 100) {
+
+                    if (settlement.AddPerson(person)) {
+                        people.remove(person);
+
+                        if (person instanceof Sick)
+                            sicksArray.remove(person);
+                        else
+                            notSicksArray.remove(person);
+                    }
+
+                }
+            }
+
+
+        }
     }
 
 
@@ -258,7 +274,7 @@ public abstract class Settlement {
             notSicksArray.remove(people.get(i));
             counter--;
 
-            if (counter == 0)
+            if (counter <= 0)
                 break;
 
         }
@@ -281,14 +297,12 @@ public abstract class Settlement {
     private synchronized void step1() {
         /**
          * Step1 : as instructed in the assignment
-         * In every settlement 20% aur randomly sick
+         * In every settlement  take randomly 20% sick
          */
 
         int counter = (int) sicksArray.size() / 5;
         Random rand = new Random();
 
-        List<Person> toRemove = new ArrayList<Person>();
-        List<Sick> toAdd = new ArrayList<Sick>();
 
         for (int i = 0; i < counter; i++) {
             Sick sick = sicksArray.get(rand.nextInt(sicksArray.size() - 1));
@@ -300,19 +314,15 @@ public abstract class Settlement {
 
                 if (virus.tryToContagion(sick, person) && virus.mutant() != null) {
                     Sick newSick = person.contagion(virus.mutant());
-                    toAdd.add(newSick);
-                    toRemove.add(person);
-
+                    sicksArray.add(newSick);
+                    notSicksArray.remove(person);
+                    people.set(index, newSick);
                 }
 
             }
 
         }
 
-        people.removeAll(toRemove);
-        notSicksArray.removeAll(toRemove);
-        people.addAll(toAdd);
-        sicksArray.addAll(toAdd);
 
         this.ramzorColor = calculateRamzorGrade();
 
@@ -325,26 +335,22 @@ public abstract class Settlement {
          * Set Convalescent people after 25 days
          */
 
-        List<Sick> toRemove = new ArrayList<Sick>();
-        List<Convalescent> toAdd = new ArrayList<Convalescent>();
-
         for (Sick sick : sicksArray) {
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
-
                 Convalescent convalescent = new Convalescent(sick);
-                toRemove.add(sick);
-                toAdd.add(convalescent);
+                notSicksArray.add(convalescent);
+                people.add(convalescent);
+                sicksArray.remove(sick);
+                people.remove(sick);
+
             }
         }
 
-        sicksArray.removeAll(toRemove);
-        notSicksArray.addAll(toAdd);
-        people.addAll(toAdd);
         this.ramzorColor = calculateRamzorGrade();
 
     }
 
-    private synchronized void step3() {
+    private void step3() {
         /**
          * Step3 : as instructed in the assignment
          * try to move 3% people
@@ -353,29 +359,19 @@ public abstract class Settlement {
         if (neighbors == null)
             return;
 
-        Settlement a;
-        Settlement b;
         int counter = (int) (3 * people.size()) / 100;
         Random rand = new Random();
         Settlement neighbor;
 
         while (counter > 0) {
             Person person = people.get(rand.nextInt(people.size() - 1));
+
             if (neighbors.length == 1)
                 neighbor = neighbors[0];
             else
                 neighbor = neighbors[rand.nextInt(neighbors.length - 1)];
 
-            if (this.hashCode() > neighbor.hashCode()) {
-                a = this;
-                b = neighbor;
-            } else {
-                a = neighbor;
-                b = this;
-            }
-
-
-            this.transfertPerson(person, neighbor);
+            this.transferPerson(person, neighbor);
             counter--;
 
 

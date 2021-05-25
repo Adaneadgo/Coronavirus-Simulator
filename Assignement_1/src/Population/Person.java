@@ -28,13 +28,11 @@ public abstract class Person {
     public Settlement getSettlement() { return m_settlement; }
 
     //setters
-
-
-    public void setM_settlement(Settlement m_settlement) {
+    public void setSettlement(Settlement m_settlement) {
         this.m_settlement = m_settlement;
     }
 
-    // tostring & equals
+    // to string & equals
     @Override
     public String toString() {return "Age: " + m_age + ", Location: " + m_location;}
     public boolean equals(Person other) { return m_age == other.m_age && m_location.equals(other.m_location); }
