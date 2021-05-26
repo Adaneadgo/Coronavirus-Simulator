@@ -186,10 +186,6 @@ public class StatisticsWin extends JFrame {
                     JOptionPane.showMessageDialog(null, "Pause simulation!");
 
 
-                else if (selectedColumn != null)
-                    JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
-
-
                 else if (table.getSelectedRow() <= -1)
                     JOptionPane.showMessageDialog(null, "Select Row!");
 
@@ -218,10 +214,6 @@ public class StatisticsWin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (simulationFile.isON())
                     JOptionPane.showMessageDialog(null, "Stop simulation!");
-
-
-                else if (selectedColumn != null)
-                    JOptionPane.showMessageDialog(null, "Set Combobox on none first!");
 
                 else if (table.getSelectedRow() <= -1)
                     JOptionPane.showMessageDialog(null, "Select Row!");
