@@ -12,6 +12,9 @@ import Virus.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public abstract class Settlement {
     /**
@@ -127,13 +130,6 @@ public abstract class Settlement {
 
     public int getDeathsNumber() {
         return deathsNumber;
-    }
-
-    public String[] getCsvStats() {
-        return new String[]{
-        };
-
-
     }
 
     public Color getColorCode() {
@@ -286,6 +282,10 @@ public abstract class Settlement {
 
     //new simulation
     public void runSimulation() {
+        if(Clock.daysPass((long)0) > 100){
+            System.out.println("stop");
+        }
+
         step1();
         step2();
         step3();
@@ -326,22 +326,21 @@ public abstract class Settlement {
 
         this.ramzorColor = calculateRamzorGrade();
 
-
     }
 
-    private synchronized void step2() {
+    private  void step2() {
         /**
          * Step2 : as instructed in the assignment
          * Set Convalescent people after 25 days
          */
 
-        for (Sick sick : sicksArray) {
+        for (int i=0; i<sicksArray.size(); i++) {
+            Sick sick = sicksArray.get(i);
             if (Clock.daysPass(sick.getContagiousTime()) >= 25) {
                 Convalescent convalescent = new Convalescent(sick);
                 notSicksArray.add(convalescent);
-                people.add(convalescent);
                 sicksArray.remove(sick);
-                people.remove(sick);
+                people.set(i,convalescent);
 
             }
         }
@@ -387,6 +386,9 @@ public abstract class Settlement {
          * Vaccinate people
          */
 
+        if (vaccinesNumber <= 0)
+            return;
+
         int length = notSicksArray.size();
 
         for (int i = 0; i < length; i++) {
@@ -395,7 +397,9 @@ public abstract class Settlement {
                 return;
 
             else if (notSicksArray.get(i) instanceof Healthy) {
-                notSicksArray.set(i, ((Healthy) notSicksArray.get(i)).vaccinate());
+                Healthy healthy = (Healthy)notSicksArray.get(i);
+                notSicksArray.set(i, healthy.vaccinate());
+                people.set(i,healthy);
                 vaccinesNumber--;
             }
         }
@@ -405,18 +409,22 @@ public abstract class Settlement {
 
     private synchronized void step5() {
 
-        for (Sick sick : sicksArray) {
+        for (int i = 0 ; i<sicksArray.size(); i++) {
+            Sick sick = sicksArray.get(i);
+
             if (sick.tryToDie()) {
                 sicksArray.remove(sick);
                 people.remove(sick);
                 deathsNumber += 1;
                 newDeathsNumber += 1;
 
-                if (newDeathsNumber >= (int) people.size() / 100 && LogFile.isInitialized()) {
-                    LogFile log = LogFile.getInstance();
-                    assert log != null;
-                    log.writeLog(this);
-                    newDeathsNumber = 0;
+                if (LogFile.isInitialized()) {
+                    if (newDeathsNumber >= (int) people.size() / 100) {
+                        LogFile log = LogFile.getInstance();
+                        assert log != null;
+                        log.writeLog(this);
+                        newDeathsNumber = 0;
+                    }
                 }
             }
 

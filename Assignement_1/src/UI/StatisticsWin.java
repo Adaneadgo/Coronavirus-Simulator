@@ -193,8 +193,8 @@ public class StatisticsWin extends JFrame {
                 else {
                     String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                     simulationFile.getMap().getSettlementByName(name).setSickPeopleSimulation();
-                    table.revalidate();
-                    mapWin.revalidate();
+                    table.repaint();
+                    mapWin.repaint();
                 }
             }
 
@@ -232,6 +232,7 @@ public class StatisticsWin extends JFrame {
                         else {
                             String name = table.getValueAt(table.getSelectedRow(), 0).toString();
                             simulationFile.getMap().getSettlementByName(name).addVaccines(num);
+                            table.repaint();
                         }
                 }
             }

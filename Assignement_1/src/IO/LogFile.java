@@ -47,7 +47,7 @@ public class LogFile {
     public synchronized void writeLog(Settlement settlement){
 
         logger.info("\nName:" + settlement.getName() +"\nNumber of Sicks:" +settlement.getSicksNumber() +
-                "\nNumber of Deaths" +settlement.getDeathsNumber() );
+                "\nNumber of Deaths " +settlement.getDeathsNumber() );
     }
 
     public static void closeLogger(){
