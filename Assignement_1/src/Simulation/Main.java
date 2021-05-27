@@ -14,13 +14,8 @@ import java.util.logging.*;
 
 public class Main {
 
-    static int c = 0;
-    public static void main(String[] args) throws InterruptedException, IOException {
-
-        try {
+    public static void main(String[] args)  {
             new MainWin();
-        }catch (Exception ignore){}
-
     }
 
 }
