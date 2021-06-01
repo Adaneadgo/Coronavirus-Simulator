@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Random;
 
 
- public class BritishVariant extends Virus{
+ public class BritishVariant implements IVirus{
 
      private static BritishVariant instance;
-     private List<IVirus> mutations;
+     private final List<IVirus> mutations;
 
 
      private BritishVariant(){

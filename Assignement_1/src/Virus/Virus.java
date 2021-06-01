@@ -6,33 +6,30 @@ import Simulation.Clock;
 
 import java.util.Random;
 
-public abstract class Virus implements IVirus{
+public class Virus{
 
     /**
      virus interface for the use of  ChineseVariant, BritishVariant, SouthAfricanVariant
      */
 
-    IVirus iVirus;
+    IVirus VirusBehavior;
 
     public Virus(IVirus behavior){
-
-        iVirus = behavior;
+        VirusBehavior = behavior;
     }
-
     public double contagionProbability(Person person) {
         /**
          A method that calculates the probability that the transferred person will be infected. The probability of the virus is multiplied by the probability coefficient of
          The person being transferred.
          */
-        return iVirus.variantContagionProbability(person) * person.contagionProbability();
+        return VirusBehavior.variantContagionProbability(person) * person.contagionProbability();
     }
-
     public boolean tryToContagion(Person person1, Person person2) {
 
         /*
         person1 is Sick and the method checks their health condition, and if the other is healthy then he is infected.
          */
-        if(iVirus.getRandomMutantion() == null)
+        if(VirusBehavior.getRandomMutation() == null)
             return false;
 
         if ( (person1 instanceof Sick) && !(person2 instanceof Sick)) {
@@ -53,7 +50,6 @@ public abstract class Virus implements IVirus{
 
 
     }
-
     public boolean tryToKill(Sick sick) {
         /**
          A method that calculates the probability that the person being transferred
@@ -67,16 +63,9 @@ public abstract class Virus implements IVirus{
         return rand.nextInt(100) < P * 100;
     }
 
-
-
     
     // auxiliary
-    public abstract double variantContagionProbability(Person person);
-    public abstract double variantDeathProbability(Sick sick);
-
-    public abstract IVirus getRandomMutation();
-    public abstract void addMutation(IVirus virus);
-    public abstract void removeMutation(IVirus virus);
-    public abstract boolean containMutation(IVirus virus);
+    public double variantContagionProbability(Person person);
+    public double variantDeathProbability(Sick sick);
 
 }
