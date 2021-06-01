@@ -14,7 +14,7 @@ import java.util.Random;
 public class SouthAfricanVariant implements IVirus{
 
     private static SouthAfricanVariant instance;
-    private List<IVirus> mutations;
+    private final List<IVirus> mutations;
 
 
     private SouthAfricanVariant(){

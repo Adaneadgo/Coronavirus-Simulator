@@ -40,6 +40,11 @@ public final class SimulationFile {
         String[][] args = readArgsFromFile();
         map = new Map(args);
 
+        for(Settlement s: map)
+            System.out.println(s);
+
+
+
         Settlement[] settlements = map.getSettlements();
         CyclicBarrier barrier = new CyclicBarrier(settlements.length);
         executor = Executors.newFixedThreadPool(settlements.length);

@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 
 public class MapWin extends JPanel {
     /**
@@ -35,7 +36,7 @@ public class MapWin extends JPanel {
             return;
 
         super.paintComponent(g);
-        this.removeAll();
+        wipeScreen(g);
         setLines(g);
         setRecButtons();
     }
@@ -44,6 +45,8 @@ public class MapWin extends JPanel {
         /**
          * Create Location for settlement
          */
+
+        Graphics2D g2d = (Graphics2D)g;
 
         //Lines
         Settlement[] settlements = simulationFile.getMap().getSettlements();
@@ -62,7 +65,14 @@ public class MapWin extends JPanel {
                 x2 = neighbor.getLocation().getPoint().getX();
                 y2 = neighbor.getLocation().getPoint().getY();
 
-                g.drawLine(x1,y1,x2,y2);
+                if(settlement.getColorCode() == Color.RED)
+                    System.out.println("HEY");
+
+                Line2D basicLine = new Line2D.Double(x1, y1, x2, y2);
+                DecoratorLine2D colorLine = new DecoratorLine2D(basicLine,settlement.getColorCode(),neighbor.getColorCode());
+                g2d.setColor(colorLine.getColor());
+                g2d.draw(colorLine);
+
 
             }
 
@@ -103,6 +113,14 @@ public class MapWin extends JPanel {
     public Dimension getPreferredSize(){
         return new Dimension( 1000 , 1000);
     }
+
+    public void wipeScreen(Graphics g){
+        removeAll();
+        g.setColor(Color.white);
+        g.drawRect(0,0,1000,1000);
+
+    }
+
 
 }
 

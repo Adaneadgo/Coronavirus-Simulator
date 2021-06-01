@@ -6,53 +6,33 @@ import Location.*;
 import Simulation.Clock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-public class Map {
+public class Map implements Iterable<Settlement>{
     /**
      * Represent the map that we create
      */
 
     private  final Settlement[] settlements;
 
-    //Ctors
+    //Ctor
     public Map(String[][] args){
+        SettlementFactory settlementFactory = new SettlementFactory();
 
          String[] neighbours = null;
-
 
         if(args[args.length - 1][0].charAt(0) == '#') {
             settlements = new Settlement[args.length - 1];
             neighbours = args[args.length - 1];
         }
+
         else
             settlements = new Settlement[args.length];
 
-
-
-        String[] arg;
-        for(int i = 0 ; i<args.length; i++){
-
-            arg = args[i]; //handle the object in index i himself
-
-            switch (arg[0])  //('Moshav', 'Kibbutz' or 'City)
-            {
-
-                case "Moshav":
-                    settlements[i] = new Moshav(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
-                    break;
-    
-                case "Kibbutz":
-                    settlements[i] = new Kibbutz(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
-                    break;
-    
-                case "City":
-                    settlements[i] = new City(arg[1], new Location(new Point(Integer.parseInt(arg[2]), Integer.parseInt(arg[3])), new Size(Integer.parseInt(arg[4]), Integer.parseInt(arg[5]))), Integer.parseInt(arg[6]), RamzorColor.Green);
-                    break;
-    
-            }
-        }
-
+        for(int i = 0 ; i<settlements.length; i++)
+            settlements[i] = settlementFactory.creatSettlement(args[i]);
 
         if(neighbours != null)
             setNeighbours(neighbours);
@@ -130,5 +110,11 @@ public class Map {
 
         return -1;
 
+    }
+
+    @Override
+    public Iterator<Settlement> iterator() {
+
+        return (Iterator<Settlement>) Arrays.asList(settlements).iterator();
     }
 }
