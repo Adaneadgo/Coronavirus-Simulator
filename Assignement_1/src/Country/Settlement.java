@@ -12,9 +12,6 @@ import Virus.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public abstract class Settlement {
     /**
@@ -312,8 +309,8 @@ public abstract class Settlement {
                 int index = rand.nextInt(notSicksArray.size() - 1);
                 Person person = notSicksArray.get(index);
 
-                if (virus.tryToContagion(sick, person) && virus.mutant() != null) {
-                    Sick newSick = person.contagion(virus.mutant());
+                if (virus.tryToContagion(sick, person) && virus.getRandomMutantion() != null) {
+                    Sick newSick = person.contagion(virus.getRandomMutantion());
                     sicksArray.add(newSick);
                     notSicksArray.remove(person);
                     people.set(index, newSick);

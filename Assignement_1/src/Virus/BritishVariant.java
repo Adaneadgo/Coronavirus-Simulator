@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 
- public class BritishVariant implements IVirus{
+ public class BritishVariant extends Virus{
 
      private static BritishVariant instance;
      private List<IVirus> mutations;
@@ -62,7 +62,7 @@ import java.util.Random;
      }
 
      @Override
-     public IVirus mutant() {
+     public IVirus getRandomMutation() {
          if(mutations.size() == 0)
              return null;
 

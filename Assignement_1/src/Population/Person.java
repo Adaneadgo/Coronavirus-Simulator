@@ -39,7 +39,7 @@ public abstract class Person {
 
     //Methods
     public abstract double contagionProbability();
-    public Sick contagion(IVirus virus) { return new Sick(this, virus.mutant()); }
+    public Sick contagion(IVirus virus) { return new Sick(this, virus.getRandomMutantion()); }
 
     //auxiliary
     public Point getPoint(){ return this.m_location.getPoint();}

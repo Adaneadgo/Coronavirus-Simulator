@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ChineseVariant implements IVirus{
+public class ChineseVariant extends Virus{
 
     private static ChineseVariant instance;
     private List<IVirus> mutations;
@@ -77,7 +77,7 @@ public class ChineseVariant implements IVirus{
     }
 
     @Override
-    public IVirus mutant() {
+    public IVirus getRandomMutation() {
         if(mutations.size() == 0)
             return null;
 
