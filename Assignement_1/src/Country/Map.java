@@ -113,8 +113,7 @@ public class Map implements Iterable<Settlement>{
     }
 
     @Override
-    public Iterator<Settlement> iterator() {
-
-        return (Iterator<Settlement>) Arrays.asList(settlements).iterator();
+    public Iterator<Settlement> iterator(){
+        return Arrays.asList(settlements).iterator();
     }
 }

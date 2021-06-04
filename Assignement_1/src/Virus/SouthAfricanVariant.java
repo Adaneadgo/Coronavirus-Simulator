@@ -11,16 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 
-public class SouthAfricanVariant extends Virus{
+public class SouthAfricanVariant implements IVirus{
 
     private static SouthAfricanVariant instance;
-    private final List<IVirus> mutations;
-
-
-    private SouthAfricanVariant(){
-        mutations = new ArrayList<IVirus>();
-        mutations.add(this);
-    }
 
     public static SouthAfricanVariant getInstance(){
         if(instance == null)
@@ -51,33 +44,6 @@ public class SouthAfricanVariant extends Virus{
             return 0.05;
         else
             return 0.08;
-    }
-
-
-    public void addMutation(IVirus virus) {
-        if(this.containMutation(virus))
-            return;
-        this.mutations.add(virus);
-    }
-
-    public void removeMutation(IVirus virus) {
-        if (this.mutations.contains(virus))
-            mutations.remove(virus);
-    }
-
-    public boolean containMutation(IVirus virus){
-        return mutations.contains(virus);
-    }
-
-    @Override
-    public IVirus getRandomMutation() {
-        if(mutations.size() == 0)
-            return null;
-        else {
-            Random rand = new Random();
-            int index = rand.nextInt(mutations.size());
-            return mutations.get(index);
-        }
     }
 
 }

@@ -6,6 +6,7 @@ import Country.Settlement;
 import Location.Location;
 import Location.Point;
 import Virus.IVirus;
+import Virus.VirusManager;
 
 public abstract class Person {
 
@@ -39,7 +40,10 @@ public abstract class Person {
 
     //Methods
     public abstract double contagionProbability();
-    public Sick contagion(IVirus virus) { return new Sick(this, virus.getRandomMutantion()); }
+    public Sick contagion(IVirus virus) {
+        IVirus mutant = VirusManager.getInstance().getMutation(virus);
+        return new Sick(this, mutant);
+    }
 
     //auxiliary
     public Point getPoint(){ return this.m_location.getPoint();}

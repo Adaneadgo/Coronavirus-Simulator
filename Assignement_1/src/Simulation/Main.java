@@ -3,19 +3,14 @@
 
 package Simulation;
 
-import IO.LogFile;
-import IO.SimulationFile;
 import UI.MainWin;
-
-import java.io.IOException;
-import java.util.logging.*;
-
-
+import Virus.*;
 
 public class Main {
 
     public static void main(String[] args)  {
-            new MainWin();
+
+        new MainWin();
     }
 
 }

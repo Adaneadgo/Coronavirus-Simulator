@@ -50,28 +50,21 @@ public class MapWin extends JPanel {
 
         //Lines
         Settlement[] settlements = simulationFile.getMap().getSettlements();
-        int x1, y1, x2, y2;
+        int x1, y1, x2, y2, rgb;
 
         for(Settlement settlement: settlements){
-            x1 = settlement.getLocation().getPoint().getX();
-            y1 = settlement.getLocation().getPoint().getY();
+
 
             Settlement[] neighbors = settlement.getNeighbors();
 
             if (neighbors == null)
                 continue;
 
+
             for(Settlement neighbor: neighbors){
-                x2 = neighbor.getLocation().getPoint().getX();
-                y2 = neighbor.getLocation().getPoint().getY();
 
-                if(settlement.getColorCode() == Color.RED)
-                    System.out.println("HEY");
+                new LineDecorator(settlement, neighbor).DrawLine(g);
 
-                Line2D basicLine = new Line2D.Double(x1, y1, x2, y2);
-                DecoratorLine2D colorLine = new DecoratorLine2D(basicLine,settlement.getColorCode(),neighbor.getColorCode());
-                g2d.setColor(colorLine.getColor());
-                g2d.draw(colorLine);
 
 
             }

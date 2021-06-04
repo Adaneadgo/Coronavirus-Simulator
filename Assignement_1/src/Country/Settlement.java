@@ -249,10 +249,7 @@ public abstract class Settlement {
         /**
          * Set sick people in Simulation (1%)
          */
-
-        // Array that handle all type of Virus
-        IVirus[] viruses = {ChineseVariant.getInstance(), BritishVariant.getInstance(), SouthAfricanVariant.getInstance()};
-
+        VirusManager virusManager = VirusManager.getInstance();
         //contagious
         int counter = (int) (people.size() / 100);
 
@@ -261,7 +258,7 @@ public abstract class Settlement {
             if (people.get(i) instanceof Sick)
                 continue;
 
-            Sick newSick = people.get(i).contagion(viruses[i % 3]);
+            Sick newSick = people.get(i).contagion(virusManager.getRandomVirus());
             people.set(i, newSick);
             sicksArray.add(newSick);
             notSicksArray.remove(people.get(i));
@@ -297,6 +294,8 @@ public abstract class Settlement {
          * In every settlement  take randomly 20% sick
          */
 
+        VirusManager virusManager = VirusManager.getInstance();
+
         int counter = (int) sicksArray.size() / 5;
         Random rand = new Random();
 
@@ -309,8 +308,8 @@ public abstract class Settlement {
                 int index = rand.nextInt(notSicksArray.size() - 1);
                 Person person = notSicksArray.get(index);
 
-                if (virus.tryToContagion(sick, person) && virus.getRandomMutantion() != null) {
-                    Sick newSick = person.contagion(virus.getRandomMutantion());
+                if (virus.tryToContagion(sick, person) && virusManager.getMutation(virus) != null) {
+                    Sick newSick = person.contagion(virusManager.getMutation(virus));
                     sicksArray.add(newSick);
                     notSicksArray.remove(person);
                     people.set(index, newSick);

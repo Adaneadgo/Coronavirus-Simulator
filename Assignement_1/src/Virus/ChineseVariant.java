@@ -11,16 +11,10 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ChineseVariant extends Virus{
+public class ChineseVariant implements IVirus{
 
     private static ChineseVariant instance;
-    private List<IVirus> mutations;
 
-
-    private ChineseVariant(){
-        mutations = new ArrayList<IVirus>();
-        mutations.add(this);
-    }
 
     public static ChineseVariant getInstance(){
         if(instance == null)
@@ -61,34 +55,7 @@ public class ChineseVariant extends Virus{
             return 0.1;
     }
 
-    public void addMutation(IVirus virus) {
-        if(this.containMutation(virus))
-            return;
-        this.mutations.add(virus);
-    }
 
-    public void removeMutation(IVirus virus) {
-        if(this.mutations.contains(virus))
-            mutations.remove(virus);
-    }
-
-    public boolean containMutation(IVirus virus){
-        return mutations.contains(virus);
-    }
-
-    @Override
-    public IVirus getRandomMutation() {
-        if(mutations.size() == 0)
-            return null;
-
-        Random rand = new Random();
-
-        if(mutations.size() == 1)
-            return mutations.get(0);
-
-        int index = rand.nextInt(mutations.size() - 1);
-        return mutations.get(index);
-    }
 
 
 
