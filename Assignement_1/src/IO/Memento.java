@@ -1,12 +1,10 @@
 package IO;
 
-public class MomentPath {
-    // Elie's creation
+public class Memento {
     private final String path;
-    public MomentPath(String path){
+    public Memento(String path){
         this.path = path;
     }
-
     public String getPath() {
         return path;
     }

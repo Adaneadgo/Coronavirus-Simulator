@@ -414,11 +414,10 @@ public abstract class Settlement {
                 deathsNumber += 1;
                 newDeathsNumber += 1;
 
-                if (LogFile.isInitialized()) {
+                LogFile logFile = LogFile.getCurrentLogFile();
+                if (logFile != null) {
                     if (newDeathsNumber >= (int) people.size() / 100) {
-                        LogFile log = LogFile.getInstance();
-                        assert log != null;
-                        log.writeLog(this);
+                        logFile.writeLog(this);
                         newDeathsNumber = 0;
                     }
                 }

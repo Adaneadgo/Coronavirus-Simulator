@@ -9,54 +9,54 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class LogFile {
-    private static Logger logger;
-    private static FileHandler fileHandler;
-    private static LogFile instance;
+    private final String path;
+    private Logger logger;
+    private FileHandler fileHandler;
+    private  static LogFile currentLogFile;
 
-    private LogFile(String path) throws IOException  {
-        path += ".txt";
+    public LogFile(String path) throws IOException {
+        this.path = path;
 
-        File file = new File(path);
-        if(!file.exists())
+        File file = new File(this.path);
+        if (!file.exists())
             file.createNewFile();
 
-        fileHandler = new FileHandler(path, true);
+        creatFile();
+    }
+    public LogFile(Memento memento) throws IOException {
+        this.path = memento.getPath();
+
+        File file = new File(this.path, String.valueOf(true));
+        creatFile();
+    }
+
+    private void creatFile() throws IOException {
+        fileHandler = new FileHandler(this.path, true);
         logger = Logger.getLogger("test");
         logger.addHandler(fileHandler);
         SimpleFormatter formatter = new SimpleFormatter();
         fileHandler.setFormatter(formatter);
 
-    }
-
-    public static void initialize(String path) throws IOException {
-        if(instance == null)
-            instance = new LogFile(path);
-    }
-
-    public static LogFile getInstance()  {
-       return instance;
+        LogFile.currentLogFile = this;
     }
 
 
-    public static boolean isInitialized(){
-        return instance != null;
+    public synchronized void writeLog(Settlement settlement) {
+
+        logger.info("\nName:" + settlement.getName() + "\nNumber of Sicks:" + settlement.getSicksNumber() +
+                "\nNumber of Deaths " + settlement.getDeathsNumber());
     }
 
-
-
-    public synchronized void writeLog(Settlement settlement){
-
-        logger.info("\nName:" + settlement.getName() +"\nNumber of Sicks:" +settlement.getSicksNumber() +
-                "\nNumber of Deaths " +settlement.getDeathsNumber() );
+    public void closeLogger() {
+        fileHandler.close();
     }
 
-    public static void closeLogger(){
+    public static LogFile getCurrentLogFile(){
+        return currentLogFile;
+    }
 
-        if(instance != null) {
-            fileHandler.close();
-            logger = null;
-            instance = null;
-        }
+    public String getPath() {
+        return path;
     }
 
 }

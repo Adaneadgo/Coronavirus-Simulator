@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 import IO.LogFile;
+import IO.Memento;
 import IO.SimulationFile;
 import Simulation.Clock;
 
@@ -21,8 +23,10 @@ public class MainWin extends JFrame {
      */
 
     private SimulationFile simulationFile;
+    private LogFile logFile;
     private StatisticsWin statisticsWin;
     private MapWin mapWin;
+    private Stack<Memento> mementosStack;
 
 
     //Ctor
@@ -37,6 +41,7 @@ public class MainWin extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
+        mementosStack = new Stack<Memento>();
     }
 
 
@@ -60,6 +65,7 @@ public class MainWin extends JFrame {
         file.add(Statistics_Item());
         file.add(Edit_Mutation_Item());
         file.add(Log_Item());
+        file.add(Last_Logs_Path());
         file.add(Exit_Item());
         return file;
     }
@@ -88,7 +94,9 @@ public class MainWin extends JFrame {
                     MainWin.this.add(mapWin);
                     mapWin.revalidate();
 
-                } catch (Exception ignored) { }
+                } catch (Exception exc) {
+                    System.out.println("Error");
+                }
 
 
             }
@@ -150,17 +158,46 @@ public class MainWin extends JFrame {
                 if (option == JFileChooser.APPROVE_OPTION) {
 
                     try {
-                        LogFile.initialize(fileChooser.getSelectedFile().toString());
+
+                        if (logFile != null) {
+                            logFile.closeLogger();
+                            mementosStack.push(new Memento(logFile.getPath()));
+                        }
+
+                        logFile = new LogFile(fileChooser.getSelectedFile().toString() + ".txt");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
-                }
-
-                else
+                } else
                     JOptionPane.showMessageDialog(null, "location not selected");
             }
         });
         return log;
+    }
+
+    private JMenuItem Last_Logs_Path() {
+        /**
+         * Open the exit option window
+         */
+        JMenuItem LastLogsPath = new JMenuItem("Change to last logs path");
+        LastLogsPath.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(mementosStack.empty())
+                    JOptionPane.showMessageDialog(null, "no previous Logfile detected!");
+
+                else {
+                    try {
+                        logFile.closeLogger();
+                        logFile = new LogFile(mementosStack.pop());
+                    } catch (IOException ioException) {
+                        System.out.println("Error");;
+                    }
+                }
+
+            }
+        });
+        return LastLogsPath;
     }
 
     private JMenuItem Exit_Item() {
@@ -178,10 +215,9 @@ public class MainWin extends JFrame {
                     if (statisticsWin != null)
                         statisticsWin.dispose();
 
-                    if(LogFile.isInitialized()) {
-                        assert LogFile.getInstance() != null;
-                        LogFile.closeLogger();
-                    }
+                    if (logFile != null)
+                        logFile.closeLogger();
+
                     MainWin.this.dispose();
                     System.exit(0);
 
@@ -254,22 +290,25 @@ public class MainWin extends JFrame {
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (simulationFile == null) {
+                if (simulationFile == null)
                     JOptionPane.showMessageDialog(null, "file not been loaded!");
-                    return;
-                }
-                if (!simulationFile.isON()) {
+
+
+                else if (!simulationFile.isON())
                     JOptionPane.showMessageDialog(null, "play simulation!");
-                    return;
 
+                else {
+                    simulationFile.setSimulationState(false);
+                    simulationFile = null;
+
+                    if (logFile != null) {
+                        logFile.closeLogger();
+                        logFile = null;
+                    }
+
+                    MainWin.this.getContentPane().remove(mapWin);
+                    MainWin.this.repaint();
                 }
-
-                simulationFile.setSimulationState(false);
-                simulationFile = null;
-
-                LogFile.closeLogger();
-                MainWin.this.getContentPane().remove(mapWin);
-                MainWin.this.repaint();
             }
         });
         return stop;
@@ -417,11 +456,12 @@ public class MainWin extends JFrame {
 
     }
 
-    public void refresh(){
+    public void refresh() {
         this.repaint();
         try {
             statisticsWin.getTable().repaint();
-        }catch (NullPointerException ignored){}
+        } catch (NullPointerException ignored) {
+        }
     }
 
 
